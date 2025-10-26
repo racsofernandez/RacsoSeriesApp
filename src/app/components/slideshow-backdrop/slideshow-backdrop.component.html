@@ -1,7 +1,12 @@
-<swiper-container [slidesPerView]="1.1" [freeMode]="true">
+<swiper-container>
     <swiper-slide *ngFor="let pelicula of peliculas | filtroImagen">
         <ion-card (click)="verDetalle(pelicula.id)">
-            <img [src]="pelicula.backdrop_path | imagen">
+            <div class="image-container">
+                <img [src]="pelicula.backdrop_path | imagen">
+                <div class="text-overlay">
+                    {{pelicula.name}}
+                </div>
+            </div>
         </ion-card>
     </swiper-slide>
 </swiper-container>

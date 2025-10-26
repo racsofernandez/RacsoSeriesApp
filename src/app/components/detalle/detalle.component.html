@@ -32,6 +32,11 @@
     </ion-grid>
     <ion-grid fixed>
         <ion-row>
+            <ion-col>
+                <h2 class="detalle-titulo">{{ pelicula.name }}</h2>
+            </ion-col>
+        </ion-row>
+        <ion-row>
             <ion-col size="12">
                 <ion-label>{{ pelicula.overview | slice: 0: oculto}}...</ion-label>
                 <ion-label color="primary" (click)="oculto=5000" *ngIf="oculto !== 5000">Leer más!</ion-label>

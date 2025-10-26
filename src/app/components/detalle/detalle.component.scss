@@ -36,3 +36,25 @@
     position: relative;
     top: 15px;
 }
+
+.detalle-titulo {
+  font-size: 1.6rem;
+  font-weight: 600;
+  text-align: center;
+  position: relative;
+  margin-bottom: 1rem;
+  padding-bottom: 0.4rem;
+  color: var(--ion-color-primary);
+}
+
+.detalle-titulo::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--ion-color-primary), var(--ion-color-secondary));
+  border-radius: 2px;
+}
