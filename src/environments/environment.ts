@@ -5,15 +5,15 @@
 export const environment = {
   production: false,
   url: 'https://api.themoviedb.org/3',
-  apiKey: 'apiKey',
+  apiKey: process.env['NG_APP_THEMOVIEDB_API_KEY'],
   imgPath: 'https://image.tmdb.org/t/p',
     firebaseConfig: {
-        apiKey: "apiKey",
-        authDomain: "es.meco.seriesApp",
-        projectId: "seriesapp-23d56",
-        storageBucket: "seriesapp-23d56.firebasestorage.app",
-        messagingSenderId: "1234567890",
-        appId: "appId"
+        apiKey: process.env['NG_APP_FIREBASE_API_KEY'],
+        authDomain: process.env['NG_APP_FIREBASE_AUTH_DOMAIN'],
+        projectId: process.env['NG_APP_FIREBASE_PROJECT_ID'],
+        storageBucket: process.env['NG_APP_FIREBASE_STORAGE_BUCKET'],
+        messagingSenderId: process.env['NG_APP_FIREBASE_MESSAGING_SENDER_ID'],
+        appId: process.env['NG_APP_FIREBASE_APP_ID']
     }
 };
 
