@@ -5,8 +5,16 @@
 export const environment = {
   production: false,
   url: 'https://api.themoviedb.org/3',
-  apiKey: apiKey,
-  imgPath: 'https://image.tmdb.org/t/p'
+  apiKey: 'apiKey',
+  imgPath: 'https://image.tmdb.org/t/p',
+    firebaseConfig: {
+        apiKey: "apiKey",
+        authDomain: "es.meco.seriesApp",
+        projectId: "seriesapp-23d56",
+        storageBucket: "seriesapp-23d56.firebasestorage.app",
+        messagingSenderId: "1234567890",
+        appId: "appId"
+    }
 };
 
 /*
