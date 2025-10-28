@@ -3,10 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  url: 'https://api.themoviedb.org/3',
-  apiKey: process.env['NG_APP_THEMOVIEDB_API_KEY'],
-  imgPath: 'https://image.tmdb.org/t/p',
+    production: false,
+    url: 'https://api.themoviedb.org/3',
+    apiKey: process.env['NG_APP_THEMOVIEDB_API_KEY'],
+    imgPath: 'https://image.tmdb.org/t/p',
     firebaseConfig: {
         apiKey: process.env['NG_APP_FIREBASE_API_KEY'],
         authDomain: process.env['NG_APP_FIREBASE_AUTH_DOMAIN'],
