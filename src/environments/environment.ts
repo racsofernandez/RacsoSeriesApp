@@ -1,27 +1,15 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
 
 export const environment = {
     production: false,
     url: 'https://api.themoviedb.org/3',
-    apiKey: process.env['NG_APP_THEMOVIEDB_API_KEY'],
+    apiKey: 'b3e45ffa2e74abe97a0d17615572404e',
     imgPath: 'https://image.tmdb.org/t/p',
     firebaseConfig: {
-        apiKey: process.env['NG_APP_FIREBASE_API_KEY'],
-        authDomain: process.env['NG_APP_FIREBASE_AUTH_DOMAIN'],
-        projectId: process.env['NG_APP_FIREBASE_PROJECT_ID'],
-        storageBucket: process.env['NG_APP_FIREBASE_STORAGE_BUCKET'],
-        messagingSenderId: process.env['NG_APP_FIREBASE_MESSAGING_SENDER_ID'],
-        appId: process.env['NG_APP_FIREBASE_APP_ID']
+        apiKey: 'AIzaSyCW8zoSUragryH0rRG_qnP-FuizkWbXc_A-FuizkWbXc_A',
+        authDomain: 'es.meco.seriesApp',
+        projectId: 'seriesapp-23d56',
+        storageBucket: 'seriesapp-23d56.firebasestorage.app',
+        messagingSenderId: '1234567890',
+        appId: '1:369573545104:android:302548c951c8d4b9b60415'
     }
 };
-
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
