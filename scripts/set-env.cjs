@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-// Solo intenta cargar dotenv si existe un archivo .env-2
+// Solo intenta cargar dotenv si existe un archivo .env
 try {
     const dotenvPath = path.resolve(process.cwd(), '.env');
     if (fs.existsSync(dotenvPath)) {
@@ -38,9 +38,9 @@ if (missing.length > 0) {
 const envConfigFile = `
 export const environment = {
   production: false,
-  url: '${process.env.NG_APP_URL || ''}',
+  url: 'https://api.themoviedb.org/3',
   apiKey: '${process.env.NG_APP_THEMOVIEDB_API_KEY || ''}',
-  imgPath: '${process.env.NG_APP_IMGPATH || ''}',
+  imgPath: 'https://image.tmdb.org/t/p',
   firebaseConfig: {
     apiKey: '${process.env.NG_APP_FIREBASE_API_KEY || ''}',
     authDomain: '${process.env.NG_APP_FIREBASE_AUTH_DOMAIN || ''}',
