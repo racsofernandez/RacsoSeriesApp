@@ -1,7 +1,8 @@
-import { writeFileSync } from 'fs';
-import { config } from 'dotenv';
+const fs = require('fs');
+const dotenv = require('dotenv');
 
-config(); // Carga las variables desde .env
+// Load environment variables from .env (if it exists)
+dotenv.config();
 
 const targetPath = './src/environments/environment.ts';
 
@@ -22,5 +23,5 @@ export const environment = {
 };
 `;
 
-writeFileSync(targetPath, envConfigFile);
+fs.writeFileSync(targetPath, envConfigFile);
 console.log(`✅ Archivo ${targetPath} generado con variables de entorno.`);

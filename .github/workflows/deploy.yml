@@ -32,7 +32,7 @@ jobs:
         run: npm ci
 
       - name: Generate environment file
-        run: npx ts-node --esm scripts/set-env.ts
+        run: node scripts/set-env.cjs
 
       - name: Build Angular app
         run: npm run build -- --configuration production
