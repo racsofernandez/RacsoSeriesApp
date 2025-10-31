@@ -19,9 +19,7 @@ const targetProdPath = './src/environments/environment.prod.ts';
 
 // Comprobamos que las variables críticas existan
 const requiredVars = [
-    'NG_APP_URL',
     'NG_APP_THEMOVIEDB_API_KEY',
-    'NG_APP_IMGPATH',
     'NG_APP_FIREBASE_API_KEY',
     'NG_APP_FIREBASE_AUTH_DOMAIN',
     'NG_APP_FIREBASE_PROJECT_ID',
