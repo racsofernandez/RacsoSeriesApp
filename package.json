@@ -1,7 +1,6 @@
 {
   "name": "PeliculasApp",
   "version": "0.0.1",
-  "type": "module",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
   "scripts": {
