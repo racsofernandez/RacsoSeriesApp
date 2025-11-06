@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Genre, PeliculaDetalle } from '../interfaces/interfaces';
-import { MoviesService } from '../services/movies.service';
-import {SeriesDbService} from "../services/series-db.service";
+import { Genre, PeliculaDetalle } from '../../interfaces/interfaces';
+import { MoviesService } from '../../services/movies.service';
+import {SeriesDbService} from "../../services/series-db.service";
 
 @Component({
-  selector: 'app-tab3',
-  templateUrl: 'tab3.page.html',
-  styleUrls: ['tab3.page.scss']
+  selector: 'app-favourite',
+  templateUrl: 'favourite.page.html',
+  styleUrls: ['favourite.page.scss']
 })
-export class Tab3Page {
+export class FavouritePage {
 
   peliculas: PeliculaDetalle[] = [];
   generos: Genre[] = [];

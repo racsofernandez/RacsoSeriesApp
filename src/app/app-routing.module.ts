@@ -7,7 +7,7 @@ import { environment } from '../environments/environment';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+    loadChildren: () => import('./pages/tabs/tabs.module').then(m => m.TabsPageModule)
   }
 ];
 @NgModule({

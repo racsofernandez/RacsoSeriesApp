@@ -1,13 +1,13 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Component, NgModule, OnInit } from '@angular/core';
-import { MoviesService } from '../services/movies.service';
-import { Pelicula } from '../interfaces/interfaces';
+import { MoviesService } from '../../services/movies.service';
+import { Pelicula } from '../../interfaces/interfaces';
 
 @Component({
-  selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss']
+  selector: 'app-home',
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss']
 })
-export class Tab1Page implements OnInit {
+export class HomePage implements OnInit {
 
   peliculasRecientes: Pelicula[] = [];
   populares: Pelicula[] = []
