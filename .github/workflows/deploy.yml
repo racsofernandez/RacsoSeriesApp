@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - feature/series  # o 'master', según tu repo
+  workflow_dispatch:     # 👈 Añade esta línea para habilitar el botón manual
 
 jobs:
   build_and_deploy:
