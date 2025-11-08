@@ -1,0 +1,42 @@
+import { Component } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+
+@Component({
+    selector: 'app-login',
+    templateUrl: './login.page.html',
+    styleUrls: ['./login.page.scss']
+})
+export class LoginPage {
+    email = '';
+    password = '';
+
+    constructor(private authService: AuthService, private router: Router) {}
+
+    async login() {
+        try {
+            await this.authService.loginEmail(this.email, this.password);
+            this.router.navigate(['/tabs/tab1']);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async register() {
+        try {
+            await this.authService.registerEmail(this.email, this.password);
+            this.router.navigate(['/tabs/tab1']);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async loginGoogle() {
+        try {
+            await this.authService.loginGoogle();
+            this.router.navigate(['/tabs/tab1']);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}

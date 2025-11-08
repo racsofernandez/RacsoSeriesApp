@@ -1,0 +1,21 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Perfil</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" *ngIf="user">
+    <ion-card>
+        <ion-card-header>
+            <ion-avatar>
+                <img [src]="user.photoURL || 'assets/default-avatar.png'" />
+            </ion-avatar>
+            <ion-card-title>{{ user.displayName || user.email }}</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+            <ion-label>Email: {{ user.email }}</ion-label>
+            <ion-button expand="block" color="medium" (click)="logout()">Cerrar sesión</ion-button>
+        </ion-card-content>
+    </ion-card>
+</ion-content>

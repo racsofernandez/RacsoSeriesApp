@@ -1,0 +1,26 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Iniciar sesión</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+    <ion-card>
+        <ion-card-content>
+            <ion-item>
+                <ion-input placeholder="Email" [(ngModel)]="email"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-input placeholder="Contraseña" [(ngModel)]="password" type="password"></ion-input>
+            </ion-item>
+
+            <ion-button expand="block" (click)="login()">Iniciar sesión</ion-button>
+            <ion-button expand="block" fill="outline" (click)="register()">Registrarse</ion-button>
+            <ion-button expand="block" color="danger" (click)="loginGoogle()">
+                <ion-icon slot="start" name="logo-google"></ion-icon>
+                Iniciar con Google
+            </ion-button>
+        </ion-card-content>
+    </ion-card>
+</ion-content>

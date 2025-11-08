@@ -8,6 +8,9 @@ import { ExploreContainerComponentModule } from '../../explore-container/explore
 import { HomePageRoutingModule } from './home-routing.module';
 import { PipesModule } from '../../pipes/pipes.module';
 import { ComponentsModule } from '../../components/components.module';
+import {initializeApp, provideFirebaseApp} from "@angular/fire/app";
+import {environment} from "../../../environments/environment";
+import {provideAuth, getAuth} from "@angular/fire/auth";
 
 @NgModule({
   imports: [
@@ -17,7 +20,7 @@ import { ComponentsModule } from '../../components/components.module';
     PipesModule,
     ExploreContainerComponentModule,
     HomePageRoutingModule,
-    ComponentsModule
+    ComponentsModule,
   ],
   declarations: [HomePage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

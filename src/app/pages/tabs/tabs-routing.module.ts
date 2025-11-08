@@ -20,6 +20,10 @@ const routes: Routes = [
         loadChildren: () => import('../favourite/favourite.module').then(m => m.FavouritePageModule)
       },
       {
+        path: 'profile',
+        loadChildren: () => import('../profile/profile.module').then( m => m.ProfilePageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full'
