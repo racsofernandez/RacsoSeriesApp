@@ -3,7 +3,7 @@ name: Deploy Angular App to Firebase Hosting
 on:
   push:
     branches:
-      - feature/authProfile  # o 'master', según tu repo
+      - master  # o 'master', según tu repo
   workflow_dispatch:     # 👈 Añade esta línea para habilitar el botón manual
 
 jobs:
