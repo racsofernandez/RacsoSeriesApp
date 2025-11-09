@@ -4,11 +4,15 @@ on:
   push:
     branches:
       - master  # o 'master', según tu repo
+      - develop
   workflow_dispatch:     # 👈 Añade esta línea para habilitar el botón manual
 
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+
+    # 👇 Asociamos el entorno GitHub según la rama
+    environment: ${{ github.ref == 'refs/heads/develop' && 'dev' || 'prod' }}
 
     env:
       NG_APP_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
