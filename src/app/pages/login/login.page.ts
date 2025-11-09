@@ -16,7 +16,7 @@ export class LoginPage {
     async login() {
         try {
             await this.authService.loginEmail(this.email, this.password);
-            this.router.navigate(['/tabs/tab1']);
+            await this.router.navigate(['/tabs/home']);
         } catch (error) {
             console.error(error);
         }
@@ -25,7 +25,7 @@ export class LoginPage {
     async register() {
         try {
             await this.authService.registerEmail(this.email, this.password);
-            this.router.navigate(['/tabs/tab1']);
+            await this.router.navigate(['/tabs/home']);
         } catch (error) {
             console.error(error);
         }
@@ -34,7 +34,7 @@ export class LoginPage {
     async loginGoogle() {
         try {
             await this.authService.loginGoogle();
-            this.router.navigate(['/tabs/tab1']);
+            await this.router.navigate(['/tabs/home']);
         } catch (error) {
             console.error(error);
         }
