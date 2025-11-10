@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "seriesapp-23d56"
+    "dev": "seruesapp-dev",
+    "prod": "seriesapp-23d56"
   }
 }
