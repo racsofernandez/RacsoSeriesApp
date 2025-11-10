@@ -1,6 +1,6 @@
 {
   "projects": {
-    "dev": "seruesapp-dev",
+    "dev": "seriesapp-dev",
     "prod": "seriesapp-23d56"
   }
 }
