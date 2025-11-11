@@ -27,6 +27,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 👈 Clona todo el historial (necesario para GitVersion)
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
