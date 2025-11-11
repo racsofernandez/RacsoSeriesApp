@@ -11,6 +11,8 @@ jobs:
   deploy_prod:
     runs-on: ubuntu-latest
 
+    environment: 'prod'
+
     env:
       NG_APP_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
       NG_APP_FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
