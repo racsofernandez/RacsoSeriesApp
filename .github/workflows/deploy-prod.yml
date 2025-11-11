@@ -48,7 +48,7 @@ jobs:
 
       # ⚙️ Generamos el environment de producción
       - name: Generate environment file for PROD
-        run: node scripts/set-env.cjs
+        run: node scripts/set-env.cjs "${GITHUB_REF#refs/tags/}"
 
       - name: Deploy to Firebase Hosting
         uses: w9jds/firebase-action@v13.15.3
