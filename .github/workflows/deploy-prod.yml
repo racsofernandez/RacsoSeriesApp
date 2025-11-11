@@ -41,4 +41,4 @@ jobs:
       - name: Deploy to Firebase Hosting
         uses: w9jds/firebase-action@v13.15.3
         with:
-          args: deploy --only hosting
+          args: deploy --only hosting -P 'prod'
