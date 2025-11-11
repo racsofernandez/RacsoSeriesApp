@@ -5,6 +5,9 @@ on:
     branches:
       - master
 
+permissions:
+  contents: write        # ⬅️ permite crear releases, tags y subir assets
+
 jobs:
   create_release:
     runs-on: ubuntu-latest
