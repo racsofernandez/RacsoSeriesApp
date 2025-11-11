@@ -3,7 +3,6 @@ name: Deploy Angular App to Firebase Hosting
 on:
   push:
     branches:
-      - master  # o 'master', según tu repo
       - develop
   workflow_dispatch:     # 👈 Añade esta línea para habilitar el botón manual
 
@@ -12,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     # 👇 Asociamos el entorno GitHub según la rama
-    environment: ${{ github.ref == 'refs/heads/develop' && 'dev' || 'prod' }}
+    environment: 'dev'
 
     env:
       NG_APP_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
@@ -55,14 +54,9 @@ jobs:
         run: node scripts/set-env.cjs "${{ steps.gitversion.outputs.SemVer }}"
 
       - name: Build Angular app
-        run: npm run build --configuration=${{ github.ref == 'refs/heads/develop' && 'development' || 'production' }}
-
-      - name: Show environment info
-        run: |
-          echo "Branch ref: ${{ github.ref }}"
-          echo "Detected environment: ${{ github.ref == 'refs/heads/develop' && 'dev' || 'prod' }}"
+        run: npm run build --configuration='development'
 
       - name: Deploy to Firebase Hosting
         uses: w9jds/firebase-action@v13.15.3
         with:
-          args: deploy --only hosting -P ${{ github.ref == 'refs/heads/develop' && 'dev' || 'prod' }}
+          args: deploy --only hosting -P 'dev'
