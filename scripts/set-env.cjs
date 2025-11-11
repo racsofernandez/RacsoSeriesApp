@@ -1,6 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 
+console.log('Parametro 1: ' + process.argv[1]);
+console.log('Parametro 2: ' + process.argv[2]);
+
 const version = process.argv[2] || 'local-dev';
 
 // Solo intenta cargar dotenv si existe un archivo .env
@@ -35,6 +38,7 @@ if (missing.length > 0) {
     console.warn('⚠️ Faltan variables de entorno:', missing.join(', '));
 }
 
+console.log(`Versión: ${version}`);
 const envConfigFile = `
 export const environment = {
   production: false,
