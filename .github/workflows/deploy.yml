@@ -36,8 +36,21 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v3
+        with:
+          versionSpec: '5.x'
+
+      - name: Determine version
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v3
+
+      - name: Show calculated version
+        run: echo "Version = ${{ steps.gitversion.outputs.SemVer }}"
+
+      # 👇 Este paso genera environment.ts con la versión incluida
       - name: Generate environment file
-        run: node scripts/set-env.cjs
+        run: node scripts/set-env.cjs "${{ steps.gitversion.outputs.SemVer }}"
 
       - name: Build Angular app
         run: npm run build --configuration=${{ github.ref == 'refs/heads/develop' && 'development' || 'production' }}

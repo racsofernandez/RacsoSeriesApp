@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
     selector: 'app-profile',
@@ -8,6 +9,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class ProfilePage {
     user = this.authService.getUsuario();
+    appVersion = environment.version;
 
     constructor(private authService: AuthService) {}
 

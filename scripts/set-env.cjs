@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
+const version = process.argv[2] || 'local-dev';
+
 // Solo intenta cargar dotenv si existe un archivo .env
 try {
     const dotenvPath = path.resolve(process.cwd(), '.env');
@@ -36,6 +38,7 @@ if (missing.length > 0) {
 const envConfigFile = `
 export const environment = {
   production: false,
+  version: '${version}',
   url: 'https://api.themoviedb.org/3',
   apiKey: '${process.env.NG_APP_THEMOVIEDB_API_KEY || ''}',
   imgPath: 'https://image.tmdb.org/t/p',
