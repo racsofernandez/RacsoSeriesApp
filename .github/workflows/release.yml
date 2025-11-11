@@ -30,7 +30,7 @@ jobs:
 
       - name: Package build artifact
         run: |
-          cd dist
+          cd www
           zip -r ../app-dist.zip .
         shell: bash
 
