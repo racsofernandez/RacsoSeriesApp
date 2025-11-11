@@ -1,4 +1,4 @@
-name: Create GitHub Release
+name: Build and Release
 
 on:
   push:
@@ -6,36 +6,45 @@ on:
       - master
 
 permissions:
-  contents: write        # ⬅️ permite crear releases, tags y subir assets
+  contents: write
 
 jobs:
-  create_release:
+  build_and_release:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          fetch-depth: 0  # necesario para GitVersion
+          node-version: 20
 
-      - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v3
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Angular app
+        run: npm run build -- --configuration production
+
+      - name: Package build artifact
+        run: |
+          cd dist
+          zip -r ../app-dist.zip .
+        shell: bash
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
         with:
-          versionSpec: '5.x'
+          name: app-dist
+          path: app-dist.zip
 
-      - name: Determine version
-        id: gitversion
-        uses: gittools/actions/gitversion/execute@v3
-
-      - name: Show calculated version
-        run: echo "Version = ${{ steps.gitversion.outputs.SemVer }}"
-
-      - name: Create GitHub Release
+      - name: Create GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ steps.gitversion.outputs.SemVer }}
-          name: Release v${{ steps.gitversion.outputs.SemVer }}
-          draft: false
-          prerelease: false
+          tag_name: v${{ github.run_number }}
+          name: "Release v${{ github.run_number }}"
+          body: "🚀 Nueva versión generada automáticamente"
+          files: app-dist.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
