@@ -1,9 +1,10 @@
 name: Build and Release
 
 on:
-  push:
-    branches:
-      - master
+#  push:
+#    branches:
+#      - master
+  workflow_dispatch: # Ejecución manual
 
 permissions:
   contents: write

@@ -1,7 +1,7 @@
 name: Deploy to Production
 
 on:
-  workflow_dispatch:  # 🔹 ejecución manual desde el botón “Run workflow”
+  workflow_dispatch:  # ejecución manual
 
 permissions:
   contents: read
@@ -11,21 +11,44 @@ jobs:
   deploy_prod:
     runs-on: ubuntu-latest
 
+    env:
+      NG_APP_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+      NG_APP_FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
+      NG_APP_FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+      NG_APP_FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
+      NG_APP_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
+      NG_APP_FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+      NG_APP_THEMOVIEDB_API_KEY: ${{ secrets.THEMOVIEDB_API_KEY }}
+      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 🧠 Verificación de que se está desplegando una TAG
+      - name: Check if current ref is a tag
+        run: |
+          echo "Current ref: $GITHUB_REF"
+          if [[ "$GITHUB_REF" != refs/tags/* ]]; then
+            echo "❌ Error: This workflow must be triggered from a tag (e.g. v1.0.0)"
+            exit 1
+          fi
+          echo "✅ Tag detected: ${GITHUB_REF#refs/tags/}"
+
       - name: Download latest release asset
-        id: download_release
         uses: robinraju/release-downloader@v1.10
         with:
           repository: ${{ github.repository }}
-          latest: true
+          tag: ${{ github.ref_name }}
           fileName: "app-dist.zip"
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Unzip build
         run: unzip app-dist.zip -d ./dist
+
+      # ⚙️ Generamos el environment de producción
+      - name: Generate environment file for PROD
+        run: node scripts/set-env.cjs
 
       - name: Deploy to Firebase Hosting
         uses: w9jds/firebase-action@v13.15.3
