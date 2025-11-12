@@ -46,7 +46,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Unzip build
-        run: unzip app-dist.zip -d ./dist
+        run: unzip app-dist.zip -d ./www
 
       # ⚙️ Generamos el environment de producción
       - name: Generate environment file for PROD
