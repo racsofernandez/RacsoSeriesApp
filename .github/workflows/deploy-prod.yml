@@ -55,7 +55,7 @@ jobs:
       - name: List files in the repository
         run: |
           ls src/environments
-          cat environment.ts
+          cat src/environments/environment.ts
 
       - name: Deploy to Firebase Hosting
         uses: w9jds/firebase-action@v13.15.3
