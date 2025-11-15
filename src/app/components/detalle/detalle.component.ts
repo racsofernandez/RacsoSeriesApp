@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { Cast, PeliculaDetalle } from 'src/app/interfaces/interfaces';
 import { MoviesService } from 'src/app/services/movies.service';
 import {SeriesDbService} from "../../services/series-db.service";
+import {Auth} from "@angular/fire/auth";
 
 @Component({
   selector: 'app-detalle',
@@ -21,12 +22,16 @@ export class DetalleComponent  implements OnInit {
 
   constructor(private moviesService: MoviesService,
               private modalDtrl: ModalController,
-              private dataLocal: SeriesDbService) { }
+              private dataLocal: SeriesDbService,
+              private auth: Auth) { }
 
   ngOnInit() {
     console.log("id", this.id);
 
-    this.dataLocal.existePelicula( this.id).then(existe => this.star = (existe) ? 'star': 'star-outline');
+    const uid = this.auth.currentUser?.uid;
+    if (uid!=null) {
+        this.dataLocal.existeSerie(uid, this.id).then(existe => this.star = (existe) ? 'star': 'star-outline');
+    }
 
     this.moviesService.getPeliculaDetalle(this.id)
       .subscribe( resp => {
@@ -50,8 +55,15 @@ export class DetalleComponent  implements OnInit {
   }
 
   async favorito() {
-    const existe = await this.dataLocal.guardarPelicula(this.pelicula);
-    this.star = (existe) ? 'star': 'star-outline';
+    const user = this.auth.currentUser;
+    if (!user) {
+      console.error("No hay usuario autenticado");
+      return;
+    }
+    const uid = user.uid;   // <-- ESTE ES EL ID DEL USUARIO
+
+    const existeSerie = await this.dataLocal.guardarSerie(uid, this.pelicula);
+    this.star = (existeSerie) ? 'star': 'star-outline';
     this.updated = true;
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Genre, PeliculaDetalle } from '../../interfaces/interfaces';
 import { MoviesService } from '../../services/movies.service';
 import {SeriesDbService} from "../../services/series-db.service";
+import {Auth} from "@angular/fire/auth";
 
 @Component({
   selector: 'app-favourite',
@@ -10,27 +11,34 @@ import {SeriesDbService} from "../../services/series-db.service";
 })
 export class FavouritePage {
 
-  peliculas: PeliculaDetalle[] = [];
+  series: PeliculaDetalle[] = [];
   generos: Genre[] = [];
   favoritoGenero: any[] = [];
 
 
-  constructor(private dataLocal: SeriesDbService, private movieService: MoviesService) {}
+  constructor(private dataLocal: SeriesDbService, private movieService: MoviesService, private auth: Auth) {}
 
   async ionViewWillEnter() {
-    this.peliculas = await this.dataLocal.cargarFavoritos();
-    this.generos = await this.movieService.cargarGeneros();
-    this.pelisPorGenero(this.generos, this.peliculas);
+    const uid = this.auth.currentUser?.uid;
+    if (uid!=null) {
+      this.series = await this.dataLocal.cargarSeriesFavoritas(uid);
+      console.log('Series favoritas', this.series);
+      this.generos = await this.movieService.cargarGeneros();
+      this.pelisPorGenero(this.generos, this.series);
+    }
+    else {
+      console.error('No hay uid, error');
+    }
   }
 
-  pelisPorGenero( generos: Genre[], peliculas: PeliculaDetalle[] ) {
+  pelisPorGenero( generos: Genre[], series: PeliculaDetalle[] ) {
 
     this.favoritoGenero = [];
 
     generos.forEach( genero => {
       this.favoritoGenero.push({
         name: genero.name,
-        pelis: peliculas.filter( peli => {
+        pelis: series.filter( peli => {
           return peli.genres?.find(genre => genre.id === genero.id);
         } )
       });

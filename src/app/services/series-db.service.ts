@@ -1,22 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Firestore, collection, getDocs, doc, deleteDoc, setDoc, getDoc }
     from '@angular/fire/firestore';
-import { map } from 'rxjs/operators';
 import {PeliculaDetalle} from "../interfaces/interfaces";
 import {ToastController} from "@ionic/angular";
+import {MoviesService} from "./movies.service";
 
 @Injectable({
     providedIn: 'root'
 })
 export class SeriesDbService {
 
-    private favoritosCargados = false;
-
     peliculas: PeliculaDetalle[] = [];
 
     constructor(private firestore: Firestore,
-                private toastCtrl: ToastController) {
-        // this.cargarFavoritos();
+                private toastCtrl: ToastController,
+                private moviesService: MoviesService) {
     }
 
     async presentToast(message: string) {
@@ -27,28 +25,48 @@ export class SeriesDbService {
         toast.present();
     }
 
-    async guardarPelicula(pelicula: PeliculaDetalle) {
-        const ref = doc(this.firestore, 'favoritos', pelicula.id.toString());
+    async guardarSerie(userId: string, serie: PeliculaDetalle) {
+
+        const ref = doc(this.firestore,
+            `Favourites/${userId}/series/${serie.id}`
+        );
+
         const snap = await getDoc(ref);
 
         if (snap.exists()) {
             await deleteDoc(ref);
-            return false;
+            return false; // dejado de ser favorito
         } else {
-            await setDoc(ref, pelicula);
-            return true;
+            await setDoc(ref, { id: serie.id, name: serie.name });
+            return true;  // añadido como favorito
         }
     }
 
-    async cargarFavoritos(): Promise<PeliculaDetalle[]> {
-        const colRef = collection(this.firestore, 'favoritos');
+    async cargarSeriesFavoritas(uid: string): Promise<PeliculaDetalle[]> {
+
+        const colRef = collection(this.firestore, `Favourites/${uid}/series`);
         const snapshot = await getDocs(colRef);
-        return snapshot.docs.map(d => d.data() as PeliculaDetalle);
+
+        // sacamos IDs de las pelis favoritas
+        const ids = snapshot.docs.map(doc => Number(doc.id));
+
+        const favoritas: PeliculaDetalle[] = [];
+
+        for (const id of ids) {
+            const detalle = await this.moviesService.getPeliculaDetalle(id).toPromise();
+            if (detalle) favoritas.push(detalle);
+        }
+
+        return favoritas;
     }
 
-    async existePelicula(id: number) {
-        const ref = doc(this.firestore, 'favoritos', id.toString());
+    async existeSerie(userId: string, id: number) {
+        const ref = doc(
+            this.firestore,
+            `Favourites/${userId}/series/${id}`
+        );
         const snap = await getDoc(ref);
         return snap.exists();
     }
+
 }
