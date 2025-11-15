@@ -3,8 +3,10 @@ const path = require('path');
 
 console.log('Parametro 1: ' + process.argv[1]);
 console.log('Parametro 2: ' + process.argv[2]);
+console.log('Parametro 3: ' + process.argv[3]);
 
 const version = process.argv[2] || 'local-dev';
+const customOutputPath = process.argv[3] ? process.argv[3].trim() : '../src/assets';
 
 // Solo intenta cargar dotenv si existe un archivo .env
 try {
@@ -55,7 +57,7 @@ const envConfigFile = {
 };
 
 // 4️⃣ Crear carpeta destino (src/assets/)
-const outputDir = path.resolve(__dirname, '../src/assets');
+const outputDir = path.resolve(__dirname, customOutputPath);
 if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true });
 }
