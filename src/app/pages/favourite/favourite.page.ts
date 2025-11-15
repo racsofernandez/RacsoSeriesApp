@@ -18,7 +18,7 @@ export class FavouritePage {
   constructor(private dataLocal: SeriesDbService, private movieService: MoviesService) {}
 
   async ionViewWillEnter() {
-    this.peliculas = await this.dataLocal.getFavoritos();
+    this.peliculas = await this.dataLocal.cargarFavoritos();
     this.generos = await this.movieService.cargarGeneros();
     this.pelisPorGenero(this.generos, this.peliculas);
   }

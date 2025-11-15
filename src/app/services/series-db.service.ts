@@ -40,14 +40,6 @@ export class SeriesDbService {
         }
     }
 
-    async getFavoritos(): Promise<PeliculaDetalle[]> {
-        if (!this.favoritosCargados) {
-            this.peliculas = await this.cargarFavoritos();
-            this.favoritosCargados = true;
-        }
-        return this.peliculas;
-    }
-
     async cargarFavoritos(): Promise<PeliculaDetalle[]> {
         const colRef = collection(this.firestore, 'favoritos');
         const snapshot = await getDocs(colRef);
