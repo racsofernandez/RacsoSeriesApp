@@ -41,7 +41,6 @@ console.log(`Versión: ${version}`);
 // 3️⃣ Construir objeto de configuración
 const envConfigFile = {
     version,
-    production: process.env.NODE_ENV === 'production',
     url: 'https://api.themoviedb.org/3',
     apiKey: process.env.NG_APP_THEMOVIEDB_API_KEY || '',
     imgPath: 'https://image.tmdb.org/t/p',
