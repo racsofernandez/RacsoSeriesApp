@@ -17,6 +17,7 @@ export class DetalleComponent  implements OnInit {
   actores: Cast[] = [];
   oculto = 150;
   star = "star-outline";
+  updated = false;
 
   constructor(private moviesService: MoviesService,
               private modalDtrl: ModalController,
@@ -43,11 +44,14 @@ export class DetalleComponent  implements OnInit {
   }
 
   regresar() {
-    this.modalDtrl.dismiss();
+      this.modalDtrl.dismiss({
+          updated: this.updated   // devolvemos un flag
+      }).then(r => false);
   }
 
   async favorito() {
     const existe = await this.dataLocal.guardarPelicula(this.pelicula);
     this.star = (existe) ? 'star': 'star-outline';
+    this.updated = true;
   }
 }

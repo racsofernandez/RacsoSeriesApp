@@ -16,7 +16,11 @@
                     <h4>{{genero.name}}</h4>
                 </ion-col>
             </ion-row>
-            <app-slideshow-poster-fav [peliculas]="genero.pelis"></app-slideshow-poster-fav>
+            <app-slideshow-poster-fav
+                    [peliculas]="genero.pelis"
+                    (dismissEvent)="onModalDismiss($event)">
+            </app-slideshow-poster-fav>
+
         </ion-grid>
     </div>
 

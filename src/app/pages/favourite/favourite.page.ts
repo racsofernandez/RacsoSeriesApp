@@ -40,5 +40,14 @@ export class FavouritePage {
     console.log("favorito", this.favoritoGenero);
 
   }
-  
+
+  async onModalDismiss(data: any) {
+        console.log("Recibido en favourite.component.ts:", data);
+
+        // por ejemplo, recargar favoritos si el modal ha eliminado uno:
+        if (data?.updated) {
+            this.ionViewWillEnter();
+        }
+    }
+
 }

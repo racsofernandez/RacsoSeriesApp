@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Pelicula, PeliculaDetalle } from 'src/app/interfaces/interfaces';
 import { DetalleComponent } from '../detalle/detalle.component';
@@ -11,6 +11,7 @@ import { DetalleComponent } from '../detalle/detalle.component';
 export class SlideshowPosterFavComponent  implements OnInit {
 
   @Input() peliculas: PeliculaDetalle[] = [];
+  @Output() dismissEvent = new EventEmitter<any>();
 
   constructor(private modalCtrl : ModalController) { }
 
@@ -27,6 +28,8 @@ export class SlideshowPosterFavComponent  implements OnInit {
 
     await modal.present();
     const {data}  = await modal.onWillDismiss();
+    // Emitimos al padre
+    this.dismissEvent.emit(data);
     console.log("onWilDismiss", data);
   }
 }
