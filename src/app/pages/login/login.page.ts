@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { environment } from '../../../environments/environment';
+import {ConfigService} from "../../services/config.service";
 
 @Component({
     selector: 'app-login',
@@ -12,9 +12,12 @@ export class LoginPage {
     email = '';
     password = '';
 
-    appVersion = environment.version;
+    appVersion = '';
 
-    constructor(private authService: AuthService, private router: Router) {}
+    constructor(private authService: AuthService, private router: Router, config: ConfigService) {
+        console.log(config.config);
+        this.appVersion = config.config.version;
+    }
 
     async login() {
         try {

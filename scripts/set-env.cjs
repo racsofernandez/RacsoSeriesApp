@@ -19,8 +19,7 @@ try {
     console.warn('⚠️ No se pudo cargar dotenv:', err.message);
 }
 
-const targetPath = './src/environments/environment.ts';
-const targetProdPath = './src/environments/environment.prod.ts';
+const targetPath = './src/assets/config.json';
 
 // Comprobamos que las variables críticas existan
 const requiredVars = [
@@ -39,25 +38,31 @@ if (missing.length > 0) {
 }
 
 console.log(`Versión: ${version}`);
-const envConfigFile = `
-export const environment = {
-  production: false,
-  version: '${version}',
-  url: 'https://api.themoviedb.org/3',
-  apiKey: '${process.env.NG_APP_THEMOVIEDB_API_KEY || ''}',
-  imgPath: 'https://image.tmdb.org/t/p',
-  firebaseConfig: {
-    apiKey: '${process.env.NG_APP_FIREBASE_API_KEY || ''}',
-    authDomain: '${process.env.NG_APP_FIREBASE_AUTH_DOMAIN || ''}',
-    projectId: '${process.env.NG_APP_FIREBASE_PROJECT_ID || ''}',
-    storageBucket: '${process.env.NG_APP_FIREBASE_STORAGE_BUCKET || ''}',
-    messagingSenderId: '${process.env.NG_APP_FIREBASE_MESSAGING_SENDER_ID || ''}',
-    appId: '${process.env.NG_APP_FIREBASE_APP_ID || ''}'
-  }
+// 3️⃣ Construir objeto de configuración
+const envConfigFile = {
+    version,
+    production: process.env.NODE_ENV === 'production',
+    url: 'https://api.themoviedb.org/3',
+    apiKey: process.env.NG_APP_THEMOVIEDB_API_KEY || '',
+    imgPath: 'https://image.tmdb.org/t/p',
+    firebaseConfig: {
+        apiKey: process.env.NG_APP_FIREBASE_API_KEY || '',
+        authDomain: process.env.NG_APP_FIREBASE_AUTH_DOMAIN || '',
+        projectId: process.env.NG_APP_FIREBASE_PROJECT_ID || '',
+        storageBucket: process.env.NG_APP_FIREBASE_STORAGE_BUCKET || '',
+        messagingSenderId: process.env.NG_APP_FIREBASE_MESSAGING_SENDER_ID || '',
+        appId: process.env.NG_APP_FIREBASE_APP_ID || ''
+    }
 };
-`;
 
-fs.writeFileSync(targetPath, envConfigFile);
-fs.writeFileSync(targetProdPath, envConfigFile);
+// 4️⃣ Crear carpeta destino (src/assets/)
+const outputDir = path.resolve(__dirname, '../src/assets');
+if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+}
+
+// 5️⃣ Escribir fichero config.json
+const outputFile = path.join(outputDir, 'config.json');
+fs.writeFileSync(outputFile, JSON.stringify(envConfigFile, null, 2));
 
 console.log(`✅ Archivos de entorno generados correctamente.`);

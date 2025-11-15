@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { environment } from '../../../environments/environment';
+import {ConfigService} from "../../services/config.service";
 
 @Component({
     selector: 'app-profile',
@@ -9,9 +9,11 @@ import { environment } from '../../../environments/environment';
 })
 export class ProfilePage {
     user = this.authService.getUsuario();
-    appVersion = environment.version;
+    appVersion = '';
 
-    constructor(private authService: AuthService) {}
+    constructor(private authService: AuthService, private config: ConfigService) {
+        this.appVersion = config.config.version;
+    }
 
     logout() {
         this.authService.logout();

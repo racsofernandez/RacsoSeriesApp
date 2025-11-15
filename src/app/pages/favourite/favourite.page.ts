@@ -18,7 +18,7 @@ export class FavouritePage {
   constructor(private dataLocal: SeriesDbService, private movieService: MoviesService) {}
 
   async ionViewWillEnter() {
-    this.peliculas = await this.dataLocal.cargarFavoritos();
+    this.peliculas = await this.dataLocal.getFavoritos();
     this.generos = await this.movieService.cargarGeneros();
     this.pelisPorGenero(this.generos, this.peliculas);
   }
@@ -38,20 +38,6 @@ export class FavouritePage {
 
 
     console.log("favorito", this.favoritoGenero);
-
-
-    // let favorito: Favorito = ;
-
-    // for (var idPeli=0; idPeli<peliculas.length; idPeli++) {
-    //   const k: any = peliculas[idPeli].genres ? peliculas[idPeli].genres?.length : 0;
-    //   for (var idGenero=0; idGenero<k; idGenero++) {
-    //     favoritoGenero.push({
-    //       genero: peliculas[idPeli].genres?[idGenero].
-    //     })
-    //   }
-    // }
-
-
 
   }
   

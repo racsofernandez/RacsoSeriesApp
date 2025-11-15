@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Genre, Genres, PeliculaDetalle, RespuestaCredits, RespuestaMDB, SearchResult } from '../interfaces/interfaces';
-import { environment } from 'src/environments/environment';
+import {ConfigService} from "./config.service";
 
-const URL = environment.url;
-const apiKey = environment.apiKey;
+var URL = '';
+var apiKey = '';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,10 @@ export class MoviesService {
   private popularesPage = 0;
   generos: Genre[] = [];
 
-  constructor( private http: HttpClient) { }
+  constructor( private http: HttpClient, config: ConfigService) {
+      URL = config.config.url;
+      apiKey = config.config.apiKey;
+  }
 
   private ejecutarQuery<T>(query: string) {
     query = URL + query;

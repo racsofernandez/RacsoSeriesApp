@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Firestore, collection, getDocs, doc, deleteDoc, setDoc, getDoc }
+    from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
 import {PeliculaDetalle} from "../interfaces/interfaces";
 import {ToastController} from "@ionic/angular";
@@ -9,11 +10,13 @@ import {ToastController} from "@ionic/angular";
 })
 export class SeriesDbService {
 
+    private favoritosCargados = false;
+
     peliculas: PeliculaDetalle[] = [];
 
-    constructor(private firestore: AngularFirestore,
+    constructor(private firestore: Firestore,
                 private toastCtrl: ToastController) {
-        this.cargarFavoritos();
+        // this.cargarFavoritos();
     }
 
     async presentToast(message: string) {
@@ -25,34 +28,35 @@ export class SeriesDbService {
     }
 
     async guardarPelicula(pelicula: PeliculaDetalle) {
-        const existe = await this.existePelicula(pelicula.id);
+        const ref = doc(this.firestore, 'favoritos', pelicula.id.toString());
+        const snap = await getDoc(ref);
 
-        if (existe) {
-            // Si ya existe, eliminar de favoritos
-            await this.firestore.collection('favoritos').doc(pelicula.id.toString()).delete();
-            console.log(`Película ${pelicula.name} eliminada de favoritos`);
+        if (snap.exists()) {
+            await deleteDoc(ref);
+            return false;
         } else {
-            // Si no existe, añadir
-            await this.firestore.collection('favoritos').doc(pelicula.id.toString()).set(pelicula);
-            console.log(`Película ${pelicula.name} añadida a favoritos`);
+            await setDoc(ref, pelicula);
+            return true;
         }
-
-        // Actualiza la lista local
-        this.cargarFavoritos();
-
-        return !existe;
     }
 
-    async cargarFavoritos() {
-        const snapshot = await this.firestore.collection<PeliculaDetalle>('favoritos').get().toPromise();
-        const peliculas: PeliculaDetalle[] = [];
-        snapshot?.forEach(doc => peliculas.push(doc.data()));
-        return peliculas;
-
+    async getFavoritos(): Promise<PeliculaDetalle[]> {
+        if (!this.favoritosCargados) {
+            this.peliculas = await this.cargarFavoritos();
+            this.favoritosCargados = true;
+        }
+        return this.peliculas;
     }
 
-    async existePelicula(id: number): Promise<boolean> {
-        const doc = await this.firestore.collection('favoritos').doc(id.toString()).get().toPromise();
-        return doc?.exists || false;
+    async cargarFavoritos(): Promise<PeliculaDetalle[]> {
+        const colRef = collection(this.firestore, 'favoritos');
+        const snapshot = await getDocs(colRef);
+        return snapshot.docs.map(d => d.data() as PeliculaDetalle);
+    }
+
+    async existePelicula(id: number) {
+        const ref = doc(this.firestore, 'favoritos', id.toString());
+        const snap = await getDoc(ref);
+        return snap.exists();
     }
 }
