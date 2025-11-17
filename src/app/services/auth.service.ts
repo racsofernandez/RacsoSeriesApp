@@ -1,5 +1,15 @@
 import {inject, Injectable} from '@angular/core';
-import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, User } from '@angular/fire/auth';
+import {
+    Auth,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged,
+    GoogleAuthProvider,
+    signInWithPopup,
+    User,
+    sendPasswordResetEmail, sendEmailVerification
+} from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import {getApps} from "@angular/fire/app";
 
@@ -25,7 +35,12 @@ export class AuthService {
     }
 
     async registerEmail(email: string, password: string) {
-        return createUserWithEmailAndPassword(this.auth, email, password);
+        const cred = await createUserWithEmailAndPassword(this.auth, email, password);
+
+        // Enviar email de verificación
+        await sendEmailVerification(cred.user);
+
+        return cred;
     }
 
     async loginGoogle() {
@@ -36,6 +51,24 @@ export class AuthService {
     async logout() {
         await signOut(this.auth);
         this.router.navigate(['/login']);
+    }
+
+    resetPassword(email: string) {
+        return sendPasswordResetEmail(this.auth, email);
+    }
+
+    // Reenviar verificación
+    async resendVerification() {
+        const user = this.auth.currentUser;
+        if (user) {
+            return sendEmailVerification(user);
+        }
+        throw new Error("No hay usuario autenticado");
+    }
+
+    // Saber si está verificado
+    isEmailVerified(user: User) {
+        return user.emailVerified;
     }
 
     getUsuario() {

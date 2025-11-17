@@ -30,11 +30,17 @@ class LoginPage {
 
     async login() {
         try {
-            console.log('Login');
-            await this.authService.loginEmail(this.email, this.password);
-            await this.router.navigate(['/tabs/home']);
-        } catch (error) {
-            this.presentToast(`Error de login. ${this.getErrorMessage(error)}`);
+            const { user } = await this.authService.loginEmail(this.email, this.password);
+
+            if (!user.emailVerified) {
+                this.presentToast("Debes verificar tu correo antes de continuar.");
+                return;
+            }
+
+            this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
+
+        } catch (err: any) {
+            this.presentToast("Error al iniciar sesión");
         }
     }
 
@@ -54,6 +60,10 @@ class LoginPage {
         } catch (error) {
             this.presentToast(`Error de login. ${this.getErrorMessage(error)}`);
         }
+    }
+
+    goForgot() {
+        this.router.navigate(['/forgot']);
     }
 
     getErrorMessage(error: any): string {

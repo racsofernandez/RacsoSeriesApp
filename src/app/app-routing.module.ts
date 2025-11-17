@@ -16,7 +16,16 @@ const routes: Routes = [
         path: 'tabs',
         canActivate: [AuthGuard],
         loadChildren: () => import('./pages/tabs/tabs.module').then(m => m.TabsPageModule)
-    }
+     },
+  {
+    path: 'forgot',
+    loadChildren: () => import('./pages/forgot/forgot.module').then( m => m.ForgotPageModule)
+  },
+  {
+    path: 'verify-email',
+    loadChildren: () => import('./pages/verify-email/verify-email.module').then( m => m.VerifyEmailPageModule)
+  }
+
 
 ];
 @NgModule({

@@ -21,7 +21,7 @@ export class DetalleComponent  implements OnInit {
   updated = false;
 
   constructor(private moviesService: MoviesService,
-              private modalDtrl: ModalController,
+              private modalCtrl: ModalController,
               private dataLocal: SeriesDbService,
               private auth: Auth) { }
 
@@ -49,7 +49,7 @@ export class DetalleComponent  implements OnInit {
   }
 
   regresar() {
-      this.modalDtrl.dismiss({
+      this.modalCtrl.dismiss({
           updated: this.updated   // devolvemos un flag
       }).then(r => false);
   }
