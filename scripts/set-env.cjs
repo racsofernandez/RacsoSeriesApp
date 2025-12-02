@@ -25,7 +25,7 @@ const targetPath = './src/assets/config.json';
 
 // Comprobamos que las variables críticas existan
 const requiredVars = [
-    'NG_APP_THEMOVIEDB_API_KEY',
+    'NG_APP_BACKEND_URL',
     'NG_APP_FIREBASE_API_KEY',
     'NG_APP_FIREBASE_AUTH_DOMAIN',
     'NG_APP_FIREBASE_PROJECT_ID',
@@ -43,8 +43,7 @@ console.log(`Versión: ${version}`);
 // 3️⃣ Construir objeto de configuración
 const envConfigFile = {
     version,
-    url: 'https://api.themoviedb.org/3',
-    apiKey: process.env.NG_APP_THEMOVIEDB_API_KEY || '',
+    apiBackendUrl: process.env.NG_APP_BACKEND_URL || '',
     imgPath: 'https://image.tmdb.org/t/p',
     firebaseConfig: {
         apiKey: process.env.NG_APP_FIREBASE_API_KEY || '',

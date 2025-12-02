@@ -4,6 +4,7 @@ import { Genre, Genres, PeliculaDetalle, RespuestaCredits, RespuestaMDB, SearchR
 import {ConfigService} from "./config.service";
 
 var URL = '';
+var urlBackend = '';
 var apiKey = '';
 
 @Injectable({
@@ -16,21 +17,22 @@ export class MoviesService {
 
   constructor( private http: HttpClient, config: ConfigService) {
       URL = config.config.url;
+      urlBackend = config.config.apiBackendUrl;
       apiKey = config.config.apiKey;
   }
 
-  private ejecutarQuery<T>(query: string) {
-    query = URL + query;
-    query += `&language=es-ES&api_key=${ apiKey }`;
-    console.log("query", query);
-    return this.http.get<T>(query);
-  }
+    private ejecutarBackend<T>(query: string) {
+        query = urlBackend + query;
+        query += `&language=es-ES`;
+        console.log("query", query);
+        return this.http.get<T>(query);
+    }
 
   getPopulares() {
     this.popularesPage++;
 
-    const query = `/discover/tv?sort_by=popularity.desc&page=${ this.popularesPage }`;
-    return this.ejecutarQuery<RespuestaMDB>(query);
+    const query = `/populares?popularesPage=${ this.popularesPage }`;
+    return this.ejecutarBackend<RespuestaMDB>(query);
   }
 
   getFeature() {
@@ -49,29 +51,29 @@ export class MoviesService {
     const inicio = `${ hoy.getFullYear() }-${ mesString }-01`;
     const fin = `${ hoy.getFullYear() }-${ mesString }-${ ultimoDia }`;
 
-    return this.ejecutarQuery<RespuestaMDB>(`/discover/tv?primary_release_date.gte=${ inicio }&primary_release_date.lte=${ fin }`);
+    return this.ejecutarBackend<RespuestaMDB>(`/feature?inicioStr=${ inicio }&finStr=${ fin }`);
   }
 
   getPeliculaDetalle(id: number){
 
-    return this.ejecutarQuery<PeliculaDetalle>(`/tv/${ id }?a=1`);
+    return this.ejecutarBackend<PeliculaDetalle>(`/${ id }?a=1`);
 
   }
 
   getActoresPelicula(id: number) {
 
-    return this.ejecutarQuery<RespuestaCredits>(`/tv/${ id }/credits?a=1`);
+    return this.ejecutarBackend<RespuestaCredits>(`/actoresSerie/${ id }?a=1`);
 
   }
 
   buscarPeliculas(query: string) {
-    return this.ejecutarQuery<SearchResult>(`/search/tv?query=${ query }`);
+    return this.ejecutarBackend<SearchResult>(`/buscarSeries?query=${ query }`);
   }
 
   cargarGeneros(): Promise<Genre[]> {
 
     return new Promise( resolve => {
-      return this.ejecutarQuery<Genres>('/genre/tv/list?a=1')
+      return this.ejecutarBackend<Genres>('/generos?a=1')
       .subscribe( resp => {
         this.generos = resp.genres;
         console.log("generos", this.generos);
