@@ -1,13 +1,13 @@
 {
-  "version": "local-dev",
-  "apiBackendUrl": "https://seriesapp-backend-dev-369792410611.europe-southwest1.run.app/api/v1/tmdb/tv",
-  "imgPath": "https://image.tmdb.org/t/p",
+  "version": "",
+  "apiBackendUrl": "",
+  "imgPath": "",
   "firebaseConfig": {
-    "apiKey": "AIzaSyD4wdBxT1rBhDymBDwbrof3ala7w0SqmOw",
-    "authDomain": "seriesapp-dev.firebaseapp.com",
-    "projectId": "seriesapp-dev",
-    "storageBucket": "seriesapp-dev.firebasestorage.app",
-    "messagingSenderId": "369792410611",
-    "appId": "1:369792410611:web:a4f44645e7427b007d6886"
+    "apiKey": "",
+    "authDomain": "",
+    "projectId": "",
+    "storageBucket": "",
+    "messagingSenderId": "",
+    "appId": ""
   }
 }
