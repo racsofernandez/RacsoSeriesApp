@@ -16,8 +16,7 @@ export class MoviesService {
   generos: Genre[] = [];
 
   constructor( private http: HttpClient, config: ConfigService) {
-      URL = config.config.url;
-      urlBackend = config.config.apiBackendUrl;
+      urlBackend = config.config.apiBackendUrl + "/tmdb/tv";
       apiKey = config.config.apiKey;
   }
 

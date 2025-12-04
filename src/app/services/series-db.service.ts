@@ -4,22 +4,24 @@ import { PeliculaDetalle } from "../interfaces/interfaces";
 import { ToastController } from "@ionic/angular";
 import { MoviesService } from "./movies.service";
 import { firstValueFrom } from 'rxjs';
+import {ConfigService} from "./config.service";
 
 @Injectable({
     providedIn: 'root'
 })
 export class SeriesDbService {
 
+    urlBackend = '';
     peliculas: PeliculaDetalle[] = [];
-
-    // Ajusta la URL base según tu backend (ej: http://localhost:8080)
-    private readonly API_BASE_URL = 'http://localhost:8080/api/v1/users';
 
     constructor(
         private http: HttpClient,
         private toastCtrl: ToastController,
-        private moviesService: MoviesService
-    ) { }
+        private moviesService: MoviesService,
+        private config: ConfigService
+    ) {
+        this.urlBackend = config.config.apiBackendUrl + "/users";
+    }
 
     async presentToast(message: string) {
         const toast = await this.toastCtrl.create({
@@ -34,7 +36,7 @@ export class SeriesDbService {
      * Devuelve true si se añadió, false si se eliminó.
      */
     async guardarSerie(userId: string, serie: PeliculaDetalle): Promise<boolean> {
-        const url = `${this.API_BASE_URL}/${encodeURIComponent(userId)}/series/${serie.id}/toggle`;
+        const url = `${this.urlBackend}/${encodeURIComponent(userId)}/series/${serie.id}/toggle`;
 
         try {
             // Enviar "name" como query param, no en el body
@@ -58,7 +60,7 @@ export class SeriesDbService {
      * Carga los favoritos desde el backend y consigue los detalles usando MoviesService
      */
     async cargarSeriesFavoritas(uid: string): Promise<PeliculaDetalle[]> {
-        const url = `${this.API_BASE_URL}/${encodeURIComponent(uid)}/series`;
+        const url = `${this.urlBackend}/${encodeURIComponent(uid)}/series`;
         try {
             const favs = await firstValueFrom(
                 this.http.get<Array<{ id: number, name?: string }>>(url)
@@ -99,7 +101,7 @@ export class SeriesDbService {
      * Comprueba existencia en backend
      */
     async existeSerie(userId: string, id: number): Promise<boolean> {
-        const url = `${this.API_BASE_URL}/${encodeURIComponent(userId)}/series/${id}/exists`;
+        const url = `${this.urlBackend}/${encodeURIComponent(userId)}/series/${id}/exists`;
         try {
             const resp: any = await firstValueFrom(this.http.get(url));
             return resp && resp.exists === true;
