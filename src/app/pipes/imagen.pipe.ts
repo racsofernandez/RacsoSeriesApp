@@ -13,11 +13,11 @@ export class ImagenPipe implements PipeTransform {
         URL = config.config.imgPath;
     }
 
-    transform(img: string, size: string = "w500"): string {
+    transform(img: string): string {
     if ( !img ) {
       return './assets/no-image-banner.jpg';
     }
-    const imgUrl = `${ URL }/${ size }${ img }`;
+    const imgUrl = `${ URL }${ img }`;
     return imgUrl;
   }
 
