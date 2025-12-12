@@ -17,13 +17,12 @@ jobs:
       NG_APP_BACKEND_URL: ${{ vars.BACKEND_URL }}
       NG_APP_IMGPATH: ${{ vars.IMGPATH }}
       NG_APP_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
-      NG_APP_FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
-      NG_APP_FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+      NG_APP_FIREBASE_AUTH_DOMAIN: ${{ vars.FIREBASE_AUTH_DOMAIN }}
+      NG_APP_FIREBASE_PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID }}
       GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
-      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-      GCP_REGION: europe-southwest1
-      GCP_ARTIFACT_REPOSITORY: seriesapp-frontend-dev
-      GCP_PROJECT: seriesapp-dev
+      GCP_REGION: ${{ vars.GCP_REGION }}
+      GCP_ARTIFACT_REPOSITORY: ${{ vars.GCP_ARTIFACT_REPOSITORY }}
+      GCP_PROJECT: ${{ vars.GCP_PROJECT }}
 
     steps:
       - name: Checkout code
