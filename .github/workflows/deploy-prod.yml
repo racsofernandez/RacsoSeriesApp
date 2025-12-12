@@ -17,9 +17,12 @@ jobs:
       NG_APP_BACKEND_URL: ${{ vars.BACKEND_URL }}
       NG_APP_IMGPATH: ${{ vars.IMGPATH }}
       NG_APP_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
-      NG_APP_FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
-      NG_APP_FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+      NG_APP_FIREBASE_AUTH_DOMAIN: ${{ vars.FIREBASE_AUTH_DOMAIN }}
+      NG_APP_FIREBASE_PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID }}
       GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+      GCP_REGION: ${{ vars.GCP_REGION }}
+      GCP_ARTIFACT_REPOSITORY: ${{ vars.GCP_ARTIFACT_REPOSITORY }}
+      GCP_PROJECT: ${{ vars.GCP_PROJECT }}
 
     steps:
       - name: Checkout code
@@ -50,9 +53,29 @@ jobs:
       - name: Generate environment file for PROD
         run: node scripts/set-env.cjs "${GITHUB_REF#refs/tags/}" "../www/assets"
 
-      - name: Deploy to Firebase Hosting
-        uses: w9jds/firebase-action@v13.15.3
+      # --- Autenticación ---
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v2
         with:
-          args: deploy --only hosting -P 'prod'
-        env:
-          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker ${{ env.GCP_REGION }}-docker.pkg.dev --quiet
+
+      # --- Construcción de la imagen ---
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ env.GCP_REGION }}-docker.pkg.dev/${{ env.GCP_PROJECT }}/${{ env.GCP_ARTIFACT_REPOSITORY }}/frontend:${{ steps.gitversion.outputs.SemVer }} .
+
+      - name: Push Docker image
+        run: |
+          docker push ${{ env.GCP_REGION }}-docker.pkg.dev/${{ env.GCP_PROJECT }}/${{ env.GCP_ARTIFACT_REPOSITORY }}/frontend:${{ steps.gitversion.outputs.SemVer }}
+
+      # --- Despliegue en Cloud Run ---
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy ${{ env.GCP_ARTIFACT_REPOSITORY }} \
+            --image ${{ env.GCP_REGION }}-docker.pkg.dev/${{ env.GCP_PROJECT }}/${{ env.GCP_ARTIFACT_REPOSITORY }}/frontend:${{ steps.gitversion.outputs.SemVer }} \
+            --platform managed \
+            --region ${{ env.GCP_REGION }} \
+            --allow-unauthenticated
