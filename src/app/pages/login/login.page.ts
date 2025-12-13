@@ -3,6 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import {ConfigService} from "../../services/config.service";
 import {ToastController} from "@ionic/angular";
+import {SplashService} from "../../shared/splash.service";
 
 @Component({
     selector: 'app-login',
@@ -15,7 +16,10 @@ class LoginPage {
 
     appVersion = '';
 
-    constructor(private authService: AuthService, private router: Router, config: ConfigService, private toastCtrl: ToastController) {
+    constructor(private authService: AuthService, private router: Router,
+                config: ConfigService,
+                private toastCtrl: ToastController,
+                private splash: SplashService) {
         console.log(config.config);
         this.appVersion = config.config.version;
     }
@@ -37,6 +41,7 @@ class LoginPage {
                 return;
             }
 
+            this.splash.show();
             this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
 
         } catch (err: any) {
