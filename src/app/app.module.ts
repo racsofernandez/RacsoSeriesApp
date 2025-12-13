@@ -13,19 +13,26 @@ import { provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { ConfigService } from './services/config.service';
+import {SplashComponent} from "./shared/splash/splash.component";
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 export function initConfig(configService: ConfigService) {
     return () => configService.loadConfig();  // ← Angular espera a que termine
 }
 
 @NgModule({
-    declarations: [AppComponent],
+    declarations: [
+        AppComponent,
+        SplashComponent
+    ],
     imports: [
         BrowserModule,
         IonicModule.forRoot(),
         AppRoutingModule,
         HttpClientModule,
         IonicStorageModule.forRoot(),
+        MatProgressSpinnerModule
     ],
     providers: [
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
@@ -40,7 +47,8 @@ export function initConfig(configService: ConfigService) {
             useFactory: initConfig,
             deps: [ConfigService],
             multi: true
-        }],
+        },
+        provideAnimationsAsync()],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

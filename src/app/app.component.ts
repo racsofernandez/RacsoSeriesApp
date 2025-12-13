@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { register } from 'swiper/element';
 import { Storage } from '@ionic/storage-angular';
+import { SplashService } from './shared/splash.service';
 
 
 register();
@@ -11,7 +12,9 @@ register();
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor(private storage: Storage) {}
+    splash$ = this.splash.visible$;
+
+    constructor(private storage: Storage, public splash: SplashService) {}
 
   async ngOnInit() {
     // If using a custom driver:

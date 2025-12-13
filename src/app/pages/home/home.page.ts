@@ -1,6 +1,8 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Component, NgModule, OnInit } from '@angular/core';
 import { MoviesService } from '../../services/movies.service';
 import { Pelicula } from '../../interfaces/interfaces';
+import {SplashService} from "../../shared/splash.service";
+import {forkJoin} from "rxjs";
 
 @Component({
   selector: 'app-home',
@@ -9,22 +11,31 @@ import { Pelicula } from '../../interfaces/interfaces';
 })
 export class HomePage implements OnInit {
 
-  peliculasRecientes: Pelicula[] = [];
+  recientes: Pelicula[] = [];
   populares: Pelicula[] = []
 
-  constructor(private moviesService: MoviesService) {}
+  constructor(private moviesService: MoviesService,  private splash: SplashService) {}
 
-  ngOnInit(): void {
-    this.moviesService.getFeature()
-      .subscribe( resp => {
-        console.log('Resp', resp);
-        this.peliculasRecientes = resp.results;
-        console.log("peliculasRecientes", this.peliculasRecientes);
-      }
-    );
+    ngOnInit(): void {
+        this.splash.show();
 
-    this.getPopulares();
-  }
+        forkJoin({
+            recientes: this.moviesService.getFeature(),
+            populares: this.moviesService.getPopulares()
+        }).subscribe({
+            next: ({ recientes, populares }) => {
+                this.recientes = recientes.results;
+                this.populares = populares.results;
+            },
+            error: err => {
+                console.error(err);
+                this.splash.hide(); // importante también en error
+            },
+            complete: () => {
+                this.splash.hide();
+            }
+        });
+    }
 
   cargarMas() {
     this.getPopulares();

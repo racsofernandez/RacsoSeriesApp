@@ -1,0 +1,27 @@
+.splash {
+  position: fixed;
+  inset: 0;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+.logo {
+  width: 120px;
+  margin-bottom: 24px;
+  animation: logoPulse 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes logoPulse {
+  from {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  to {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
