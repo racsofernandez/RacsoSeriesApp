@@ -17,6 +17,8 @@ export class HomePage implements OnInit {
   constructor(private moviesService: MoviesService,  private splash: SplashService) {}
 
     ngOnInit(): void {
+        this.splash.show();
+
         forkJoin({
             recientes: this.moviesService.getFeature(),
             populares: this.moviesService.getPopulares()
