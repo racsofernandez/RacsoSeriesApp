@@ -8,7 +8,7 @@ export class SplashService {
     visible$ = this.visibleSubject.asObservable();
 
     private startTime = Date.now();
-    private minDuration = 600; // ms
+    private minDuration = 2000; // ms
 
     hide() {
         const elapsed = Date.now() - this.startTime;

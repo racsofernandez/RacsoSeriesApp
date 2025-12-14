@@ -1,8 +1,8 @@
-import { CUSTOM_ELEMENTS_SCHEMA, Component, NgModule, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MoviesService } from '../../services/movies.service';
 import { Pelicula } from '../../interfaces/interfaces';
 import {SplashService} from "../../shared/splash.service";
-import {forkJoin, timer} from "rxjs";
+import {combineLatest, take} from "rxjs";
 
 @Component({
   selector: 'app-home',
@@ -13,31 +13,33 @@ export class HomePage implements OnInit {
 
   recientes: Pelicula[] = [];
   populares: Pelicula[] = []
+  loaded: boolean = false;
 
   constructor(private moviesService: MoviesService,  private splash: SplashService) {}
 
     ngOnInit(): void {
         this.splash.show();
 
-        forkJoin({
-            data: forkJoin({
-                recientes: this.moviesService.getFeature(),
-                populares: this.moviesService.getPopulares()
-            }),
-            minTime: timer(2000) // ⏱ mínimo 2 segundos
-        }).subscribe({
-            next: ({ data }) => {
-                this.recientes = data.recientes.results;
-                this.populares = data.populares.results;
-            },
-            error: err => {
-                console.error(err);
-                this.splash.hide();
-            },
-            complete: () => {
-                this.splash.hide();
-            }
-        });
+        combineLatest([
+            this.moviesService.getFeature(),
+            this.moviesService.getPopulares()
+        ])
+            .pipe(take(1)) // 👈 importante
+            .subscribe({
+                next: ([recientes, populares]) => {
+                    this.recientes = recientes.results;
+                    this.populares = populares.results;
+                    this.loaded = true;           // 👈 AQUÍ
+                },
+                error: err => {
+                    console.error(err);
+                    this.splash.hide();
+                    this.loaded = true;           // evita bloqueo
+                },
+                complete: () => {
+                    this.splash.hide();
+                }
+            });
     }
 
 
