@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, Component, NgModule, OnInit } from '@angular/co
 import { MoviesService } from '../../services/movies.service';
 import { Pelicula } from '../../interfaces/interfaces';
 import {SplashService} from "../../shared/splash.service";
-import {forkJoin} from "rxjs";
+import {forkJoin, timer} from "rxjs";
 
 @Component({
   selector: 'app-home',
@@ -20,22 +20,26 @@ export class HomePage implements OnInit {
         this.splash.show();
 
         forkJoin({
-            recientes: this.moviesService.getFeature(),
-            populares: this.moviesService.getPopulares()
+            data: forkJoin({
+                recientes: this.moviesService.getFeature(),
+                populares: this.moviesService.getPopulares()
+            }),
+            minTime: timer(2000) // ⏱ mínimo 2 segundos
         }).subscribe({
-            next: ({ recientes, populares }) => {
-                this.recientes = recientes.results;
-                this.populares = populares.results;
+            next: ({ data }) => {
+                this.recientes = data.recientes.results;
+                this.populares = data.populares.results;
             },
             error: err => {
                 console.error(err);
-                this.splash.hide(); // importante también en error
+                this.splash.hide();
             },
             complete: () => {
                 this.splash.hide();
             }
         });
     }
+
 
   cargarMas() {
     this.getPopulares();
