@@ -2,7 +2,7 @@ import {APP_INITIALIZER, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,6 +16,7 @@ import { ConfigService } from './services/config.service';
 import {SplashComponent} from "./shared/splash/splash.component";
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {AuthInterceptor} from "./interceptor/auth.interceptor";
 
 export function initConfig(configService: ConfigService) {
     return () => configService.loadConfig();  // ← Angular espera a que termine
@@ -48,7 +49,13 @@ export function initConfig(configService: ConfigService) {
             deps: [ConfigService],
             multi: true
         },
-        provideAnimationsAsync()],
+        provideAnimationsAsync(),
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true
+        }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -74,4 +74,16 @@ export class AuthService {
     getUsuario() {
         return this.usuario;
     }
+
+    getCurrentUser(): User | null {
+        return this.auth.currentUser;
+    }
+
+    async getIdToken(): Promise<string | null> {
+        const user = this.auth.currentUser;
+        if (!user) return null;
+
+        return await user.getIdToken(); // 🔑 TOKEN REAL
+    }
+
 }
