@@ -3,6 +3,12 @@
         <ion-title>
             Buscar Película
         </ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="abrirGeneros()">
+                <ion-icon slot="start" name="list-outline"></ion-icon>
+                Géneros
+            </ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
@@ -10,6 +16,7 @@
     <ion-searchbar placeholder="Buscar película" animated debounce="700" [value]="textoBuscar" (ionInput)="buscar($event)">
 
     </ion-searchbar>
+
 </ion-toolbar>
 
 <ion-content>

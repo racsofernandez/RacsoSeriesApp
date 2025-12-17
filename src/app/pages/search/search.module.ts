@@ -7,6 +7,7 @@ import { ExploreContainerComponentModule } from '../../explore-container/explore
 
 import { SearchPageRoutingModule } from './search-routing.module';
 import { PipesModule } from "../../pipes/pipes.module";
+import {GenreListModule} from "../../components/genre-list/genre-list.module";
 
 @NgModule({
     declarations: [SearchPage],
@@ -16,7 +17,8 @@ import { PipesModule } from "../../pipes/pipes.module";
         FormsModule,
         ExploreContainerComponentModule,
         SearchPageRoutingModule,
-        PipesModule
+        PipesModule,
+        GenreListModule
     ]
 })
 export class SearchPageModule {}

@@ -3,6 +3,8 @@ import { MoviesService } from '../../services/movies.service';
 import { Pelicula, SearchedPelicula } from '../../interfaces/interfaces';
 import { ModalController } from '@ionic/angular';
 import { DetalleComponent } from '../../components/detalle/detalle.component';
+import {GenreListComponent} from "../../components/genre-list/genre-list.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-search',
@@ -15,7 +17,8 @@ export class SearchPage {
   buscando = false;
   peliculas: SearchedPelicula[] = [];
   ideas: string[] = ['Spiderman', 'Avenger', 'El señor de los anillos', 'La vida es bella'];
-  constructor(private movieService: MoviesService, private modalCtrl: ModalController) {}
+  constructor(private movieService: MoviesService, private modalCtrl: ModalController,
+              private router: Router) {}
 
   buscar( event: CustomEvent ) {
     this.buscando = true;
@@ -41,5 +44,24 @@ export class SearchPage {
 
     modal.present();
   }
+
+    async abrirGeneros() {
+
+        const modal = await this.modalCtrl.create({
+            component: GenreListComponent
+        });
+
+        await modal.present();
+
+        const { data } = await modal.onDidDismiss();
+
+        if (data?.genero) {
+            this.router.navigate([
+                '/series-genre',
+                data.genero.id,
+                data.genero.name
+            ]);
+        }
+    }
 
 }

@@ -1,0 +1,26 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Selecciona un género</ion-title>
+
+        <ion-buttons slot="end">
+            <ion-button (click)="cerrar()">
+                <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-spinner *ngIf="cargando" class="ion-margin"></ion-spinner>
+
+    <ion-list *ngIf="!cargando">
+        <ion-item
+                button
+                *ngFor="let genero of generos"
+                (click)="seleccionarGenero(genero)">
+            <ion-label>{{ genero.name }}</ion-label>
+        </ion-item>
+    </ion-list>
+
+</ion-content>
