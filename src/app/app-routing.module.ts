@@ -24,10 +24,17 @@ const routes: Routes = [
   {
     path: 'verify-email',
     loadChildren: () => import('./pages/verify-email/verify-email.module').then( m => m.VerifyEmailPageModule)
-  },  {
+  },
+  {
     path: 'series-genre',
     loadChildren: () => import('./pages/series-genre/series-genre.module').then( m => m.SeriesGenrePageModule)
-  }
+  },
+    {
+        path: 'series-genre/:id/:name',
+        loadChildren: () =>
+            import('./pages/series-genre/series-genre.module')
+                .then(m => m.SeriesGenrePageModule)
+    }
 
 
 

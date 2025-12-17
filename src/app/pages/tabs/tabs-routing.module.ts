@@ -15,6 +15,12 @@ const routes: Routes = [
         path: 'search',
         loadChildren: () => import('../search/search.module').then(m => m.SearchPageModule)
       },
+        {
+            path: 'search/series-genre/:id/:name',
+            loadChildren: () =>
+                import('../series-genre/series-genre.module')
+                    .then(m => m.SeriesGenrePageModule)
+        },
       {
         path: 'favourite',
         loadChildren: () => import('../favourite/favourite.module').then(m => m.FavouritePageModule)

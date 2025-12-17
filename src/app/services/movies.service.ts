@@ -53,6 +53,10 @@ export class MoviesService {
     return this.ejecutarBackend<RespuestaMDB>(`/feature?inicioStr=${ inicio }&finStr=${ fin }`);
   }
 
+    getFeatureByGenre(genre: number) {
+        return this.ejecutarBackend<RespuestaMDB>(`/feature?withGenre=${ genre }`);
+    }
+
   getPeliculaDetalle(id: number){
 
     return this.ejecutarBackend<PeliculaDetalle>(`/${ id }?a=1`);
@@ -82,5 +86,6 @@ export class MoviesService {
 
   }
 
+    // cargarPeliculasPorGenero
 
 }

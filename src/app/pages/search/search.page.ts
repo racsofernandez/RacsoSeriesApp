@@ -57,7 +57,7 @@ export class SearchPage {
 
         if (data?.genero) {
             this.router.navigate([
-                '/series-genre',
+                '/tabs/search/series-genre',
                 data.genero.id,
                 data.genero.name
             ]);
