@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MoviesService } from '../../services/movies.service';
 import {Pelicula, RespuestaMDB} from "../../interfaces/interfaces";
+import {DetalleComponent} from "../../components/detalle/detalle.component";
+import {ModalController} from "@ionic/angular";
 
 @Component({
     selector: 'app-series-genre',
@@ -17,7 +19,8 @@ export class SeriesGenrePage implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        private moviesService: MoviesService
+        private moviesService: MoviesService,
+        private modalCtrl: ModalController
     ) {}
 
     async ngOnInit() {
@@ -43,5 +46,15 @@ export class SeriesGenrePage implements OnInit {
         });
     }
 
+    async verDetalle(id: number) {
+        const modal = await this.modalCtrl.create( {
+            component: DetalleComponent,
+            componentProps: {
+                id
+            }
+        })
+
+        modal.present();
+    }
 }
 
