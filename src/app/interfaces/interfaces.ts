@@ -49,6 +49,9 @@ export interface PeliculaDetalle {
   vote_average?: number;
   vote_count?: number;
   name?: string;
+  first_air_date?: string,
+  number_of_seasons?: number;
+  number_of_episodes?: number;
 }
 
 export interface Spokenlanguage {
