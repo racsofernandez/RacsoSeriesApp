@@ -1,0 +1,16 @@
+.actor-header {
+  height: 260px; // antes 220px → +18%
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--ion-color-light);
+
+  img {
+    height: 100%;
+    max-height: 240px; // antes 200px → +20%
+    width: auto;
+    border-radius: 16px;
+    object-fit: cover;
+  }
+}
