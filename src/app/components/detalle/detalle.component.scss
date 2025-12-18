@@ -59,10 +59,13 @@
   border-radius: 2px;
 }
 
-.backdrop {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
+.detalle-content {
+  --padding-top: 0;
+}
+
+ion-header {
+  position: relative;
+  z-index: 20;
 }
 
 ion-header[translucent] {
@@ -70,6 +73,12 @@ ion-header[translucent] {
 }
 
 ion-toolbar {
-  --background: rgba(0, 0, 0, 0.3);
+  --background: rgba(0, 0, 0, 0.25);
   --color: white;
+}
+
+.backdrop {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
 }
