@@ -37,9 +37,9 @@
         </ion-item>
     </ion-list>
 
-    <ion-grid fixed>
+    <ion-grid>
         <ion-row>
-            <ion-col size="6" *ngFor="let pelicula of peliculas">
+            <ion-col size="4" *ngFor="let pelicula of peliculas">
                 <ion-card (click)="verDetalle( pelicula.id )">
                     <img [src]="pelicula.poster_path | imagen" *ngIf="pelicula.poster_path">
                     <img src="/src/assets/no-image-banner.jpg" *ngIf="!pelicula.poster_path">
