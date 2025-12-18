@@ -1,0 +1,59 @@
+<ion-header translucent>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="cerrar()">
+                <ion-icon name="close-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>{{ persona.name }}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+
+    <div class="actor-header">
+        <img
+                [src]="persona.profile_path | imagen"
+                *ngIf="persona.profile_path">
+        <img
+                src="/assets/no-avatar.jpg"
+                *ngIf="!persona.profile_path">
+    </div>
+
+    <ion-list lines="none">
+
+        <ion-item *ngIf="persona.character">
+            <ion-icon name="happy-outline" slot="start"></ion-icon>
+            <ion-label>
+                <h2>Personaje</h2>
+                <p>{{ persona.character }}</p>
+            </ion-label>
+        </ion-item>
+
+        <ion-item *ngIf="persona.job">
+            <ion-icon name="briefcase-outline" slot="start"></ion-icon>
+            <ion-label>
+                <h2>Rol</h2>
+                <p>{{ persona.job }}</p>
+            </ion-label>
+        </ion-item>
+
+        <ion-item *ngIf="persona.known_for_department">
+            <ion-icon name="film-outline" slot="start"></ion-icon>
+            <ion-label>
+                <h2>Departamento</h2>
+                <p>{{ persona.known_for_department }}</p>
+            </ion-label>
+        </ion-item>
+
+        <ion-item *ngIf="persona.popularity">
+            <ion-icon name="trending-up-outline" slot="start"></ion-icon>
+            <ion-label>
+                <h2>Popularidad</h2>
+                <p>{{ persona.popularity }}</p>
+            </ion-label>
+        </ion-item>
+
+    </ion-list>
+
+</ion-content>

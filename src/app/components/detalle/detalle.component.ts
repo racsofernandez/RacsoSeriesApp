@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { Cast, PeliculaDetalle } from 'src/app/interfaces/interfaces';
+import {Cast, PeliculaDetalle, Persona} from 'src/app/interfaces/interfaces';
 import { MoviesService } from 'src/app/services/movies.service';
 import {SeriesDbService} from "../../services/series-db.service";
 import {Auth} from "@angular/fire/auth";
+import {ActorModalComponent} from "../actor-modal/actor-modal.component";
 
 @Component({
   selector: 'app-detalle',
@@ -66,4 +67,19 @@ export class DetalleComponent  implements OnInit {
     this.star = (existeSerie) ? 'star': 'star-outline';
     this.updated = true;
   }
+
+    async abrirActor(persona: Persona) {
+        console.log(persona);
+        const modal = await this.modalCtrl.create({
+            component: ActorModalComponent,
+            componentProps: {
+                persona
+            },
+            breakpoints: [0, 0.5, 0.85],
+            initialBreakpoint: 0.85
+        });
+
+        await modal.present();
+    }
+
 }

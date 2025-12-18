@@ -123,7 +123,8 @@
 
     <swiper-container [slidesPerView]="3.1" [freeMode]="true">
         <swiper-slide *ngFor="let actor of actores">
-            <ion-card class="card-actor">
+            <ion-card class="card-actor"
+                      (click)="abrirActor(actor)">
                 <img [src]="actor.profile_path | imagen" *ngIf="actor.profile_path">
                 <img src="/assets/no-avatar.jpg" *ngIf="!actor.profile_path">
                 <ion-label>

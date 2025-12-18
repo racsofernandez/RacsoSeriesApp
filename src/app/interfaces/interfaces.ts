@@ -139,3 +139,13 @@ export interface SearchedPelicula {
 export interface Genres {
   genres: Genre[];
 }
+
+export interface Persona {
+    id: number;
+    name: string;
+    profile_path?: string;
+    known_for_department?: string;
+    popularity?: number;
+    character?: string; // solo cast
+    job?: string;       // solo crew
+}

@@ -7,6 +7,7 @@ import { SlideshowPosterComponent } from './slideshow-poster/slideshow-poster.co
 import { SlideshowParesComponent } from './slideshow-pares/slideshow-pares.component';
 import { DetalleComponent } from './detalle/detalle.component';
 import { SlideshowPosterFavComponent } from './slideshow-poster-fav/slideshow-poster-fav.component';
+import {ActorModalComponent} from "./actor-modal/actor-modal.component";
 
 
 
@@ -17,14 +18,16 @@ import { SlideshowPosterFavComponent } from './slideshow-poster-fav/slideshow-po
     SlideshowPosterComponent,
     SlideshowParesComponent,
     SlideshowPosterFavComponent,
-    DetalleComponent
+    DetalleComponent,
+    ActorModalComponent,
   ],
   exports: [
     SlideshowBackdropComponent,
     SlideshowPosterComponent,
     SlideshowParesComponent,
     SlideshowPosterFavComponent,
-    DetalleComponent
+    DetalleComponent,
+    ActorModalComponent,
   ],
   imports: [
     CommonModule,
