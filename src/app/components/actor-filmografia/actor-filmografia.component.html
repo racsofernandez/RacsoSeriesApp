@@ -1,0 +1,32 @@
+<div class="filmografia" *ngIf="filmografia?.length">
+
+    <div class="lista-horizontal">
+
+        <div
+                class="card"
+                *ngFor="let serie of filmografia"
+                (click)="verDetalle(serie.id)"
+        >
+
+            <img
+                    *ngIf="serie.poster_path; else noPoster"
+                    [src]="serie.poster_path | imagen"
+                    alt="Poster serie"
+            />
+
+            <ng-template #noPoster>
+                <img src="/assets/no-image.jpg" alt="Sin imagen" />
+            </ng-template>
+
+            <div class="info">
+                <h4>{{ serie.name }}</h4>
+                <p *ngIf="serie.character">
+                    {{ serie.character }}
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

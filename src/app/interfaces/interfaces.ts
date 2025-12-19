@@ -149,3 +149,40 @@ export interface Persona {
     character?: string; // solo cast
     job?: string;       // solo crew
 }
+
+export interface RespuestaCombinedCredits {
+    id: number;
+    cast: FilmografiaItem[];
+}
+
+export interface FilmografiaItem {
+    adult: boolean;
+    backdrop_path?: string;
+    genre_ids: number[];
+    id: number;
+
+    original_language: string;
+    original_title?: string;
+
+    overview: string;
+    popularity: number;
+    poster_path?: string;
+
+    release_date?: string;      // movie
+    first_air_date?: string;    // tv
+
+    title?: string;             // movie
+    name?: string;              // tv
+
+    video?: boolean;
+
+    vote_average: number;
+    vote_count: number;
+
+    // específicos del actor
+    character: string;
+    credit_id: string;
+    order: number;
+
+    media_type: 'movie' | 'tv';
+}

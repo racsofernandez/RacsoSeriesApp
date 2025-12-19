@@ -1,6 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Genre, Genres, PeliculaDetalle, RespuestaCredits, RespuestaMDB, SearchResult } from '../interfaces/interfaces';
+import {
+    Genre,
+    Genres,
+    PeliculaDetalle,
+    RespuestaCombinedCredits,
+    RespuestaCredits,
+    RespuestaMDB,
+    SearchResult
+} from '../interfaces/interfaces';
 import {ConfigService} from "./config.service";
 
 var URL = '';
@@ -58,15 +66,15 @@ export class MoviesService {
     }
 
   getPeliculaDetalle(id: number){
-
     return this.ejecutarBackend<PeliculaDetalle>(`/${ id }?a=1`);
-
   }
 
   getActoresPelicula(id: number) {
-
     return this.ejecutarBackend<RespuestaCredits>(`/actoresSerie/${ id }?a=1`);
+  }
 
+  getSeriesActor(id: number) {
+    return this.ejecutarBackend<RespuestaCombinedCredits>(`/person/${ id }/combinedCredits?a=1`);
   }
 
   buscarPeliculas(query: string) {
@@ -85,7 +93,5 @@ export class MoviesService {
     });
 
   }
-
-    // cargarPeliculasPorGenero
 
 }
