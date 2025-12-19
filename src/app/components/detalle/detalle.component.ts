@@ -1,10 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import {ModalController, Platform} from '@ionic/angular';
 import {Cast, PeliculaDetalle, Persona} from 'src/app/interfaces/interfaces';
 import { MoviesService } from 'src/app/services/movies.service';
 import {SeriesDbService} from "../../services/series-db.service";
 import {Auth} from "@angular/fire/auth";
 import {ActorModalComponent} from "../actor-modal/actor-modal.component";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-detalle',
@@ -20,16 +21,26 @@ export class DetalleComponent  implements OnInit {
   oculto = 150;
   star = "star-outline";
   updated = false;
+  private backButtonSub?: Subscription;
 
   constructor(private moviesService: MoviesService,
               private modalCtrl: ModalController,
               private dataLocal: SeriesDbService,
-              private auth: Auth) { }
+              private auth: Auth,
+              private platform: Platform
+  ) { }
 
   ngOnInit() {
     console.log("id", this.id);
 
-    const uid = this.auth.currentUser?.uid;
+      this.platform.backButton.subscribeWithPriority(10, async () => {
+          const topModal = await this.modalCtrl.getTop();
+          if (topModal) {
+              await topModal.dismiss();
+          }
+      });
+
+      const uid = this.auth.currentUser?.uid;
     if (uid!=null) {
         this.dataLocal.existeSerie(uid, this.id).then(existe => this.star = (existe) ? 'star': 'star-outline');
     }
@@ -80,6 +91,10 @@ export class DetalleComponent  implements OnInit {
         });
 
         await modal.present();
+    }
+
+    ngOnDestroy() {
+        this.backButtonSub?.unsubscribe();
     }
 
 }

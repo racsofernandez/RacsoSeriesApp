@@ -28,7 +28,6 @@ import {ActorFilmografiaComponent} from "./actor-filmografia/actor-filmografia.c
     SlideshowPosterComponent,
     SlideshowParesComponent,
     SlideshowPosterFavComponent,
-    DetalleComponent,
     ActorModalComponent,
   ],
   imports: [
