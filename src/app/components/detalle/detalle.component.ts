@@ -85,9 +85,7 @@ export class DetalleComponent  implements OnInit {
             component: ActorModalComponent,
             componentProps: {
                 persona
-            },
-            breakpoints: [0, 0.5, 0.85],
-            initialBreakpoint: 0.85
+            }
         });
 
         await modal.present();
