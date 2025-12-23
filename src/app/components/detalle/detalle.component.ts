@@ -18,7 +18,7 @@ export class DetalleComponent  implements OnInit {
 
   pelicula: PeliculaDetalle = {id:0};
   actores: Cast[] = [];
-  oculto = 150;
+  overviewExpanded = false;
   star = "star-outline";
   updated = false;
   private backButtonSub?: Subscription;

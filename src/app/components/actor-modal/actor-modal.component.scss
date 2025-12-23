@@ -19,3 +19,29 @@
   --height: 100%;
   --border-radius: 16px 16px 0 0;
 }
+
+.biography-item {
+  align-items: flex-start;
+
+  ion-icon {
+    margin-top: 6px;
+  }
+}
+
+.biography-text {
+  white-space: pre-line;        /* respeta saltos de línea */
+  line-height: 1.5;
+  font-size: 0.95rem;
+  color: var(--ion-color-medium);
+
+  display: -webkit-box;
+  -webkit-line-clamp: 4;        /* 🔥 3 o 4 líneas */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.biography-text.expanded {
+  display: block;
+  -webkit-line-clamp: unset;
+}
+

@@ -103,3 +103,30 @@ ion-toolbar {
   height: 220px;
   object-fit: cover;
 }
+
+.overview-container {
+  p {
+    margin: 0;
+  }
+}
+
+.overview-text {
+  white-space: pre-line;
+  line-height: 1.5;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;      /* 🔥 3–4 líneas */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.overview-text.expanded {
+  display: block;
+  -webkit-line-clamp: unset;
+}
+
+.overview-toggle {
+  margin-top: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}

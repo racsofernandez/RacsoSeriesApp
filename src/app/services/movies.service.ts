@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import {
     Genre,
     Genres,
-    PeliculaDetalle,
+    PeliculaDetalle, PersonDetail,
     RespuestaCombinedCredits,
     RespuestaCredits,
     RespuestaMDB,
@@ -11,7 +11,6 @@ import {
 } from '../interfaces/interfaces';
 import {ConfigService} from "./config.service";
 
-var URL = '';
 var urlBackend = '';
 var apiKey = '';
 
@@ -75,6 +74,10 @@ export class MoviesService {
 
   getSeriesActor(id: number) {
     return this.ejecutarBackend<RespuestaCombinedCredits>(`/person/${ id }/combinedCredits?a=1`);
+  }
+
+  getPersonDetail(id: number) {
+    return this.ejecutarBackend<PersonDetail>(`/person/${ id }?a=1`);
   }
 
   buscarPeliculas(query: string) {

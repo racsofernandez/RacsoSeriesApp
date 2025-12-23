@@ -79,16 +79,21 @@
         </ion-row>
 
         <ion-row>
-            <ion-col size="12">
-                <ion-label>
-                    {{ pelicula.overview | slice: 0: oculto }}...
-                </ion-label>
-                <ion-label
+            <ion-col size="12" class="overview-container">
+
+                <p class="overview-text" [class.expanded]="overviewExpanded">
+                    {{ pelicula.overview }}
+                </p>
+
+                <ion-button
                         color="primary"
-                        (click)="oculto = 5000"
-                        *ngIf="oculto !== 5000">
-                    Leer más
-                </ion-label>
+                        fill="clear"
+                        class="overview-toggle"
+                        (click)="overviewExpanded = !overviewExpanded"
+                        *ngIf="pelicula.overview?.length ?? 0 > 300">
+                    {{ overviewExpanded ? 'Ver menos' : 'Ver más' }}
+                </ion-button>
+
             </ion-col>
         </ion-row>
 

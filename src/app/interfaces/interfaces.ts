@@ -186,3 +186,20 @@ export interface FilmografiaItem {
 
     media_type: 'movie' | 'tv';
 }
+
+export interface PersonDetail {
+    adult: boolean;
+    alsoKnownAs: string[];
+    biography: string;
+    birthday: string | null;        // YYYY-MM-DD
+    deathday: string | null;
+    gender: number;                 // 1 = female, 2 = male
+    homepage: string | null;
+    id: number;
+    imdbId: string;
+    knownForDepartment: string;
+    name: string;
+    placeOfBirth: string;
+    popularity: number;
+    profilePath: string | null;
+}
