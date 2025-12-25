@@ -92,6 +92,7 @@ jobs:
       # --- Build APK RELEASE (unsigned) ---
       - name: Build APK release
         run: |
+          chmod +x android/gradlew
           cd android
           ./gradlew assembleRelease \
             -PversionName=${{ env.VERSION_NAME }} \
