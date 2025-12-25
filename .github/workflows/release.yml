@@ -102,13 +102,9 @@ jobs:
         run: |
           chmod +x android/gradlew
           cd android
-          ./gradlew assembleRelease \
+          ./gradlew assembleDebug \
             -PversionName=${{ env.VERSION_NAME }} \
-            -PversionCode=${{ env.VERSION_CODE }}  \
-            -Pandroid.injected.signing.store.file=dev-keystore.jks \
-            -Pandroid.injected.signing.store.password=${{ secrets.ANDROID_KEYSTORE_PASSWORD }} \
-            -Pandroid.injected.signing.key.alias=${{ secrets.ANDROID_KEY_ALIAS }} \
-            -Pandroid.injected.signing.key.password=${{ secrets.ANDROID_KEY_PASSWORD }}
+            -PversionCode=${{ env.VERSION_CODE }}
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
