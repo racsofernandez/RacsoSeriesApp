@@ -93,6 +93,10 @@ jobs:
       - name: Decode keystore
         run: echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/dev-keystore.jks
 
+      # --- Verify keystore location ---
+      - name: Verify keystore location
+        run: ls -l android/app/dev-keystore.jks
+
       # --- Build APK RELEASE ---
       - name: Build APK release
         run: |
@@ -101,7 +105,7 @@ jobs:
           ./gradlew assembleRelease \
             -PversionName=${{ env.VERSION_NAME }} \
             -PversionCode=${{ env.VERSION_CODE }}  \
-            -Pandroid.injected.signing.store.file=dev-keystore.jks \
+            -Pandroid.injected.signing.store.file=app/dev-keystore.jks \
             -Pandroid.injected.signing.store.password=${{ secrets.ANDROID_KEYSTORE_PASSWORD }} \
             -Pandroid.injected.signing.key.alias=${{ secrets.ANDROID_KEY_ALIAS }} \
             -Pandroid.injected.signing.key.password=${{ secrets.ANDROID_KEY_PASSWORD }}
