@@ -23,3 +23,21 @@ Y luego abrir el entorno de desarrollo IDE de Android Studio con la siguiente in
 
 ```npx cap open android```
 
+# Certificado
+
+Generar el certificado con el siguiente comando:
+
+```shell
+keytool -genkeypair `
+  -keystore dev-keystore.jks `
+  -alias seriesapp-dev `
+  -keyalg RSA `
+  -keysize 2048 `
+  -validity 10000
+```
+
+Después pasar el jks a base64 y subirlo a los secretos de GitHub:
+
+```shell
+[Convert]::ToBase64String([IO.File]::ReadAllBytes("dev-keystore.jks")) | Out-File dev-keystore.txt
+```

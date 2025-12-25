@@ -85,18 +85,26 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      # -- Sincronizar Capacitor ---
+      # --- Sincronizar Capacitor ---
       - name: Capacitor sync (Android)
         run: npx cap sync android
 
-      # --- Build APK RELEASE (unsigned) ---
+      # --- Decode keystore ---
+      - name: Decode keystore
+        run: echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/dev-keystore.jks
+
+      # --- Build APK RELEASE ---
       - name: Build APK release
         run: |
           chmod +x android/gradlew
           cd android
           ./gradlew assembleRelease \
             -PversionName=${{ env.VERSION_NAME }} \
-            -PversionCode=${{ env.VERSION_CODE }}
+            -PversionCode=${{ env.VERSION_CODE }}  \
+            -Pandroid.injected.signing.store.file=dev-keystore.jks \
+            -Pandroid.injected.signing.store.password=${{ secrets.ANDROID_KEYSTORE_PASSWORD }} \
+            -Pandroid.injected.signing.key.alias=${{ secrets.ANDROID_KEY_ALIAS }} \
+            -Pandroid.injected.signing.key.password=${{ secrets.ANDROID_KEY_PASSWORD }}
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
@@ -107,10 +115,9 @@ jobs:
             ## Changelog
 
             ${{ env.CHANGELOG }}
-            VersionName: ${{ env.VERSION_NAME }}
-            VersionCode: ${{ env.VERSION_CODE }}
 
-            ⚠️ APK release unsigned (no Play Store)
+            Version Name: ${{ env.VERSION_NAME }}
+            Version Code: ${{ env.VERSION_CODE }}
           files: |
             app-dist.zip
             android/app/build/outputs/apk/release/app-release-unsigned.apk
