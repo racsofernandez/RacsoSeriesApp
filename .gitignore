@@ -71,3 +71,4 @@ Thumbs.db
 .env-prod
 dev-keystore.jks
 dev-keystore.txt
+/android
