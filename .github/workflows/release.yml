@@ -85,9 +85,9 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      # --- Sincronizar Capacitor ---
-      - name: Capacitor sync (Android)
-        run: npx cap sync android
+      # --- Add Capacitor ---
+      - name: Capacitor add (Android)
+        run: npx cap add android
 
       # --- Build APK RELEASE ---
       - name: Build APK release
