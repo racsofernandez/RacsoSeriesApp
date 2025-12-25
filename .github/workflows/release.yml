@@ -89,17 +89,6 @@ jobs:
       - name: Capacitor sync (Android)
         run: npx cap sync android
 
-      # --- Decode keystore ---
-      - name: Decode keystore
-        run: |
-          mkdir -p android/app
-          # Nota: el secreto debe estar limpio, sin comillas ni saltos extras
-          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | tr -d '\n' | base64 -d > android/app/dev-keystore.jks
-
-      # --- Verify keystore location ---
-      - name: Verify keystore location
-        run: ls -l android/app/dev-keystore.jks
-
       # --- Build APK RELEASE ---
       - name: Build APK release
         run: |
