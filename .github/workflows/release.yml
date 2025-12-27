@@ -113,14 +113,14 @@ jobs:
       # --- Add Capacitor ---
       - name: Add deep link to AndroidManifest.xml
         run: |
-          MANIFEST=android/app/src/main/AndroidManifest.xml
-          sed -i '/<activity[^>]*android:name="\.MainActivity"[^>]*>/a \
-              <intent-filter>\
-                  <action android:name="android.intent.action.VIEW" />\
-                  <category android:name="android.intent.category.DEFAULT" />\
-                  <category android:name="android.intent.category.BROWSABLE" />\
-                  <data android:scheme="es.meco.seriesapp" android:host="firebaseauth" />\
-              </intent-filter>' "$MANIFEST"
+          MANIFEST=android/app/src/main/AndroidManifest.xml          
+          sed -i '/android:name="\.MainActivity"/a\
+                      <intent-filter>\
+                          <action android:name="android.intent.action.VIEW" />\
+                          <category android:name="android.intent.category.DEFAULT" />\
+                          <category android:name="android.intent.category.BROWSABLE" />\
+                          <data android:scheme="es.meco.seriesapp" android:host="firebaseauth" />\
+                      </intent-filter>' "$MANIFEST"
           cat android/app/src/main/AndroidManifest.xml
 
       # --- Build APK RELEASE ---
