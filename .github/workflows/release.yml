@@ -110,6 +110,18 @@ jobs:
       - name: Capacitor add (Android)
         run: npx cap add android
 
+      # --- Add Capacitor ---
+      - name: Add deep link to AndroidManifest.xml
+        run: |
+          MANIFEST=android/app/src/main/AndroidManifest.xml
+          sed -i '/<activity.*MainActivity>/a \
+              <intent-filter>\
+                  <action android:name="android.intent.action.VIEW" />\
+                  <category android:name="android.intent.category.DEFAULT" />\
+                  <category android:name="android.intent.category.BROWSABLE" />\
+                  <data android:scheme="es.meco.seriesapp" android:host="firebaseauth" />\
+              </intent-filter>' $MANIFEST
+
       # --- Build APK RELEASE ---
       - name: Build APK release
         run: |
