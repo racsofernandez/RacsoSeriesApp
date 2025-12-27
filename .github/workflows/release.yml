@@ -114,7 +114,7 @@ jobs:
       - name: Add deep link to AndroidManifest.xml
         run: |
           MANIFEST=android/app/src/main/AndroidManifest.xml          
-          sed -i '/android:name="\.MainActivity"/a\
+          sed -i '/<\/activity>/i\
                       <intent-filter>\
                           <action android:name="android.intent.action.VIEW" />\
                           <category android:name="android.intent.category.DEFAULT" />\
