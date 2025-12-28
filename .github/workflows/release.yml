@@ -126,7 +126,9 @@ jobs:
       # --- Generate google-services.json ---
       - name: Generate google-services.json
         run: |
-          echo "${{ secrets.GOOGLE_SERVICES_JSON }}" > android/app/google-services.json
+          cat <<'EOF' > android/app/google-services.json
+          ${{ secrets.GOOGLE_SERVICES_JSON }}
+          EOF
           echo "Verify google-services.json file generated"
           ls -l android/app/google-services.json
 
