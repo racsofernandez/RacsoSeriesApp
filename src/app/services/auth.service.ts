@@ -12,6 +12,8 @@ import {
 } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import {getApps} from "@angular/fire/app";
+import {FirebaseAuthentication} from "@capacitor-firebase/authentication";
+import {Capacitor} from "@capacitor/core";
 
 @Injectable({
     providedIn: 'root'
@@ -44,8 +46,15 @@ export class AuthService {
     }
 
     async loginGoogle() {
-        const provider = new GoogleAuthProvider();
-        return signInWithPopup(this.auth, provider);
+        if (Capacitor.isNativePlatform()) {
+            // ✅ ANDROID / IOS
+            return await FirebaseAuthentication.signInWithGoogle();
+        }
+        else {
+            // ✅ WEB
+            const provider = new GoogleAuthProvider();
+            return signInWithPopup(this.auth, provider);
+        }
     }
 
     async logout() {

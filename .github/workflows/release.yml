@@ -119,9 +119,16 @@ jobs:
                           <action android:name="android.intent.action.VIEW" />\
                           <category android:name="android.intent.category.DEFAULT" />\
                           <category android:name="android.intent.category.BROWSABLE" />\
-                          <data android:scheme="es.meco.seriesapp" android:host="firebaseauth" />\
+                          <data android:scheme="es.meco.seriesApp" android:host="firebaseauth" />\
                       </intent-filter>' "$MANIFEST"
           cat android/app/src/main/AndroidManifest.xml
+
+      # --- Generate google-services.json ---
+      - name: Generate google-services.json
+        run: |
+          echo "${{ secrets.GOOGLE_SERVICES_JSON }}" > android/app/google-services.json
+          echo "Verify google-services.json file generated"
+          ls -l android/app/google-services.json
 
       # --- Build APK RELEASE ---
       - name: Build APK release
