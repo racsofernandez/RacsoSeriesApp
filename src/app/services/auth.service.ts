@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import {getApps} from "@angular/fire/app";
 import {FirebaseAuthentication} from "@capacitor-firebase/authentication";
 import {Capacitor} from "@capacitor/core";
+import {Platform} from "@ionic/angular";
 
 @Injectable({
     providedIn: 'root'
@@ -22,7 +23,7 @@ export class AuthService {
 
     usuario: User | null = null;
 
-    constructor(private auth: Auth, private router: Router) {
+    constructor(private platform: Platform, private auth: Auth, private router: Router) {
         onAuthStateChanged(this.auth, (user) => {
             this.usuario = user;
             console.log('Firebase apps:', getApps());
@@ -46,6 +47,8 @@ export class AuthService {
     }
 
     async loginGoogle() {
+        await this.platform.ready(); // 🔴 CLAVE
+
         if (Capacitor.isNativePlatform()) {
             // ✅ ANDROID / IOS
             return await FirebaseAuthentication.signInWithGoogle();
