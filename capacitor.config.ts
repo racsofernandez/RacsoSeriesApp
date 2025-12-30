@@ -8,16 +8,10 @@ const config: CapacitorConfig = {
     androidScheme: 'https'
   },
   plugins: {
-    SplashScreen: {
-      launchShowDuration: 0
-    },
-
     FirebaseAuthentication: {
       skipNativeAuth: false,
-      providers: [
-        'google.com'
-      ]
-    }
+      providers: ['google.com'],
+    },
   },
   cordova: {}
 };
