@@ -51,7 +51,9 @@ export class AuthService {
 
         if (Capacitor.isNativePlatform()) {
             // ✅ ANDROID / IOS
-            return await FirebaseAuthentication.signInWithGoogle();
+            return await FirebaseAuthentication.signInWithGoogle({
+   scopes: ['email', 'profile'],
+         });
         }
         else {
             // ✅ WEB
