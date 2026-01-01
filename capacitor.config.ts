@@ -13,7 +13,6 @@ const config: CapacitorConfig = {
       providers: ['google.com'],
     },
   },
-  cordova: {}
 };
 
 export default config;

@@ -23,6 +23,12 @@ A continuación añadir la aplicación android, ejecutar lo siguiente:
 npx cap add android
 ```
 
+Y luego sincronizar
+
+```shell
+npx cap sync
+```
+
 Hay que revisar la configuración en el fichero `capacitor.config.ts`.
 
 Y luego abrir el entorno de desarrollo IDE de Android Studio con la siguiente instrucción:

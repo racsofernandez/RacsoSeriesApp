@@ -110,6 +110,23 @@ jobs:
       - name: Capacitor add (Android)
         run: npx cap add android
 
+      # --- Modify variables.gradle ---
+      - name: Modify android/variables.gradle for Firebase
+        run: |
+          echo "Modifying android/variables.gradle to set minSdkVersion to 23"
+          sed -i "s/minSdkVersion = [0-9]*/minSdkVersion = 23/" android/variables.gradle
+          echo "✅ File content after modification:"
+          cat android/variables.gradle
+
+      # --- Add Firebase dependencies ---
+      - name: Add Firebase dependencies to android/app/build.gradle
+        run: |
+          echo "Adding Firebase dependencies to android/app/build.gradle"
+          # Añadimos las dependencias al final del bloque 'dependencies'
+          sed -i "/dependencies {/a \    implementation platform('com.google.firebase:firebase-bom:33.1.2')\n    implementation 'com.google.firebase:firebase-auth'\n    implementation 'com.google.android.gms:play-services-auth'\n    implementation project(':capacitor-firebase-authentication')" android/app/build.gradle
+          echo "✅ File content after modification:"
+          cat android/app/build.gradle
+
       # --- Add Capacitor ---
       - name: Add deep link to AndroidManifest.xml
         run: |
