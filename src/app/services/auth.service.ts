@@ -31,6 +31,15 @@ export class AuthService {
                 this.router.navigate(['/login']);
             }
         });
+
+        FirebaseAuthentication.addListener('authStateChange', event => {
+            console.log('AUTH STATE:', event.user);
+
+            if (event.user) {
+                // navegar
+                this.router.navigate(['/tabs/home']);
+            }
+        });
     }
 
     async loginEmail(email: string, password: string) {
