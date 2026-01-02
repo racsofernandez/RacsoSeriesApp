@@ -36,10 +36,8 @@ export class AuthService {
         FirebaseAuthentication.addListener('idTokenChange', async ({ token }) => {
                 console.log('🔥 ID TOKEN CHANGE:', token);
 
-            const { user } = await FirebaseAuthentication.getCurrentUser();
-
             this.ngZone.run(() => {
-                if (user) {
+                if (token) {
                     this.router.navigate(['/tabs/home']);
                 } else {
                     this.router.navigate(['/login']);
