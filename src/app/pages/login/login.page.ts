@@ -62,7 +62,7 @@ class LoginPage {
     async loginGoogle() {
         try {
             await this.authService.loginGoogle();
-            await this.router.navigate(['/tabs/home']);
+            // await this.router.navigate(['/tabs/home']);
         } catch (error) {
             this.presentToast(`Error de login. ${this.getErrorMessage(error)}`);
         }
