@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import {ConfigService} from "../../services/config.service";
 import {ToastController} from "@ionic/angular";
 import {SplashService} from "../../shared/splash.service";
+import {Capacitor} from "@capacitor/core";
 
 @Component({
     selector: 'app-login',
@@ -62,7 +63,9 @@ class LoginPage {
     async loginGoogle() {
         try {
             await this.authService.loginGoogle();
-            // await this.router.navigate(['/tabs/home']);
+            if (!Capacitor.isNativePlatform()) {
+                await this.router.navigate(['/tabs/home']);
+            }
         } catch (error) {
             this.presentToast(`Error de login. ${this.getErrorMessage(error)}`);
         }

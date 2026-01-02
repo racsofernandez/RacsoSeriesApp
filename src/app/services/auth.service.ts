@@ -23,8 +23,7 @@ export class AuthService {
 
     usuario: User | null = null;
 
-    constructor(private platform: Platform, private auth: Auth, private router: Router,
-                private ngZone: NgZone) {
+    constructor(private platform: Platform, private auth: Auth, private router: Router) {
         onAuthStateChanged(this.auth, (user) => {
             this.usuario = user;
             console.log('Firebase apps:', getApps());
@@ -32,19 +31,6 @@ export class AuthService {
                 this.router.navigate(['/login']);
             }
         });
-
-        FirebaseAuthentication.addListener('idTokenChange', async ({ token }) => {
-                console.log('🔥 ID TOKEN CHANGE:', token);
-
-            this.ngZone.run(() => {
-                if (token) {
-                    this.router.navigate(['/tabs/home']);
-                } else {
-                    this.router.navigate(['/login']);
-                }
-            });
-        });
-
 
     }
 
@@ -67,8 +53,8 @@ export class AuthService {
         if (Capacitor.isNativePlatform()) {
             // ✅ ANDROID / IOS
             return await FirebaseAuthentication.signInWithGoogle({
-   scopes: ['email', 'profile'],
-         });
+                scopes: ['email', 'profile'],
+            });
         }
         else {
             // ✅ WEB
