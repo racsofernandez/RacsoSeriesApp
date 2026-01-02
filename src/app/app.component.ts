@@ -38,9 +38,12 @@ export class AppComponent implements OnInit, OnDestroy {
                 console.log('🔥 ID TOKEN CHANGE (ROOT):', token);
 
                 this.ngZone.run(() => {
+                    console.log('Inside ngZone');
                     if (token) {
+                        console.log('Token is not null');
                         this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
                     } else {
+                        console.log('Token has not been initialized');
                         this.router.navigateByUrl('/login', { replaceUrl: true });
                     }
                 });
