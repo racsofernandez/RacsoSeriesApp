@@ -42,7 +42,7 @@ export class AppComponent implements OnInit, OnDestroy {
                     console.log('Inside ngZone');
                     if (token) {
                         console.log('Token is not null');
-                        this.navCtrl.navigateRoot('/tabs/home');
+                        this.navCtrl.navigateRoot('/tabs');
                     } else {
                         console.log('Token has not been initialized');
                         this.navCtrl.navigateRoot('/login');
