@@ -26,6 +26,9 @@ jobs:
       GCP_REGION: ${{ vars.GCP_REGION }}
       GCP_ARTIFACT_REPOSITORY: ${{ vars.GCP_ARTIFACT_REPOSITORY }}
       GCP_PROJECT: ${{ vars.GCP_PROJECT }}
+      ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+      ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+      ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
 
     steps:
       - name: Checkout code
@@ -127,6 +130,35 @@ jobs:
           echo "✅ File content after modification:"
           cat android/app/build.gradle
 
+      # --- Configure Android signing (release) ---
+      - name: Configure Android signing in build.gradle
+        run: |
+          FILE=android/app/build.gradle
+          
+          echo "🔧 Configuring signingConfigs in $FILE"
+          
+          # Añadir signingConfigs dentro de android {}
+          sed -i '/android {/a\
+              signingConfigs {\
+                  release {\
+                      storeFile file("seriesapp.keystore")\
+                      storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")\
+                      keyAlias System.getenv("ANDROID_KEY_ALIAS")\
+                      keyPassword System.getenv("ANDROID_KEY_PASSWORD")\
+                  }\
+              }\
+          ' $FILE
+          
+          # Añadir buildTypes.release si no existe
+          sed -i '/buildTypes {/a\
+                  release {\
+                      signingConfig signingConfigs.release\
+                  }\
+          ' $FILE
+          
+          echo "✅ build.gradle after signing config:"
+          cat $FILE
+
       # --- Add Capacitor ---
       - name: Add deep link to AndroidManifest.xml
         run: |
@@ -148,6 +180,11 @@ jobs:
           EOF
           echo "Verify google-services.json file generated"
           ls -l android/app/google-services.json
+
+      # --- Decode keystore ---
+      - name: Decode keystore
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/seriesapp.keystore
 
       # --- Build APK RELEASE ---
       - name: Build APK release

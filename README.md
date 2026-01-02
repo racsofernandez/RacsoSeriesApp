@@ -55,3 +55,24 @@ Después pasar el jks a base64 y subirlo a los secretos de GitHub:
 ```shell
 [Convert]::ToBase64String([IO.File]::ReadAllBytes("dev-keystore.jks")) | Out-File dev-keystore.txt
 ```
+
+## Para autenticación en google
+
+Generar certificado:
+
+```shell
+keytool -genkeypair -v \ 
+    -alias seriesapp \
+    -keyalg RSA \ 
+    -keysize 2048 \
+    -validity 10000 \ 
+    -keystore seriesapp.keystore \ 
+    -dname "CN=SeriesApp, OU=Development, O=SeriesApp Corp, L=City Name, ST=State Name, C=ES"
+```
+
+Después obtener su SHA-1
+
+```shell
+keytool -list -v -keystore seriesapp.keystore
+```
+
