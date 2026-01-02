@@ -1,4 +1,4 @@
-import {inject, Injectable} from '@angular/core';
+import {inject, Injectable, NgZone} from '@angular/core';
 import {
     Auth,
     signInWithEmailAndPassword,
@@ -23,7 +23,8 @@ export class AuthService {
 
     usuario: User | null = null;
 
-    constructor(private platform: Platform, private auth: Auth, private router: Router) {
+    constructor(private platform: Platform, private auth: Auth, private router: Router,
+                private ngZone: NgZone) {
         onAuthStateChanged(this.auth, (user) => {
             this.usuario = user;
             console.log('Firebase apps:', getApps());
@@ -32,14 +33,21 @@ export class AuthService {
             }
         });
 
-        FirebaseAuthentication.addListener('authStateChange', event => {
-            console.log('AUTH STATE:', event.user);
+        FirebaseAuthentication.addListener('idTokenChange', async ({ token }) => {
+                console.log('🔥 ID TOKEN CHANGE:', token);
 
-            if (event.user) {
-                // navegar
-                this.router.navigate(['/tabs/home']);
-            }
+            const { user } = await FirebaseAuthentication.getCurrentUser();
+
+            this.ngZone.run(() => {
+                if (user) {
+                    this.router.navigate(['/tabs/home']);
+                } else {
+                    this.router.navigate(['/login']);
+                }
+            });
         });
+
+
     }
 
     async loginEmail(email: string, password: string) {
