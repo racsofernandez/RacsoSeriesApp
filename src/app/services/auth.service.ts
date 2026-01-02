@@ -23,13 +23,20 @@ export class AuthService {
 
     usuario: User | null = null;
 
-    constructor(private platform: Platform, private auth: Auth, private router: Router) {
-        onAuthStateChanged(this.auth, (user) => {
-            this.usuario = user;
-            console.log('Firebase apps:', getApps());
-            if (!user) {
-                this.router.navigate(['/login']);
+    constructor(private platform: Platform, private auth: Auth, private router: Router,
+                private ngZone: NgZone) {
+        this.platform.ready().then(() => {
+
+            if (!Capacitor.isNativePlatform()) {
+                // 🌐 WEB
+                onAuthStateChanged(this.auth, (user) => {
+                    this.usuario = user;
+                    this.ngZone.run(() => {
+                        if (!user) this.router.navigate(['/login']);
+                    });
+                });
             }
+
         });
 
     }

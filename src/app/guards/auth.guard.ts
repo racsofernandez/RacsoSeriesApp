@@ -1,21 +1,29 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { Auth } from '@angular/fire/auth';
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+import { Capacitor } from '@capacitor/core';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
 
-    constructor(private auth: Auth, private router: Router) {}
+    constructor(private router: Router) {}
 
     async canActivate(): Promise<boolean> {
-        const user = this.auth.currentUser;
-        if (user) {
-            return true;
+
+        if (!Capacitor.isNativePlatform()) {
+            // 🌐 WEB → AngularFire
+            const { getAuth } = await import('firebase/auth');
+            const auth = getAuth();
+            if (auth.currentUser) return true;
         } else {
-            await this.router.navigate(['/login']);
-            return false;
+            // 📱 MOBILE → Capacitor plugin
+            const { user } = await FirebaseAuthentication.getCurrentUser();
+            if (user) return true;
         }
+
+        await this.router.navigate(['/login']);
+        return false;
     }
 }
