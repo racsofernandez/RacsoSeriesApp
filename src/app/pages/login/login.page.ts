@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import {ConfigService} from "../../services/config.service";
 import {ToastController} from "@ionic/angular";
 import {SplashService} from "../../shared/splash.service";
+import {FirebaseAuthentication} from "@capacitor-firebase/authentication";
 
 @Component({
     selector: 'app-login',
@@ -22,6 +23,16 @@ class LoginPage {
                 private splash: SplashService) {
         console.log(config.config);
         this.appVersion = config.config.version;
+
+        FirebaseAuthentication.addListener('authStateChange', event => {
+            console.log('AUTH STATE:', event.user);
+
+            if (event.user) {
+                // navegar
+                this.router.navigate(['/tabs/home']);
+            }
+        });
+
     }
 
     async presentToast(message: string) {
