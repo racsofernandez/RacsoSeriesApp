@@ -5,6 +5,7 @@ import { SplashService } from './shared/splash.service';
 import {FirebaseAuthentication} from "@capacitor-firebase/authentication";
 import {Router} from "@angular/router";
 import {Capacitor, PluginListenerHandle} from "@capacitor/core";
+import {NavController} from "@ionic/angular";
 
 
 register();
@@ -19,7 +20,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private authListener?: PluginListenerHandle;
 
     constructor(private storage: Storage, public splash: SplashService, private router: Router,
-                private ngZone: NgZone) {
+                private ngZone: NgZone, private navCtrl: NavController) {
         this.initAuthListener();
     }
 
@@ -41,10 +42,10 @@ export class AppComponent implements OnInit, OnDestroy {
                     console.log('Inside ngZone');
                     if (token) {
                         console.log('Token is not null');
-                        this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
+                        this.navCtrl.navigateRoot('/tabs/home');
                     } else {
                         console.log('Token has not been initialized');
-                        this.router.navigateByUrl('/login', { replaceUrl: true });
+                        this.navCtrl.navigateRoot('/login');
                     }
                 });
             }
