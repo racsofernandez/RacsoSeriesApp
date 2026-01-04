@@ -15,7 +15,7 @@ import {getApps} from "@angular/fire/app";
 import {FirebaseAuthentication} from "@capacitor-firebase/authentication";
 import {Capacitor} from "@capacitor/core";
 import {Platform} from "@ionic/angular";
-import {Observable} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -26,21 +26,36 @@ export class AuthService {
     // token: string | null = null;
 
     /** 🔥 ÚNICA fuente de verdad */
-    user$: Observable<User | null> = authState(this.auth);
+    // user$: Observable<User | null> = authState(this.auth);
+
+    private userSubject = new BehaviorSubject<User | null>(null);
+    user$ = this.userSubject.asObservable();
 
     constructor(private platform: Platform, private auth: Auth, private router: Router,
                 private ngZone: NgZone) {
-        this.platform.ready().then(() => {
+        // this.platform.ready().then(() => {
+        //
+        //     if (!Capacitor.isNativePlatform()) {
+        //         // 🌐 WEB
+        //         onAuthStateChanged(this.auth, (user) => {
+        //             this.ngZone.run(() => {
+        //                 if (!user) this.router.navigate(['/login']);
+        //             });
+        //         });
+        //     }
+        //
+        // });
 
-            if (!Capacitor.isNativePlatform()) {
-                // 🌐 WEB
-                onAuthStateChanged(this.auth, (user) => {
-                    this.ngZone.run(() => {
-                        if (!user) this.router.navigate(['/login']);
-                    });
-                });
-            }
+        onAuthStateChanged(this.auth, user => {
+            this.ngZone.run(() => {
+                this.userSubject.next(user);
 
+                if (user) {
+                    this.router.navigateByUrl('/tabs', { replaceUrl: true });
+                } else {
+                    this.router.navigateByUrl('/login', { replaceUrl: true });
+                }
+            });
         });
 
     }
