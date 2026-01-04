@@ -8,20 +8,25 @@ import {
     GoogleAuthProvider,
     signInWithPopup,
     User,
-    sendPasswordResetEmail, sendEmailVerification
+    sendPasswordResetEmail, sendEmailVerification, signInWithCredential, authState
 } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import {getApps} from "@angular/fire/app";
 import {FirebaseAuthentication} from "@capacitor-firebase/authentication";
 import {Capacitor} from "@capacitor/core";
 import {Platform} from "@ionic/angular";
+import {Observable} from "rxjs";
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
 
-    usuario: User | null = null;
+    // usuario: User | null = null;
+    // token: string | null = null;
+
+    /** 🔥 ÚNICA fuente de verdad */
+    user$: Observable<User | null> = authState(this.auth);
 
     constructor(private platform: Platform, private auth: Auth, private router: Router,
                 private ngZone: NgZone) {
@@ -30,7 +35,6 @@ export class AuthService {
             if (!Capacitor.isNativePlatform()) {
                 // 🌐 WEB
                 onAuthStateChanged(this.auth, (user) => {
-                    this.usuario = user;
                     this.ngZone.run(() => {
                         if (!user) this.router.navigate(['/login']);
                     });
@@ -59,9 +63,20 @@ export class AuthService {
 
         if (Capacitor.isNativePlatform()) {
             // ✅ ANDROID / IOS
-            return await FirebaseAuthentication.signInWithGoogle({
+            // 1️⃣ Login nativo
+            const result = await FirebaseAuthentication.signInWithGoogle({
                 scopes: ['email', 'profile'],
             });
+
+            // 2️⃣ Token Firebase
+            if (!result.credential?.idToken) {
+                throw new Error('No Google ID token received');
+            }
+
+            const credential = GoogleAuthProvider.credential(result.credential.idToken);
+
+            // 4️⃣ Sincronizar AngularFire
+            return await signInWithCredential(this.auth, credential);
         }
         else {
             // ✅ WEB
@@ -71,6 +86,9 @@ export class AuthService {
     }
 
     async logout() {
+        if (Capacitor.isNativePlatform()) {
+            await FirebaseAuthentication.signOut();
+        }
         await signOut(this.auth);
         this.router.navigate(['/login']);
     }
@@ -94,18 +112,11 @@ export class AuthService {
     }
 
     getUsuario() {
-        return this.usuario;
-    }
-
-    getCurrentUser(): User | null {
         return this.auth.currentUser;
     }
 
     async getIdToken(): Promise<string | null> {
-        const user = this.auth.currentUser;
-        if (!user) return null;
-
-        return await user.getIdToken(); // 🔑 TOKEN REAL
+        return this.auth.currentUser?.getIdToken() ?? null;
     }
 
 }

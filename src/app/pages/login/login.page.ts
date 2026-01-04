@@ -38,10 +38,10 @@ class LoginPage {
         try {
             const { user } = await this.authService.loginEmail(this.email, this.password);
 
-            if (!user.emailVerified) {
-                this.presentToast("Debes verificar tu correo antes de continuar.");
-                return;
-            }
+            // if (!user.emailVerified) {
+            //     this.presentToast("Debes verificar tu correo antes de continuar.");
+            //     return;
+            // }
 
             this.splash.show();
             this.router.navigateByUrl('/tabs/home', { replaceUrl: true });

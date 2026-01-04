@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import {ConfigService} from "../../services/config.service";
 import {Router} from "@angular/router";
+import {User} from "@angular/fire/auth";
+import {Observable} from "rxjs";
 
 @Component({
     selector: 'app-profile',
@@ -9,10 +11,11 @@ import {Router} from "@angular/router";
     styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage {
-    user = this.authService.getUsuario();
+    user$: Observable<User | null>;
     appVersion = '';
 
     constructor(private authService: AuthService, private config: ConfigService, private router: Router) {
+        this.user$ = this.authService.user$;
         this.appVersion = config.config.version;
     }
 

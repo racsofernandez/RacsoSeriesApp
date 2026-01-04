@@ -4,7 +4,7 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding" *ngIf="user">
+<ion-content class="ion-padding" *ngIf="user$ | async as user">
     <ion-card>
         <ion-card-header>
             <ion-avatar>
