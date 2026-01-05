@@ -209,6 +209,6 @@ jobs:
             Version Code: ${{ env.VERSION_CODE }}
           files: |
             app-dist.zip
-            android/app/build/outputs/apk/debug/app-release.apk
+            android/app/build/outputs/apk/release/app-release.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
