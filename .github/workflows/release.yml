@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     # 👇 Asociamos el entorno GitHub según la rama
-    environment: 'prod'
+    environment: ${{ github.ref_name == 'master' && 'prod' || 'dev' }}
 
     env:
       NG_APP_BACKEND_URL: ${{ vars.BACKEND_URL }}
@@ -27,7 +27,7 @@ jobs:
       GCP_ARTIFACT_REPOSITORY: ${{ vars.GCP_ARTIFACT_REPOSITORY }}
       GCP_PROJECT: ${{ vars.GCP_PROJECT }}
       ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-      ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+      ANDROID_KEY_ALIAS: ${{ vars.ANDROID_KEY_ALIAS }}
       ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
 
     steps:
@@ -35,6 +35,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0  # 👈 Clona todo el historial (necesario para GitVersion)
+
+      - name: Determine build type
+        run: |
+          if [ "${{ github.ref_name }}" = "master" ]; then
+            echo "BUILD_TYPE=release" >> $GITHUB_ENV
+          else
+            echo "BUILD_TYPE=debug" >> $GITHUB_ENV
+          fi
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -187,13 +195,21 @@ jobs:
           echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/seriesapp.keystore
 
       # --- Build APK RELEASE ---
-      - name: Build APK release
+      - name: Build APK
         run: |
           chmod +x android/gradlew
           cd android
-          ./gradlew assembleRelease \
-            -PversionName=${{ env.VERSION_NAME }} \
-            -PversionCode=${{ env.VERSION_CODE }}
+          
+          if [ "${BUILD_TYPE}" = "release" ]; then
+            ./gradlew assembleRelease \
+              -PversionName=${{ env.VERSION_NAME }} \
+              -PversionCode=${{ env.VERSION_CODE }}
+          else
+            ./gradlew assembleDebug \
+              -PversionName=${{ env.VERSION_NAME }} \
+              -PversionCode=${{ env.VERSION_CODE }}
+          fi
+
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
@@ -209,6 +225,6 @@ jobs:
             Version Code: ${{ env.VERSION_CODE }}
           files: |
             app-dist.zip
-            android/app/build/outputs/apk/release/app-release.apk
+            android/app/build/outputs/apk/${{ env.BUILD_TYPE }}/app-${{ env.BUILD_TYPE }}.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
