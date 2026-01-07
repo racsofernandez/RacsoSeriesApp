@@ -140,6 +140,7 @@ jobs:
 
       # --- Configure Android signing (release) ---
       - name: Configure Android signing in build.gradle
+        if: github.ref_name == 'master'
         run: |
           FILE=android/app/build.gradle
           
@@ -210,6 +211,18 @@ jobs:
               -PversionCode=${{ env.VERSION_CODE }}
           fi
 
+      # --- Verify debug APK certificate ---
+      - name: Verify debug APK/Keystore certificate
+        if: env.BUILD_TYPE == 'debug'
+        run: |
+          echo 'SHA-1 of app-debug.apk'
+          keytool -printcert -jarfile android/app/build/outputs/apk/debug/app-debug.apk
+          echo 'SHA-1 of debug.keystore'
+          keytool -list -v \
+            -keystore ~/.android/debug.keystore \
+            -alias androiddebugkey \
+            -storepass android \
+            -keypass android
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
