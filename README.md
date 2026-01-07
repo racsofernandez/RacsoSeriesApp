@@ -70,9 +70,25 @@ keytool -genkeypair -v \
     -dname "CN=SeriesApp, OU=Development, O=SeriesApp Corp, L=City Name, ST=State Name, C=ES"
 ```
 
+O para dev:
+```shell
+keytool -genkeypair -v \
+    -alias seriesapp-dev \
+     -keyalg RSA \
+     -keysize 2048 \
+     -validity 10000 \
+     -keystore seriesapp-dev.keystore \
+     -dname "CN=SeriesApp-Dev, OU=Development, O=SeriesApp Corp, L=City Name, ST=State Name, C=ES"
+```
+
 Después obtener su SHA-1
 
 ```shell
 keytool -list -v -keystore seriesapp.keystore
 ```
 
+U obtener el SHA-1 directamente desde el APK generado.
+
+```shell
+keytool -printcert -jarfile app-debug.apk
+```
