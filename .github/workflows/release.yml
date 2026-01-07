@@ -137,7 +137,7 @@ jobs:
 
       # --- Configure Android signing (release) ---
       - name: Configure Android signing in build.gradle
-        if: env.BUILD_TYPE == 'prod'
+        if: env.BUILD_TYPE == 'release'
         env:
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ vars.ANDROID_KEY_ALIAS }}
@@ -193,7 +193,7 @@ jobs:
 
       # --- Decode keystore ---
       - name: Decode keystore
-        if: env.BUILD_TYPE == 'prod'
+        if: env.BUILD_TYPE == 'release'
         run: |
           echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/seriesapp.keystore
 
