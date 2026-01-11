@@ -6,6 +6,7 @@ import {SeriesDbService} from "../../services/series-db.service";
 import {Auth} from "@angular/fire/auth";
 import {ActorModalComponent} from "../actor-modal/actor-modal.component";
 import {Subscription} from "rxjs";
+import { SeasonsModalComponent } from '../seasons-modal/seasons-modal.component';
 
 @Component({
   selector: 'app-detalle',
@@ -85,6 +86,22 @@ export class DetalleComponent  implements OnInit {
             component: ActorModalComponent,
             componentProps: {
                 persona
+            }
+        });
+
+        await modal.present();
+    }
+
+    async verTemporadas() {
+        if (!this.pelicula.seasons) {
+            return;
+        }
+
+        const modal = await this.modalCtrl.create({
+            component: SeasonsModalComponent,
+            componentProps: {
+                seasons: this.pelicula.seasons,
+                seriesTitle: this.pelicula.name || this.pelicula.title
             }
         });
 

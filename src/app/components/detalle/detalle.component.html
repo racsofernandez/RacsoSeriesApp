@@ -107,13 +107,14 @@
     </ion-grid>
 
     <ion-grid>
-        <ion-card class="info-card">
+        <ion-card class="info-card" (click)="verTemporadas()">
             <ion-item lines="none">
                 <ion-icon name="tv-outline" slot="start"></ion-icon>
                 <ion-label>
                     <h2>Temporadas</h2>
                     <p>{{ pelicula.number_of_seasons }} temporadas · {{ pelicula.number_of_episodes }} episodios</p>
                 </ion-label>
+                <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
             </ion-item>
         </ion-card>
     </ion-grid>

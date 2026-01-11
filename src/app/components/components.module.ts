@@ -9,6 +9,7 @@ import { DetalleComponent } from './detalle/detalle.component';
 import { SlideshowPosterFavComponent } from './slideshow-poster-fav/slideshow-poster-fav.component';
 import {ActorModalComponent} from "./actor-modal/actor-modal.component";
 import {ActorFilmografiaComponent} from "./actor-filmografia/actor-filmografia.component";
+import { SeasonsModalComponent } from './seasons-modal/seasons-modal.component';
 
 
 
@@ -21,7 +22,8 @@ import {ActorFilmografiaComponent} from "./actor-filmografia/actor-filmografia.c
     SlideshowPosterFavComponent,
     DetalleComponent,
     ActorModalComponent,
-    ActorFilmografiaComponent
+    ActorFilmografiaComponent,
+    SeasonsModalComponent
   ],
   exports: [
     SlideshowBackdropComponent,
@@ -29,6 +31,7 @@ import {ActorFilmografiaComponent} from "./actor-filmografia/actor-filmografia.c
     SlideshowParesComponent,
     SlideshowPosterFavComponent,
     ActorModalComponent,
+    SeasonsModalComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,63 @@
+.season-card {
+  margin-bottom: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.season-poster {
+  width: 60px;
+  height: 90px;
+  margin-right: 16px;
+  border-radius: 4px;
+  overflow: hidden;
+
+  img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+h2 {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+}
+
+p {
+  font-size: 0.9rem;
+  color: var(--ion-color-medium);
+  margin-bottom: 2px;
+}
+
+.overview {
+  margin-top: 0;
+  font-size: 0.9rem;
+  color: var(--ion-color-medium-tint);
+  line-height: 1.4;
+
+  /* Por defecto truncado a 3 líneas */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &.expanded {
+    -webkit-line-clamp: unset; /* Mostrar todo */
+    display: block;
+  }
+}
+
+.overview-toggle {
+  margin-top: 0;
+  margin-left: -10px; /* Alinear con el texto visualmente */
+  height: 30px;
+  font-size: 0.85rem;
+  --padding-start: 10px;
+}
+
+ion-card-content {
+  padding-top: 0;
+  padding-bottom: 10px;
+}
