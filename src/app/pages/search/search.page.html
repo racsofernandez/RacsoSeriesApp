@@ -33,7 +33,7 @@
             <ion-label>Ideas</ion-label>
         </ion-list-header>
         <ion-item *ngFor="let idea of ideas">
-            <ion-label color="primary" (click)="textoBuscar = idea">{{idea}}</ion-label>
+            <ion-label color="primary" (click)="seleccionarIdea(idea)">{{idea}}</ion-label>
         </ion-item>
     </ion-list>
 

@@ -21,17 +21,29 @@ export class SearchPage {
               private router: Router) {}
 
   buscar( event: CustomEvent ) {
-    this.buscando = true;
-    console.log("event", event);
     const valor = event.detail.value;
+    this.realizarBusqueda(valor);
+  }
+
+  seleccionarIdea( idea: string ) {
+    this.textoBuscar = idea;
+    this.realizarBusqueda(idea);
+  }
+
+  realizarBusqueda( valor: string ) {
+    if ( valor.length === 0 ) {
+      this.buscando = false;
+      this.peliculas = [];
+      return;
+    }
+
+    this.buscando = true;
     console.log("valor", valor);
     this.movieService.buscarPeliculas(valor).subscribe( resp => {
       console.log("search", resp.results);
       this.peliculas = resp.results;
       this.buscando = false;
     });
-
-
   }
 
   async verDetalle(id: number) {
