@@ -16,7 +16,7 @@ export class SearchPage {
   textoBuscar = '';
   buscando = false;
   peliculas: SearchedPelicula[] = [];
-  ideas: string[] = ['Modern Family', 'Big Bang Theory', 'Dawnton Abbey', 'The Office'];
+  ideas: string[] = ['Modern Family', 'Big Bang Theory', 'Downton Abbey', 'The Office'];
   constructor(private movieService: MoviesService, private modalCtrl: ModalController,
               private router: Router) {}
 
