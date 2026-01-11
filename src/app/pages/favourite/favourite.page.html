@@ -1,13 +1,10 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Favoritos</ion-title>
+    </ion-toolbar>
+</ion-header>
+
 <ion-content>
-    <ion-grid>
-        <ion-row>
-            <ion-col>
-                <h3>Favoritos</h3>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
-
-
 
     <div *ngFor="let genero of favoritoGenero">
         <ion-grid *ngIf="genero.pelis.length > 0">
