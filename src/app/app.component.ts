@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 import {Capacitor, PluginListenerHandle} from "@capacitor/core";
 import {ModalController, NavController, Platform} from "@ionic/angular";
 import {AuthService} from "./services/auth.service";
+import {App} from "@capacitor/app";
 import {Location} from "@angular/common";
 
 
@@ -23,7 +24,7 @@ export class AppComponent implements OnInit {
 
     constructor(private storage: Storage, public splash: SplashService, private router: Router,
                 private ngZone: NgZone, private navCtrl: NavController, private authService: AuthService,
-                private platform: Platform, private _location: Location, private modalCtrl: ModalController) {
+                private platform: Platform, private modalCtrl: ModalController, private _location: Location) {
         this.initAuthListener();
         this.initializeApp();
     }
@@ -37,14 +38,18 @@ export class AppComponent implements OnInit {
     initializeApp() {
         this.platform.ready().then(() => {
             this.platform.backButton.subscribeWithPriority(9999, async (processNextHandler) => {
-                const modal = await this.modalCtrl.getTop();
-                if (modal) {
-                    await modal.dismiss();
-                    return;
+                try {
+                    const modal = await this.modalCtrl.getTop();
+                    if (modal) {
+                        await modal.dismiss();
+                        return;
+                    }
+                } catch (error) {
+                    console.error('Error checking modal:', error);
                 }
 
-                if (this.router.url === '/login' || this.router.url === '/tabs/home') {
-                    processNextHandler();
+                if (this.router.url === '/tabs/home' || this.router.url === '/login') {
+                    App.exitApp();
                 } else {
                     this._location.back();
                 }
