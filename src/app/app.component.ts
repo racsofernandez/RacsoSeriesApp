@@ -5,8 +5,9 @@ import { SplashService } from './shared/splash.service';
 import {FirebaseAuthentication} from "@capacitor-firebase/authentication";
 import {Router} from "@angular/router";
 import {Capacitor, PluginListenerHandle} from "@capacitor/core";
-import {NavController} from "@ionic/angular";
+import {ModalController, NavController, Platform} from "@ionic/angular";
 import {AuthService} from "./services/auth.service";
+import {Location} from "@angular/common";
 
 
 register();
@@ -21,8 +22,10 @@ export class AppComponent implements OnInit {
     private authListener?: PluginListenerHandle;
 
     constructor(private storage: Storage, public splash: SplashService, private router: Router,
-                private ngZone: NgZone, private navCtrl: NavController, private authService: AuthService) {
+                private ngZone: NgZone, private navCtrl: NavController, private authService: AuthService,
+                private platform: Platform, private _location: Location, private modalCtrl: ModalController) {
         this.initAuthListener();
+        this.initializeApp();
     }
 
   async ngOnInit() {
@@ -30,6 +33,24 @@ export class AppComponent implements OnInit {
     // await this.storage.defineDriver(MyCustomDriver)
     await this.storage.create();
   }
+
+    initializeApp() {
+        this.platform.ready().then(() => {
+            this.platform.backButton.subscribeWithPriority(9999, async (processNextHandler) => {
+                const modal = await this.modalCtrl.getTop();
+                if (modal) {
+                    await modal.dismiss();
+                    return;
+                }
+
+                if (this.router.url === '/login' || this.router.url === '/tabs/home') {
+                    processNextHandler();
+                } else {
+                    this._location.back();
+                }
+            });
+        });
+    }
 
     private async initAuthListener() {
         // if (!Capacitor.isNativePlatform()) return;

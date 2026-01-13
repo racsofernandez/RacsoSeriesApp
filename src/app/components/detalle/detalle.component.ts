@@ -34,12 +34,12 @@ export class DetalleComponent  implements OnInit {
   ngOnInit() {
     console.log("id", this.id);
 
-      this.platform.backButton.subscribeWithPriority(10, async () => {
-          const topModal = await this.modalCtrl.getTop();
-          if (topModal) {
-              await topModal.dismiss();
-          }
-      });
+      // this.platform.backButton.subscribeWithPriority(10, async () => {
+      //     const topModal = await this.modalCtrl.getTop();
+      //     if (topModal) {
+      //         await topModal.dismiss();
+      //     }
+      // });
 
       const uid = this.auth.currentUser?.uid;
     if (uid!=null) {
