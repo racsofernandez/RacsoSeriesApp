@@ -117,9 +117,16 @@ export class AuthService {
             userCredential = await signInWithPopup(this.auth, provider);
         }
 
-        const additionalInfo = getAdditionalUserInfo(userCredential);
-        if (additionalInfo?.isNewUser) {
-            await this.seriesDbService.crearUsuario(userCredential.user.uid);
+        // Comprobar si el usuario es nuevo consultando nuestro backend.
+        // Es más fiable que getAdditionalUserInfo, que falla en nativo.
+        const uid = userCredential.user.uid;
+        try {
+            await this.seriesDbService.getUsuario(uid);
+            // Si la promesa se resuelve, el usuario ya existe. No hacemos nada.
+        } catch (error) {
+            // Si la promesa falla (ej: error 404), el usuario es nuevo. Lo creamos.
+            console.log('Usuario no encontrado en la base de datos, creando...');
+            await this.seriesDbService.crearUsuario(uid);
         }
 
         return userCredential;
