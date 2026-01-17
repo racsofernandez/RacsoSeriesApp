@@ -21,15 +21,25 @@ export class MoviesService {
 
   private popularesPage = 0;
   generos: Genre[] = [];
+  private userLanguageCode: string = 'en'; // Valor por defecto
 
   constructor( private http: HttpClient, config: ConfigService) {
       urlBackend = config.config.apiBackendUrl + "/tmdb/tv";
       apiKey = config.config.apiKey;
   }
 
+    /**
+     * Establece el código de idioma del usuario para las peticiones.
+     * Este método debe ser llamado cuando se carga el usuario.
+     */
+    setLanguage(code: string) {
+        this.userLanguageCode = code;
+    }
+
     private ejecutarBackend<T>(query: string) {
         query = urlBackend + query;
-        query += `&language=es-ES`;
+        // Usar el idioma almacenado
+        query += `&language=${this.userLanguageCode}`;
         console.log("query", query);
         return this.http.get<T>(query);
     }

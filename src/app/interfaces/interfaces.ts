@@ -215,3 +215,14 @@ export interface PersonDetail {
     popularity: number;
     profilePath: string | null;
 }
+
+export interface Language {
+  id: number;
+  code: string;
+  description: string;
+}
+
+export interface AppUser {
+  id: string;
+  language: Language;
+}

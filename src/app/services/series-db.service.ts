@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { PeliculaDetalle } from "../interfaces/interfaces";
+import { AppUser, Language, PeliculaDetalle } from "../interfaces/interfaces";
 import { ToastController } from "@ionic/angular";
 import { MoviesService } from "./movies.service";
 import { firstValueFrom } from 'rxjs';
@@ -13,6 +13,7 @@ export class SeriesDbService {
 
     urlBackend = '';
     peliculas: PeliculaDetalle[] = [];
+    appUser: AppUser | null = null;
 
     constructor(
         private http: HttpClient,
@@ -30,6 +31,74 @@ export class SeriesDbService {
         });
         await toast.present();
     }
+
+    /**
+     * Crea un nuevo usuario en el backend.
+     * Devuelve el AppUser y lo guarda en la variable global.
+     */
+    async crearUsuario(userId: string): Promise<AppUser> {
+        const url = `${this.urlBackend}/${userId}?languageId=1`;
+        try {
+            const user = await firstValueFrom(this.http.post<AppUser>(url, {}));
+            this.appUser = user;
+            return user;
+        } catch (err) {
+            console.error('Error creando usuario', err);
+            await this.presentToast('Error al crear usuario');
+            throw err;
+        }
+    }
+
+    /**
+     * Obtiene el usuario del backend.
+     */
+    async getUsuario(userId: string): Promise<AppUser> {
+        const url = `${this.urlBackend}/${userId}`;
+        try {
+            const user = await firstValueFrom(this.http.get<AppUser>(url));
+            this.appUser = user;
+            return user;
+        } catch (err) {
+            console.error('Error obteniendo usuario', err);
+            // Si no existe, lo creamos (opcional, depende de la lógica de negocio)
+            // return this.crearUsuario(userId);
+            throw err;
+        }
+    }
+
+    /**
+     * Actualiza el idioma del usuario.
+     */
+    async updateLanguage(userId: string, languageId: number): Promise<AppUser> {
+        const url = `${this.urlBackend}/${userId}/language?languageId=${languageId}`;
+        try {
+            const user = await firstValueFrom(this.http.put<AppUser>(url, {}));
+            this.appUser = user;
+            await this.presentToast('Idioma actualizado');
+            return user;
+        } catch (err) {
+            console.error('Error actualizando idioma', err);
+            await this.presentToast('Error al actualizar idioma');
+            throw err;
+        }
+    }
+
+    /**
+     * Obtiene la lista de idiomas disponibles.
+     * (Asumiendo que existe un endpoint para esto, si no, se puede hardcodear o crear otro servicio)
+     */
+    async getLanguages(): Promise<Language[]> {
+        // Asumiendo que el endpoint de idiomas está en la raíz o en otro path
+        // Ajusta la URL según tu API. Por ahora usaré una URL relativa a la base.
+        const url = `${this.config.config.apiBackendUrl}/utils/languages`;
+        try {
+            return await firstValueFrom(this.http.get<Language[]>(url));
+        } catch (err) {
+            console.error('Error obteniendo idiomas', err);
+            return [];
+        }
+    }
+
 
     /**
      * Llama al backend para alternar favorito.

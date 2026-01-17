@@ -8,7 +8,7 @@ import {
     GoogleAuthProvider,
     signInWithPopup,
     User,
-    sendPasswordResetEmail, sendEmailVerification, signInWithCredential, authState
+    sendPasswordResetEmail, sendEmailVerification, signInWithCredential, authState, getAdditionalUserInfo
 } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import {getApps} from "@angular/fire/app";
@@ -16,6 +16,8 @@ import {FirebaseAuthentication} from "@capacitor-firebase/authentication";
 import {Capacitor} from "@capacitor/core";
 import {Platform} from "@ionic/angular";
 import {BehaviorSubject} from "rxjs";
+import {SeriesDbService} from "./series-db.service";
+import {MoviesService} from "./movies.service";
 
 @Injectable({
     providedIn: 'root'
@@ -32,7 +34,8 @@ export class AuthService {
     user$ = this.userSubject.asObservable();
 
     constructor(private platform: Platform, private auth: Auth, private router: Router,
-                private ngZone: NgZone) {
+                private ngZone: NgZone, private seriesDbService: SeriesDbService,
+                private moviesService: MoviesService) {
         // this.platform.ready().then(() => {
         //
         //     if (!Capacitor.isNativePlatform()) {
@@ -46,11 +49,21 @@ export class AuthService {
         //
         // });
 
-        onAuthStateChanged(this.auth, user => {
-            this.ngZone.run(() => {
+        onAuthStateChanged(this.auth, async user => {
+            this.ngZone.run(async () => {
                 this.userSubject.next(user);
 
                 if (user) {
+                    // Cargar idioma del usuario al autenticarse
+                    try {
+                        const appUser = await this.seriesDbService.getUsuario(user.uid);
+                        if (appUser && appUser.language) {
+                            this.moviesService.setLanguage(appUser.language.code);
+                        }
+                    } catch (e) {
+                        console.error("Error cargando idioma del usuario", e);
+                    }
+
                     this.router.navigateByUrl('/tabs', { replaceUrl: true });
                 } else {
                     this.router.navigateByUrl('/login', { replaceUrl: true });
@@ -70,11 +83,16 @@ export class AuthService {
         // Enviar email de verificación
         await sendEmailVerification(cred.user);
 
+        // Crear usuario en backend
+        await this.seriesDbService.crearUsuario(cred.user.uid);
+
         return cred;
     }
 
     async loginGoogle() {
         await this.platform.ready(); // 🔴 CLAVE
+
+        let userCredential;
 
         if (Capacitor.isNativePlatform()) {
             // ✅ ANDROID / IOS
@@ -91,13 +109,20 @@ export class AuthService {
             const credential = GoogleAuthProvider.credential(result.credential.idToken);
 
             // 4️⃣ Sincronizar AngularFire
-            return await signInWithCredential(this.auth, credential);
+            userCredential = await signInWithCredential(this.auth, credential);
         }
         else {
             // ✅ WEB
             const provider = new GoogleAuthProvider();
-            return signInWithPopup(this.auth, provider);
+            userCredential = await signInWithPopup(this.auth, provider);
         }
+
+        const additionalInfo = getAdditionalUserInfo(userCredential);
+        if (additionalInfo?.isNewUser) {
+            await this.seriesDbService.crearUsuario(userCredential.user.uid);
+        }
+
+        return userCredential;
     }
 
     async logout() {
