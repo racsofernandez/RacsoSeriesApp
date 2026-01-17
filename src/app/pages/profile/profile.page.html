@@ -1,6 +1,6 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title>Perfil</ion-title>
+        <ion-title>{{ 'TABS.PROFILE' | translate }}</ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -14,23 +14,23 @@
         </ion-card-header>
 
         <ion-card-content>
-            <ion-label>Email: {{ user.email }}</ion-label>
+            <ion-label>{{ 'AUTH.EMAIL' | translate }}: {{ user.email }}</ion-label>
 
             <!-- Selector de Idioma -->
             <ion-item lines="none" class="ion-margin-top">
-                <ion-label position="stacked">Idioma</ion-label>
-                <ion-select [value]="selectedLanguageId" (ionChange)="onLanguageChange($event)" placeholder="Selecciona idioma">
+                <ion-label position="stacked">{{ 'PROFILE.LANGUAGE' | translate }}</ion-label>
+                <ion-select [value]="selectedLanguageId" (ionChange)="onLanguageChange($event)" [placeholder]="'PROFILE.LANGUAGE' | translate">
                     <ion-select-option *ngFor="let lang of languages" [value]="lang.id">
                         {{ lang.description }} ({{ lang.code }})
                     </ion-select-option>
                 </ion-select>
             </ion-item>
 
-            <ion-button expand="block" color="medium" (click)="logout()" class="ion-margin-top">Cerrar sesión</ion-button>
+            <ion-button expand="block" color="medium" (click)="logout()" class="ion-margin-top">{{ 'AUTH.LOGOUT' | translate }}</ion-button>
         </ion-card-content>
     </ion-card>
     <ion-card>
-        <ion-button fill="clear" (click)="goVerification()">Reenviar correo de verificación</ion-button>
+        <ion-button fill="clear" (click)="goVerification()">{{ 'PROFILE.RESEND_VERIFICATION' | translate }}</ion-button>
     </ion-card>
 </ion-content>
 

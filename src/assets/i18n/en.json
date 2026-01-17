@@ -1,0 +1,72 @@
+{
+  "COMMON": {
+    "LOADING": "Loading...",
+    "CANCEL": "Cancel",
+    "OK": "OK",
+    "ERROR": "Error",
+    "SUCCESS": "Success",
+    "BACK": "Back",
+    "SAVE": "Save",
+    "DELETE": "Delete",
+    "EDIT": "Edit",
+    "CLOSE": "Close",
+    "SHOW_MORE": "Show more",
+    "SHOW_LESS": "Show less",
+    "PREMIERE": "Premiere"
+  },
+  "AUTH": {
+    "LOGIN": "Login",
+    "REGISTER": "Register",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "FORGOT_PASSWORD": "Forgot Password?",
+    "LOGOUT": "Logout",
+    "SIGN_IN_WITH_GOOGLE": "Sign in with Google",
+    "DONT_HAVE_ACCOUNT": "Don't have an account?",
+    "ALREADY_HAVE_ACCOUNT": "Already have an account?"
+  },
+  "TABS": {
+    "HOME": "Home",
+    "SEARCH": "Search",
+    "FAVORITES": "Favorites",
+    "PROFILE": "Profile"
+  },
+  "SEARCH": {
+    "GENRES": "Genres"
+  },
+  "HOME": {
+    "TRENDING": "Trending",
+    "POPULAR": "Popular",
+    "TOP_RATED": "Top Rated",
+    "UPCOMING": "Upcoming",
+    "NOW_PLAYING": "Now Playing"
+  },
+  "DETAILS": {
+    "OVERVIEW": "Overview",
+    "CAST": "Cast",
+    "SEASONS": "Seasons",
+    "EPISODES": "Episodes",
+    "TRAILER": "Trailer",
+    "REVIEWS": "Reviews",
+    "SIMILAR": "Similar"
+  },
+  "PROFILE": {
+    "SETTINGS": "Settings",
+    "LANGUAGE": "Language",
+    "THEME": "Theme",
+    "ABOUT": "About",
+    "RESEND_VERIFICATION": "Resend verification email"
+  },
+  "ACTOR": {
+    "CHARACTER": "Character",
+    "ROLE": "Role",
+    "DEPARTMENT": "Department",
+    "POPULARITY": "Popularity",
+    "BIOGRAPHY": "Biography"
+  },
+  "VERIFY_EMAIL": {
+    "TITLE": "Verify Email",
+    "INFO_TEXT": "If you haven't received the verification email yet, you can resend it.",
+    "RESEND_BUTTON": "Resend verification email"
+  }
+}

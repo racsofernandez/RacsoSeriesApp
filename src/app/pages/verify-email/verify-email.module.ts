@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { VerifyEmailPageRoutingModule } from './verify-email-routing.module';
 
 import { VerifyEmailPage } from './verify-email.page';
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    VerifyEmailPageRoutingModule
+    VerifyEmailPageRoutingModule,
+    TranslateModule
   ],
   declarations: [VerifyEmailPage]
 })

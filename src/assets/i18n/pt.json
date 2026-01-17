@@ -1,0 +1,72 @@
+{
+  "COMMON": {
+    "LOADING": "Carregando...",
+    "CANCEL": "Cancelar",
+    "OK": "OK",
+    "ERROR": "Erro",
+    "SUCCESS": "Sucesso",
+    "BACK": "Voltar",
+    "SAVE": "Salvar",
+    "DELETE": "Excluir",
+    "EDIT": "Editar",
+    "CLOSE": "Fechar",
+    "SHOW_MORE": "Ver mais",
+    "SHOW_LESS": "Ver menos",
+    "PREMIERE": "Estreia"
+  },
+  "AUTH": {
+    "LOGIN": "Entrar",
+    "REGISTER": "Registrar",
+    "EMAIL": "E-mail",
+    "PASSWORD": "Senha",
+    "FORGOT_PASSWORD": "Esqueceu a senha?",
+    "LOGOUT": "Sair",
+    "SIGN_IN_WITH_GOOGLE": "Entrar com Google",
+    "DONT_HAVE_ACCOUNT": "Não tem uma conta?",
+    "ALREADY_HAVE_ACCOUNT": "Já tem uma conta?"
+  },
+  "TABS": {
+    "HOME": "Início",
+    "SEARCH": "Buscar",
+    "FAVORITES": "Favoritos",
+    "PROFILE": "Perfil"
+  },
+  "SEARCH": {
+    "GENRES": "Gêneros"
+  },
+  "HOME": {
+    "TRENDING": "Tendências",
+    "POPULAR": "Populares",
+    "TOP_RATED": "Melhor Avaliados",
+    "UPCOMING": "Em Breve",
+    "NOW_PLAYING": "Em Cartaz"
+  },
+  "DETAILS": {
+    "OVERVIEW": "Resumo",
+    "CAST": "Elenco",
+    "SEASONS": "Temporadas",
+    "EPISODES": "Episódios",
+    "TRAILER": "Trailer",
+    "REVIEWS": "Avaliações",
+    "SIMILAR": "Semelhantes"
+  },
+  "PROFILE": {
+    "SETTINGS": "Configurações",
+    "LANGUAGE": "Idioma",
+    "THEME": "Tema",
+    "ABOUT": "Sobre",
+    "RESEND_VERIFICATION": "Reenviar e-mail de verificação"
+  },
+  "ACTOR": {
+    "CHARACTER": "Personagem",
+    "ROLE": "Função",
+    "DEPARTMENT": "Departamento",
+    "POPULARITY": "Popularidade",
+    "BIOGRAPHY": "Biografia"
+  },
+  "VERIFY_EMAIL": {
+    "TITLE": "Verificar e-mail",
+    "INFO_TEXT": "Se você ainda não recebeu o e-mail de verificação, pode reenviá-lo.",
+    "RESEND_BUTTON": "Reenviar e-mail de verificação"
+  }
+}

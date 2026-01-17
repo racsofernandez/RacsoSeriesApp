@@ -7,6 +7,7 @@ import { Observable } from "rxjs";
 import { SeriesDbService } from "../../services/series-db.service";
 import { AppUser, Language } from "../../interfaces/interfaces";
 import { MoviesService } from "../../services/movies.service";
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-profile',
@@ -26,7 +27,8 @@ export class ProfilePage implements OnInit {
         private router: Router,
         private seriesDbService: SeriesDbService,
         private cdr: ChangeDetectorRef,
-        private moviesService: MoviesService
+        private moviesService: MoviesService,
+        private translate: TranslateService
     ) {
         this.user$ = this.authService.user$;
         this.appVersion = config.config.version;
@@ -54,6 +56,7 @@ export class ProfilePage implements OnInit {
                     
                     if (this.appUser && this.appUser.language) {
                         this.selectedLanguageId = this.appUser.language.id;
+                        this.translate.use(this.appUser.language.code);
                         // Forzar detección de cambios para asegurar que la UI se actualice
                         this.cdr.detectChanges();
                     }
@@ -76,6 +79,7 @@ export class ProfilePage implements OnInit {
                 // Actualizar el idioma en MoviesService para futuras peticiones
                 if (updatedUser.language) {
                     this.moviesService.setLanguage(updatedUser.language.code);
+                    this.translate.use(updatedUser.language.code);
                 }
 
                 this.cdr.detectChanges();

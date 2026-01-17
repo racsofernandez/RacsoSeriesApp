@@ -7,6 +7,7 @@ import { ExploreContainerComponentModule } from '../../explore-container/explore
 
 import { Tab3PageRoutingModule } from './favourite-routing.module';
 import { ComponentsModule } from '../../components/components.module';
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { ComponentsModule } from '../../components/components.module';
     FormsModule,
     ExploreContainerComponentModule,
     Tab3PageRoutingModule,
-    ComponentsModule
+    ComponentsModule,
+    TranslateModule
   ],
   declarations: [FavouritePage]
 })

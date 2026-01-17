@@ -1,19 +1,19 @@
 <ion-header>
     <ion-toolbar>
         <ion-title>
-            Buscar Serie
+            {{ 'TABS.SEARCH' | translate }}
         </ion-title>
         <ion-buttons slot="end">
             <ion-button (click)="abrirGeneros()">
                 <ion-icon slot="start" name="list-outline"></ion-icon>
-                Géneros
+                {{ 'SEARCH.GENRES' | translate }}
             </ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-toolbar>
-    <ion-searchbar placeholder="Buscar serie" animated debounce="700" [value]="textoBuscar" (ionInput)="buscar($event)">
+    <ion-searchbar [placeholder]="'TABS.SEARCH' | translate" animated debounce="700" [value]="textoBuscar" (ionInput)="buscar($event)">
 
     </ion-searchbar>
 

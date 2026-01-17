@@ -1,15 +1,15 @@
 <ion-header>
     <ion-toolbar>
-        <ion-title>Verificar correo</ion-title>
+        <ion-title>{{ 'VERIFY_EMAIL.TITLE' | translate }}</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
 
-    <p>Si aún no has recibido el email de verificación, puedes enviarlo otra vez.</p>
+    <p>{{ 'VERIFY_EMAIL.INFO_TEXT' | translate }}</p>
 
     <ion-button expand="full" (click)="resend()">
-        Reenviar correo de verificación
+        {{ 'VERIFY_EMAIL.RESEND_BUTTON' | translate }}
     </ion-button>
 
 </ion-content>
@@ -18,7 +18,7 @@
         <ion-buttons slot="start">
             <ion-button (click)="regresar()">
                 <ion-icon slot="start" name="md-arrow-round-back"></ion-icon>
-                <ion-label>Volver</ion-label>
+                <ion-label>{{ 'COMMON.BACK' | translate }}</ion-label>
             </ion-button>
         </ion-buttons>
     </ion-toolbar>

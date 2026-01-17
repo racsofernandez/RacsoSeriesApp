@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-splash',
     templateUrl: './splash.component.html',
     styleUrls: ['./splash.component.scss'],
+    standalone: true,
+    imports: [CommonModule, MatProgressSpinnerModule],
     animations: [
         trigger('fadeScale', [
             transition(':enter', [

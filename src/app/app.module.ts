@@ -2,7 +2,7 @@ import {APP_INITIALIZER, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule, HttpClient} from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,14 +18,21 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {AuthInterceptor} from "./interceptor/auth.interceptor";
 
+// i18n
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
 export function initConfig(configService: ConfigService) {
     return () => configService.loadConfig();  // ← Angular espera a que termine
 }
 
 @NgModule({
     declarations: [
-        AppComponent,
-        SplashComponent
+        AppComponent
     ],
     imports: [
         BrowserModule,
@@ -33,7 +40,16 @@ export function initConfig(configService: ConfigService) {
         AppRoutingModule,
         HttpClientModule,
         IonicStorageModule.forRoot(),
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        SplashComponent,
+        TranslateModule.forRoot({
+            defaultLanguage: 'es',
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (createTranslateLoader),
+                deps: [HttpClient]
+            }
+        })
     ],
     providers: [
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

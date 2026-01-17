@@ -44,12 +44,12 @@ export class MoviesService {
         return this.http.get<T>(query);
     }
 
-  getPopulares() {
-    this.popularesPage++;
+    getPopulares() {
+        this.popularesPage++;
 
-    const query = `/populares?popularesPage=${ this.popularesPage }`;
-    return this.ejecutarBackend<RespuestaMDB>(query);
-  }
+        const query = `/populares?popularesPage=${ this.popularesPage }`;
+        return this.ejecutarBackend<RespuestaMDB>(query);
+    }
 
   getFeature() {
     const hoy = new Date();

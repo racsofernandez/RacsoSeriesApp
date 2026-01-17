@@ -8,6 +8,7 @@ import { ExploreContainerComponentModule } from '../../explore-container/explore
 import { HomePageRoutingModule } from './home-routing.module';
 import { PipesModule } from '../../pipes/pipes.module';
 import { ComponentsModule } from '../../components/components.module';
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { ComponentsModule } from '../../components/components.module';
     ExploreContainerComponentModule,
     HomePageRoutingModule,
     ComponentsModule,
+    TranslateModule
   ],
   declarations: [HomePage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

@@ -10,6 +10,7 @@ import { SlideshowPosterFavComponent } from './slideshow-poster-fav/slideshow-po
 import {ActorModalComponent} from "./actor-modal/actor-modal.component";
 import {ActorFilmografiaComponent} from "./actor-filmografia/actor-filmografia.component";
 import { SeasonsModalComponent } from './seasons-modal/seasons-modal.component';
+import {TranslateModule} from "@ngx-translate/core";
 
 
 
@@ -36,7 +37,8 @@ import { SeasonsModalComponent } from './seasons-modal/seasons-modal.component';
   imports: [
     CommonModule,
     IonicModule,
-    PipesModule
+    PipesModule,
+    TranslateModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

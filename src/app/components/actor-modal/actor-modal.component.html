@@ -25,7 +25,7 @@
         <ion-item *ngIf="persona.character">
             <ion-icon name="happy-outline" slot="start"></ion-icon>
             <ion-label>
-                <h2>Personaje</h2>
+                <h2>{{ 'ACTOR.CHARACTER' | translate }}</h2>
                 <p>{{ persona.character }}</p>
             </ion-label>
         </ion-item>
@@ -33,7 +33,7 @@
         <ion-item *ngIf="persona.job">
             <ion-icon name="briefcase-outline" slot="start"></ion-icon>
             <ion-label>
-                <h2>Rol</h2>
+                <h2>{{ 'ACTOR.ROLE' | translate }}</h2>
                 <p>{{ persona.job }}</p>
             </ion-label>
         </ion-item>
@@ -41,7 +41,7 @@
         <ion-item *ngIf="persona.known_for_department">
             <ion-icon name="film-outline" slot="start"></ion-icon>
             <ion-label>
-                <h2>Departamento</h2>
+                <h2>{{ 'ACTOR.DEPARTMENT' | translate }}</h2>
                 <p>{{ persona.known_for_department }}</p>
             </ion-label>
         </ion-item>
@@ -49,7 +49,7 @@
         <ion-item *ngIf="persona.popularity">
             <ion-icon name="trending-up-outline" slot="start"></ion-icon>
             <ion-label>
-                <h2>Popularidad</h2>
+                <h2>{{ 'ACTOR.POPULARITY' | translate }}</h2>
                 <p>{{ persona.popularity }}</p>
             </ion-label>
         </ion-item>
@@ -58,7 +58,7 @@
             <ion-icon name="book-outline" slot="start"></ion-icon>
 
             <ion-label class="ion-text-wrap">
-                <h2>Biografía</h2>
+                <h2>{{ 'ACTOR.BIOGRAPHY' | translate }}</h2>
 
                 <p class="biography-text" [class.expanded]="bioExpanded">
                     {{ personDetail.biography }}
@@ -69,7 +69,7 @@
                         size="small"
                         class="bio-toggle"
                         (click)="bioExpanded = !bioExpanded">
-                    {{ bioExpanded ? 'Ver menos' : 'Ver más' }}
+                    {{ bioExpanded ? ('COMMON.SHOW_LESS' | translate) : ('COMMON.SHOW_MORE' | translate) }}
                 </ion-button>
             </ion-label>
         </ion-item>

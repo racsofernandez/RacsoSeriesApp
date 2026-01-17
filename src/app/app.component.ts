@@ -9,6 +9,9 @@ import {ModalController, NavController, Platform} from "@ionic/angular";
 import {AuthService} from "./services/auth.service";
 import {App} from "@capacitor/app";
 import {Location} from "@angular/common";
+import { TranslateService } from '@ngx-translate/core';
+import {SeriesDbService} from "./services/series-db.service";
+import {MoviesService} from "./services/movies.service";
 
 
 register();
@@ -24,9 +27,12 @@ export class AppComponent implements OnInit {
 
     constructor(private storage: Storage, public splash: SplashService, private router: Router,
                 private ngZone: NgZone, private navCtrl: NavController, private authService: AuthService,
-                private platform: Platform, private modalCtrl: ModalController, private _location: Location) {
+                private platform: Platform, private modalCtrl: ModalController, private _location: Location,
+                private translate: TranslateService, private seriesDbService: SeriesDbService,
+                private moviesService: MoviesService) {
         this.initAuthListener();
         this.initializeApp();
+        this.initTranslate();
     }
 
   async ngOnInit() {
@@ -57,6 +63,22 @@ export class AppComponent implements OnInit {
         });
     }
 
+    initTranslate() {
+        // Set the default language for translation strings, and the current language.
+        this.translate.setDefaultLang('es');
+        const browserLang = this.translate.getBrowserLang();
+
+        if (browserLang) {
+            if (browserLang.match(/en|es|fr|pt/)) {
+                this.translate.use(browserLang);
+            } else {
+                this.translate.use('es');
+            }
+        } else {
+            this.translate.use('es');
+        }
+    }
+
     private async initAuthListener() {
         // if (!Capacitor.isNativePlatform()) return;
 
@@ -77,8 +99,17 @@ export class AppComponent implements OnInit {
         //         });
         //     }
         // );
-        this.authService.user$.subscribe((user: any) => {
+        this.authService.user$.subscribe(async (user: any) => {
             if (user) {
+                try {
+                    const appUser = await this.seriesDbService.getUsuario(user.uid);
+                    if (appUser && appUser.language) {
+                        this.translate.use(appUser.language.code);
+                        this.moviesService.setLanguage(appUser.language.code);
+                    }
+                } catch (e) {
+                    console.error('Error loading user language', e);
+                }
                 this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
             } else {
                 this.router.navigateByUrl('/login', { replaceUrl: true });

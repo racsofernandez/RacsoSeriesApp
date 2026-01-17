@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Temporadas - {{ seriesTitle }}</ion-title>
+    <ion-title>{{ 'DETAILS.SEASONS' | translate }} - {{ seriesTitle }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="cerrar()">
         <ion-icon slot="icon-only" name="close-outline"></ion-icon>
@@ -19,8 +19,8 @@
       </ion-thumbnail>
       <ion-label class="ion-text-wrap">
         <h2>{{ season.name }}</h2>
-        <p>{{ season.episode_count }} episodios</p>
-        <p *ngIf="season.air_date">Estreno: {{ season.air_date | date:'yyyy' }}</p>
+        <p>{{ season.episode_count }} {{ 'DETAILS.EPISODES' | translate }}</p>
+        <p *ngIf="season.air_date">{{ 'COMMON.PREMIERE' | translate }}: {{ season.air_date | date:'yyyy' }}</p>
       </ion-label>
     </ion-item>
 
@@ -33,7 +33,7 @@
           class="overview-toggle"
           (click)="toggleOverview(season)"
           *ngIf="season.overview.length > 150">
-        {{ season.expanded ? 'Ver menos' : 'Ver más' }}
+        {{ season.expanded ? ('COMMON.SHOW_LESS' | translate) : ('COMMON.SHOW_MORE' | translate) }}
       </ion-button>
     </ion-card-content>
   </ion-card>
