@@ -14,7 +14,8 @@
     <div class="actor-header">
         <img
                 [src]="persona.profile_path | imagen"
-                *ngIf="persona.profile_path">
+                *ngIf="persona.profile_path"
+                (click)="verImagen()">
         <img
                 src="/assets/no-avatar.jpg"
                 *ngIf="!persona.profile_path">

@@ -1,0 +1,20 @@
+<ion-header translucent class="ion-no-border">
+  <ion-toolbar style="--background: rgba(0,0,0,0.5); --color: white;">
+    <ion-title>{{ title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon slot="icon-only" name="close-outline" style="color: white;"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="black" class="ion-no-padding">
+  <swiper-container #swiper [zoom]="true" [initialSlide]="startIndex" class="swiper-container">
+    <swiper-slide *ngFor="let img of images">
+      <div class="swiper-zoom-container">
+        <img [src]="img.file_path | imagen" />
+      </div>
+    </swiper-slide>
+  </swiper-container>
+</ion-content>

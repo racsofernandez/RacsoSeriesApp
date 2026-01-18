@@ -1,12 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {ModalController, Platform} from '@ionic/angular';
-import {Cast, PeliculaDetalle, Persona} from 'src/app/interfaces/interfaces';
+import {Cast, Image, PeliculaDetalle, Persona} from 'src/app/interfaces/interfaces';
 import { MoviesService } from 'src/app/services/movies.service';
 import {SeriesDbService} from "../../services/series-db.service";
 import {Auth} from "@angular/fire/auth";
 import {ActorModalComponent} from "../actor-modal/actor-modal.component";
 import {Subscription} from "rxjs";
 import { SeasonsModalComponent } from '../seasons-modal/seasons-modal.component';
+import { ImageViewerModalComponent } from '../image-viewer-modal/image-viewer-modal.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-detalle',
@@ -19,6 +21,9 @@ export class DetalleComponent  implements OnInit {
 
   pelicula: PeliculaDetalle = {id:0};
   actores: Cast[] = [];
+  backdrops: Image[] = [];
+  posters: Image[] = [];
+  logos: Image[] = [];
   overviewExpanded = false;
   star = "star-outline";
   updated = false;
@@ -28,7 +33,8 @@ export class DetalleComponent  implements OnInit {
               private modalCtrl: ModalController,
               private dataLocal: SeriesDbService,
               private auth: Auth,
-              private platform: Platform
+              private platform: Platform,
+              private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -59,6 +65,14 @@ export class DetalleComponent  implements OnInit {
       console.log("actores", this.actores);
       //  this.populares = resp.results;
     })
+
+    this.moviesService.getSeriesImages(this.id)
+        .subscribe( resp => {
+            this.backdrops = resp.backdrops;
+            this.posters = resp.posters;
+            this.logos = resp.logos;
+            console.log("images", resp);
+        })
   }
 
   regresar() {
@@ -105,6 +119,33 @@ export class DetalleComponent  implements OnInit {
             }
         });
 
+        await modal.present();
+    }
+
+    async verImagen(images: Image[], index: number, type: string) {
+        let titleKey = '';
+        switch (type) {
+            case 'backdrops':
+                titleKey = 'DETAILS.BACKDROPS';
+                break;
+            case 'posters':
+                titleKey = 'DETAILS.POSTERS';
+                break;
+            case 'logos':
+                titleKey = 'DETAILS.LOGOS';
+                break;
+        }
+
+        const title = await this.translate.get(titleKey).toPromise();
+
+        const modal = await this.modalCtrl.create({
+            component: ImageViewerModalComponent,
+            componentProps: {
+                images: images,
+                startIndex: index,
+                title: title
+            }
+        });
         await modal.present();
     }
 

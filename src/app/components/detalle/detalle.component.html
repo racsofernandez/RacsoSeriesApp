@@ -141,4 +141,52 @@
         </swiper-slide>
     </swiper-container>
 
+    <ion-grid fixed *ngIf="backdrops.length > 0">
+        <ion-row>
+            <ion-col>
+                <ion-label>{{ 'DETAILS.BACKDROPS' | translate }}</ion-label>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <swiper-container [slidesPerView]="1.1" [freeMode]="true" *ngIf="backdrops.length > 0">
+        <swiper-slide *ngFor="let backdrop of backdrops; let i = index">
+            <ion-card class="card-backdrop" (click)="verImagen(backdrops, i, 'backdrops')">
+                <img [src]="backdrop.file_path | imagen">
+            </ion-card>
+        </swiper-slide>
+    </swiper-container>
+
+    <ion-grid fixed *ngIf="posters.length > 0">
+        <ion-row>
+            <ion-col>
+                <ion-label>{{ 'DETAILS.POSTERS' | translate }}</ion-label>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <swiper-container [slidesPerView]="2.2" [freeMode]="true" *ngIf="posters.length > 0">
+        <swiper-slide *ngFor="let poster of posters; let i = index">
+            <ion-card class="card-poster" (click)="verImagen(posters, i, 'posters')">
+                <img [src]="poster.file_path | imagen">
+            </ion-card>
+        </swiper-slide>
+    </swiper-container>
+
+    <ion-grid fixed *ngIf="logos.length > 0">
+        <ion-row>
+            <ion-col>
+                <ion-label>{{ 'DETAILS.LOGOS' | translate }}</ion-label>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <swiper-container [slidesPerView]="2.2" [freeMode]="true" *ngIf="logos.length > 0">
+        <swiper-slide *ngFor="let logo of logos; let i = index">
+            <ion-card class="card-logo" style="background-color: #e0e0e0; padding: 10px;" (click)="verImagen(logos, i, 'logos')">
+                <img [src]="logo.file_path | imagen" style="object-fit: contain; width: 100%; height: 100%;">
+            </ion-card>
+        </swiper-slide>
+    </swiper-container>
+
 </ion-content>

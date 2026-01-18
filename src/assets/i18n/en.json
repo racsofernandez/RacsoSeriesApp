@@ -48,7 +48,10 @@
     "EPISODES": "Episodes",
     "TRAILER": "Trailer",
     "REVIEWS": "Reviews",
-    "SIMILAR": "Similar"
+    "SIMILAR": "Similar",
+    "BACKDROPS": "Backdrops",
+    "POSTERS": "Posters",
+    "LOGOS": "Logos"
   },
   "PROFILE": {
     "SETTINGS": "Settings",

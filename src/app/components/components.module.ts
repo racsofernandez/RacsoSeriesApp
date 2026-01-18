@@ -11,6 +11,7 @@ import {ActorModalComponent} from "./actor-modal/actor-modal.component";
 import {ActorFilmografiaComponent} from "./actor-filmografia/actor-filmografia.component";
 import { SeasonsModalComponent } from './seasons-modal/seasons-modal.component';
 import {TranslateModule} from "@ngx-translate/core";
+import { ImageViewerModalComponent } from './image-viewer-modal/image-viewer-modal.component';
 
 
 
@@ -24,7 +25,8 @@ import {TranslateModule} from "@ngx-translate/core";
     DetalleComponent,
     ActorModalComponent,
     ActorFilmografiaComponent,
-    SeasonsModalComponent
+    SeasonsModalComponent,
+    ImageViewerModalComponent
   ],
   exports: [
     SlideshowBackdropComponent,
@@ -32,7 +34,8 @@ import {TranslateModule} from "@ngx-translate/core";
     SlideshowParesComponent,
     SlideshowPosterFavComponent,
     ActorModalComponent,
-    SeasonsModalComponent
+    SeasonsModalComponent,
+    ImageViewerModalComponent
   ],
   imports: [
     CommonModule,

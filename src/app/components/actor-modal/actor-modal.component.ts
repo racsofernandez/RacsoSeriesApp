@@ -1,7 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import {Persona, PersonDetail} from '../../interfaces/interfaces';
+import {Image, Persona, PersonDetail} from '../../interfaces/interfaces';
 import {MoviesService} from "../../services/movies.service";
+import {ImageViewerModalComponent} from "../image-viewer-modal/image-viewer-modal.component";
 
 @Component({
     selector: 'app-actor-modal',
@@ -26,5 +27,28 @@ export class ActorModalComponent implements OnInit {
     cerrar() {
         this.modalCtrl.dismiss();
     }
-}
 
+    async verImagen() {
+        if (!this.persona.profile_path) return;
+
+        const image: Image = {
+            file_path: this.persona.profile_path,
+            aspect_ratio: 0,
+            height: 0,
+            iso_639_1: null,
+            vote_average: 0,
+            vote_count: 0,
+            width: 0
+        };
+
+        const modal = await this.modalCtrl.create({
+            component: ImageViewerModalComponent,
+            componentProps: {
+                images: [image],
+                startIndex: 0,
+                title: this.persona.name
+            }
+        });
+        await modal.present();
+    }
+}

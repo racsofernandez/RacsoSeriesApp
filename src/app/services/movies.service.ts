@@ -6,6 +6,7 @@ import {
     PeliculaDetalle, PersonDetail,
     RespuestaCombinedCredits,
     RespuestaCredits,
+    RespuestaImages,
     RespuestaMDB,
     SearchResult
 } from '../interfaces/interfaces';
@@ -88,6 +89,10 @@ export class MoviesService {
 
   getPersonDetail(id: number) {
     return this.ejecutarBackend<PersonDetail>(`/person/${ id }?a=1`);
+  }
+
+  getSeriesImages(id: number) {
+      return this.ejecutarBackend<RespuestaImages>(`/${ id }/images?a=1`);
   }
 
   buscarPeliculas(query: string) {

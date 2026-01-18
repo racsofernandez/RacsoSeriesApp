@@ -130,3 +130,33 @@ ion-toolbar {
   font-size: 0.9rem;
   cursor: pointer;
 }
+
+.card-backdrop {
+    border-radius: 12px;
+    img {
+        border-radius: 12px;
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+    }
+}
+
+.card-poster {
+    border-radius: 12px;
+    img {
+        border-radius: 12px;
+        height: 250px;
+        width: 100%;
+        object-fit: cover;
+    }
+}
+
+.card-logo {
+    border-radius: 12px;
+    img {
+        border-radius: 12px;
+        height: 100px;
+        width: 100%;
+        object-fit: contain;
+    }
+}
