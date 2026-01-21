@@ -30,7 +30,8 @@
     <img
             [src]="pelicula.backdrop_path | imagen"
             class="backdrop"
-            *ngIf="pelicula.backdrop_path">
+            *ngIf="pelicula.backdrop_path"
+            (click)="verImagenIndividual(pelicula.backdrop_path)">
 
     <ion-grid>
         <ion-row>
@@ -39,7 +40,8 @@
                     <img
                             [src]="pelicula.poster_path | imagen"
                             class="poster"
-                            *ngIf="pelicula.poster_path">
+                            *ngIf="pelicula.poster_path"
+                            (click)="verImagenIndividual(pelicula.poster_path)">
                 </ion-card>
             </ion-col>
 

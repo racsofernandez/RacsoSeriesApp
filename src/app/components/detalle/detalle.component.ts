@@ -134,9 +134,19 @@ export class DetalleComponent  implements OnInit {
             case 'logos':
                 titleKey = 'DETAILS.LOGOS';
                 break;
+            case 'single':
+                titleKey = ''; // No title for single image view from header/poster
+                break;
         }
 
-        const title = await this.translate.get(titleKey).toPromise();
+        let title = '';
+        if (titleKey) {
+            title = await this.translate.get(titleKey).toPromise();
+        } else if (type === 'single') {
+             // Optional: Use movie title or something else if needed
+             title = this.pelicula.title || this.pelicula.name || '';
+        }
+
 
         const modal = await this.modalCtrl.create({
             component: ImageViewerModalComponent,
@@ -147,6 +157,22 @@ export class DetalleComponent  implements OnInit {
             }
         });
         await modal.present();
+    }
+
+    verImagenIndividual(path: string | undefined) {
+        if (!path) return;
+        
+        const image: Image = {
+            file_path: path,
+            aspect_ratio: 0,
+            height: 0,
+            iso_639_1: null,
+            vote_average: 0,
+            vote_count: 0,
+            width: 0
+        };
+        
+        this.verImagen([image], 0, 'single');
     }
 
     ngOnDestroy() {
