@@ -141,52 +141,43 @@
         </swiper-slide>
     </swiper-container>
 
-    <ion-grid fixed *ngIf="backdrops.length > 0">
-        <ion-row>
-            <ion-col>
-                <ion-label>{{ 'DETAILS.BACKDROPS' | translate }}</ion-label>
-            </ion-col>
-        </ion-row>
+    <ion-grid *ngIf="backdrops.length > 0">
+        <ion-card class="info-card" (click)="verImagen(backdrops, 0, 'backdrops')">
+            <ion-item lines="none">
+                <ion-icon name="image-outline" slot="start"></ion-icon>
+                <ion-label>
+                    <h2>{{ 'DETAILS.BACKDROPS' | translate }}</h2>
+                    <p>{{ backdrops.length }}</p>
+                </ion-label>
+                <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+            </ion-item>
+        </ion-card>
     </ion-grid>
 
-    <swiper-container [slidesPerView]="1.1" [freeMode]="true" *ngIf="backdrops.length > 0">
-        <swiper-slide *ngFor="let backdrop of backdrops; let i = index">
-            <ion-card class="card-backdrop" (click)="verImagen(backdrops, i, 'backdrops')">
-                <img [src]="backdrop.file_path | imagen">
-            </ion-card>
-        </swiper-slide>
-    </swiper-container>
-
-    <ion-grid fixed *ngIf="posters.length > 0">
-        <ion-row>
-            <ion-col>
-                <ion-label>{{ 'DETAILS.POSTERS' | translate }}</ion-label>
-            </ion-col>
-        </ion-row>
+    <ion-grid *ngIf="posters.length > 0">
+        <ion-card class="info-card" (click)="verImagen(posters, 0, 'posters')">
+            <ion-item lines="none">
+                <ion-icon name="albums-outline" slot="start"></ion-icon>
+                <ion-label>
+                    <h2>{{ 'DETAILS.POSTERS' | translate }}</h2>
+                    <p>{{ posters.length }}</p>
+                </ion-label>
+                <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+            </ion-item>
+        </ion-card>
     </ion-grid>
 
-    <swiper-container [slidesPerView]="2.2" [freeMode]="true" *ngIf="posters.length > 0">
-        <swiper-slide *ngFor="let poster of posters; let i = index">
-            <ion-card class="card-poster" (click)="verImagen(posters, i, 'posters')">
-                <img [src]="poster.file_path | imagen">
-            </ion-card>
-        </swiper-slide>
-    </swiper-container>
-
-    <ion-grid fixed *ngIf="logos.length > 0">
-        <ion-row>
-            <ion-col>
-                <ion-label>{{ 'DETAILS.LOGOS' | translate }}</ion-label>
-            </ion-col>
-        </ion-row>
+    <ion-grid *ngIf="logos.length > 0">
+        <ion-card class="info-card" (click)="verImagen(logos, 0, 'logos')">
+            <ion-item lines="none">
+                <ion-icon name="shapes-outline" slot="start"></ion-icon>
+                <ion-label>
+                    <h2>{{ 'DETAILS.LOGOS' | translate }}</h2>
+                    <p>{{ logos.length }}</p>
+                </ion-label>
+                <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+            </ion-item>
+        </ion-card>
     </ion-grid>
-
-    <swiper-container [slidesPerView]="2.2" [freeMode]="true" *ngIf="logos.length > 0">
-        <swiper-slide *ngFor="let logo of logos; let i = index">
-            <ion-card class="card-logo" style="background-color: #e0e0e0; padding: 10px;" (click)="verImagen(logos, i, 'logos')">
-                <img [src]="logo.file_path | imagen" style="object-fit: contain; width: 100%; height: 100%;">
-            </ion-card>
-        </swiper-slide>
-    </swiper-container>
 
 </ion-content>
