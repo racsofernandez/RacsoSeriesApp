@@ -17,6 +17,8 @@ export class ImageViewerModalComponent implements OnInit {
 
   @ViewChild('swiper') swiperRef: ElementRef | undefined;
   swiperModules = [IonicSlides];
+  
+  controlsVisible = true;
 
   constructor(private modalCtrl: ModalController) { }
 
@@ -37,6 +39,10 @@ export class ImageViewerModalComponent implements OnInit {
 
   close() {
     this.modalCtrl.dismiss();
+  }
+
+  toggleControls() {
+    this.controlsVisible = !this.controlsVisible;
   }
 
 }

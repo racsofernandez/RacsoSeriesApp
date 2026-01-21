@@ -1,4 +1,4 @@
-<ion-header translucent class="ion-no-border">
+<ion-header translucent class="ion-no-border" [class.hidden]="!controlsVisible">
   <ion-toolbar style="--background: rgba(0,0,0,0.5); --color: white;">
     <ion-title>{{ title }}</ion-title>
     <ion-buttons slot="end">
@@ -12,7 +12,7 @@
 <ion-content color="black" class="ion-no-padding">
   <swiper-container #swiper [zoom]="true" [initialSlide]="startIndex" class="swiper-container">
     <swiper-slide *ngFor="let img of images">
-      <div class="swiper-zoom-container">
+      <div class="swiper-zoom-container" (click)="toggleControls()">
         <img [src]="img.file_path | imagen" />
       </div>
     </swiper-slide>
