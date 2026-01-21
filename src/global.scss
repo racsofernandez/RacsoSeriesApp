@@ -40,3 +40,8 @@
     width: 110px !important;
     height: 160px !important;
 }
+
+swiper-container,
+.swiper {
+  touch-action: pan-y pinch-zoom;
+}

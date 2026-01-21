@@ -1,8 +1,6 @@
 import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Image } from 'src/app/interfaces/interfaces';
-import Swiper from 'swiper';
-import { IonicSlides } from '@ionic/angular';
 
 @Component({
   selector: 'app-image-viewer-modal',
@@ -16,7 +14,6 @@ export class ImageViewerModalComponent implements OnInit {
   @Input() title: string = '';
 
   @ViewChild('swiper') swiperRef: ElementRef | undefined;
-  swiperModules = [IonicSlides];
   
   controlsVisible = true;
 

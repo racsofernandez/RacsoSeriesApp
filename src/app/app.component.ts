@@ -1,5 +1,5 @@
 import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
-import { register } from 'swiper/element';
+import { register } from 'swiper/element/bundle';
 import { Storage } from '@ionic/storage-angular';
 import { SplashService } from './shared/splash.service';
 import {FirebaseAuthentication} from "@capacitor-firebase/authentication";
