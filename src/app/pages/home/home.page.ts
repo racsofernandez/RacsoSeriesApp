@@ -18,7 +18,12 @@ export class HomePage implements OnInit {
   constructor(private moviesService: MoviesService,  private splash: SplashService) {}
 
     ngOnInit(): void {
-        this.splash.show();
+        // Si ya se está mostrando (ej: desde login), no reiniciamos el timer
+        this.splash.visible$.pipe(take(1)).subscribe(visible => {
+            if (!visible) {
+                this.splash.show();
+            }
+        });
 
         combineLatest([
             this.moviesService.getFeature(),
@@ -30,6 +35,7 @@ export class HomePage implements OnInit {
                     this.recientes = recientes.results;
                     this.populares = populares.results;
                     this.loaded = true;           // 👈 AQUÍ
+                    this.splash.hide(); // Ocultar splash cuando los datos estén listos
                 },
                 error: err => {
                     console.error(err);
@@ -37,7 +43,7 @@ export class HomePage implements OnInit {
                     this.loaded = true;           // evita bloqueo
                 },
                 complete: () => {
-                    this.splash.hide();
+                    // this.splash.hide(); // Ya se oculta en next o error
                 }
             });
     }

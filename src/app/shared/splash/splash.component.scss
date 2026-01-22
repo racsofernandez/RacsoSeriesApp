@@ -1,4 +1,4 @@
-.splash {
+:host {
   position: fixed;
   inset: 0;
   background: #ffffff;
@@ -6,7 +6,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 10000;
+  z-index: 99999; /* Asegurar que esté por encima de todo */
 }
 
 .logo {
@@ -16,7 +16,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  .splash {
+  :host {
     background: #121212;
     color: white;
   }

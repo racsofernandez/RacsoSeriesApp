@@ -35,6 +35,7 @@ class LoginPage {
     }
 
     async login() {
+        this.splash.show();
         try {
             const { user } = await this.authService.loginEmail(this.email, this.password);
 
@@ -43,10 +44,10 @@ class LoginPage {
             //     return;
             // }
 
-            this.splash.show();
             this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
 
         } catch (err: any) {
+            this.splash.hide();
             this.presentToast("Error al iniciar sesión");
         }
     }
@@ -61,12 +62,14 @@ class LoginPage {
     }
 
     async loginGoogle() {
+        this.splash.show();
         try {
             await this.authService.loginGoogle();
             if (!Capacitor.isNativePlatform()) {
                 await this.router.navigate(['/tabs/home']);
             }
         } catch (error) {
+            this.splash.hide();
             this.presentToast(`Error de login. ${this.getErrorMessage(error)}`);
         }
     }

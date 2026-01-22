@@ -64,7 +64,14 @@ export class AuthService {
                         console.error("Error cargando idioma del usuario", e);
                     }
 
-                    this.router.navigateByUrl('/tabs', { replaceUrl: true });
+                    // this.router.navigateByUrl('/tabs', { replaceUrl: true });
+                    // No navegamos aquí automáticamente para evitar conflictos con el login manual
+                    // que ya maneja la navegación y el splash.
+                    // Solo si estamos en login y detectamos usuario (autologin), navegamos.
+                    if (this.router.url.includes('login')) {
+                         this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
+                    }
+
                 } else {
                     this.router.navigateByUrl('/login', { replaceUrl: true });
                 }

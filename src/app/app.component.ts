@@ -110,7 +110,13 @@ export class AppComponent implements OnInit {
                 } catch (e) {
                     console.error('Error loading user language', e);
                 }
-                this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
+                // this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
+                // La navegación ya se hace en el login o en el auth service, o aquí si es auto-login
+                // Pero si venimos del login manual, ya hicimos navigate.
+                // Si es auto-login al abrir la app, esto redirige.
+                if (this.router.url.includes('login')) {
+                     this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
+                }
             } else {
                 this.router.navigateByUrl('/login', { replaceUrl: true });
             }
