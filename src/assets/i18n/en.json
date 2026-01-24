@@ -58,7 +58,9 @@
     "LANGUAGE": "Language",
     "THEME": "Theme",
     "ABOUT": "About",
-    "RESEND_VERIFICATION": "Resend verification email"
+    "RESEND_VERIFICATION": "Resend verification email",
+    "LANGUAGE_UPDATED": "Language updated",
+    "LANGUAGE_UPDATE_ERROR": "Error updating language"
   },
   "ACTOR": {
     "CHARACTER": "Character",
@@ -71,5 +73,10 @@
     "TITLE": "Verify Email",
     "INFO_TEXT": "If you haven't received the verification email yet, you can resend it.",
     "RESEND_BUTTON": "Resend verification email"
+  },
+  "IMAGE_VIEWER": {
+    "SHARE_TITLE": "Share image",
+    "SHARE_TEXT": "Check out this image",
+    "SHARE_DIALOG_TITLE": "Share image"
   }
 }

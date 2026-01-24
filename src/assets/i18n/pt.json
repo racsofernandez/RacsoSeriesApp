@@ -58,7 +58,9 @@
     "LANGUAGE": "Idioma",
     "THEME": "Tema",
     "ABOUT": "Sobre",
-    "RESEND_VERIFICATION": "Reenviar e-mail de verificação"
+    "RESEND_VERIFICATION": "Reenviar e-mail de verificação",
+    "LANGUAGE_UPDATED": "Idioma atualizado",
+    "LANGUAGE_UPDATE_ERROR": "Erro ao atualizar idioma"
   },
   "ACTOR": {
     "CHARACTER": "Personagem",
@@ -71,5 +73,10 @@
     "TITLE": "Verificar e-mail",
     "INFO_TEXT": "Se você ainda não recebeu o e-mail de verificação, pode reenviá-lo.",
     "RESEND_BUTTON": "Reenviar e-mail de verificação"
+  },
+  "IMAGE_VIEWER": {
+    "SHARE_TITLE": "Compartilhar imagem",
+    "SHARE_TEXT": "Veja esta imagem",
+    "SHARE_DIALOG_TITLE": "Compartilhar imagem"
   }
 }

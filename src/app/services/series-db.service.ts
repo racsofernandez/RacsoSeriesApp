@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AppUser, Language, PeliculaDetalle } from "../interfaces/interfaces";
 import { ToastController } from "@ionic/angular";
 import { MoviesService } from "./movies.service";
 import { firstValueFrom } from 'rxjs';
 import {ConfigService} from "./config.service";
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
     providedIn: 'root'
@@ -19,9 +20,14 @@ export class SeriesDbService {
         private http: HttpClient,
         private toastCtrl: ToastController,
         private moviesService: MoviesService,
-        private config: ConfigService
+        private config: ConfigService,
+        private injector: Injector
     ) {
         this.urlBackend = config.config.apiBackendUrl + "/users";
+    }
+
+    private get translate(): TranslateService {
+        return this.injector.get(TranslateService);
     }
 
     async presentToast(message: string) {
@@ -74,11 +80,13 @@ export class SeriesDbService {
         try {
             const user = await firstValueFrom(this.http.put<AppUser>(url, {}));
             this.appUser = user;
-            await this.presentToast('Idioma actualizado');
+            const msg = await this.translate.get('PROFILE.LANGUAGE_UPDATED').toPromise();
+            await this.presentToast(msg);
             return user;
         } catch (err) {
             console.error('Error actualizando idioma', err);
-            await this.presentToast('Error al actualizar idioma');
+            const msg = await this.translate.get('PROFILE.LANGUAGE_UPDATE_ERROR').toPromise();
+            await this.presentToast(msg);
             throw err;
         }
     }

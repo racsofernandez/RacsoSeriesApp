@@ -1,6 +1,9 @@
-import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { Component, Input, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { ModalController, Platform } from '@ionic/angular';
 import { Image } from 'src/app/interfaces/interfaces';
+import { Share } from '@capacitor/share';
+import { ConfigService } from '../../services/config.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-image-viewer-modal',
@@ -16,10 +19,19 @@ export class ImageViewerModalComponent implements OnInit {
   @ViewChild('swiper') swiperRef: ElementRef | undefined;
   
   controlsVisible = true;
+  currentIndex = 0;
 
-  constructor(private modalCtrl: ModalController) { }
+  constructor(
+    private modalCtrl: ModalController,
+    private platform: Platform,
+    private configService: ConfigService,
+    private ngZone: NgZone,
+    private translate: TranslateService
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.currentIndex = this.startIndex;
+  }
 
   ngAfterViewInit() {
     if (this.swiperRef?.nativeElement) {
@@ -29,6 +41,12 @@ export class ImageViewerModalComponent implements OnInit {
       setTimeout(() => {
         if (swiperEl.swiper) {
           swiperEl.swiper.slideTo(this.startIndex, 0);
+          
+          swiperEl.swiper.on('slideChange', () => {
+            this.ngZone.run(() => {
+              this.currentIndex = swiperEl.swiper.activeIndex;
+            });
+          });
         }
       }, 100);
     }
@@ -40,6 +58,32 @@ export class ImageViewerModalComponent implements OnInit {
 
   toggleControls() {
     this.controlsVisible = !this.controlsVisible;
+  }
+
+  async shareImage() {
+    const currentImage = this.images[this.currentIndex];
+    if (!currentImage) return;
+
+    const imageUrl = `${this.configService.config.imgPath}${currentImage.file_path}`;
+
+    try {
+      const shareTitle = await this.translate.get('IMAGE_VIEWER.SHARE_TITLE').toPromise();
+      const shareText = await this.translate.get('IMAGE_VIEWER.SHARE_TEXT').toPromise();
+      const shareDialogTitle = await this.translate.get('IMAGE_VIEWER.SHARE_DIALOG_TITLE').toPromise();
+
+      await Share.share({
+        title: this.title || shareTitle,
+        text: shareText,
+        url: imageUrl,
+        dialogTitle: shareDialogTitle
+      });
+    } catch (error) {
+      console.error('Error sharing:', error);
+    }
+  }
+
+  get shareIcon(): string {
+    return this.platform.is('ios') ? 'share-outline' : 'share-social-outline';
   }
 
 }

@@ -18,3 +18,17 @@
     </swiper-slide>
   </swiper-container>
 </ion-content>
+
+<ion-footer class="ion-no-border" [class.hidden]="!controlsVisible">
+  <ion-toolbar style="--background: rgba(0,0,0,0.5); --color: white;">
+    <div class="footer-content">
+      <div class="counter" *ngIf="images.length > 1">
+        {{ currentIndex + 1 }} / {{ images.length }}
+      </div>
+      <div class="spacer"></div>
+      <ion-button fill="clear" (click)="shareImage()">
+        <ion-icon slot="icon-only" [name]="shareIcon" style="color: white;"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>
