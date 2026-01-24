@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ViewChild, ElementRef, NgZone } from '@angula
 import { ModalController, Platform } from '@ionic/angular';
 import { Image } from 'src/app/interfaces/interfaces';
 import { Share } from '@capacitor/share';
+import { Filesystem, Directory } from '@capacitor/filesystem';
 import { ConfigService } from '../../services/config.service';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -71,16 +72,39 @@ export class ImageViewerModalComponent implements OnInit {
       const shareText = await this.translate.get('IMAGE_VIEWER.SHARE_TEXT').toPromise();
       const shareDialogTitle = await this.translate.get('IMAGE_VIEWER.SHARE_DIALOG_TITLE').toPromise();
 
+      // Descargar la imagen y convertirla a base64
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const base64Data = await this.convertBlobToBase64(blob) as string;
+
+      // Guardar temporalmente en el sistema de archivos
+      const fileName = `shared_image_${new Date().getTime()}.jpg`;
+      const savedFile = await Filesystem.writeFile({
+        path: fileName,
+        data: base64Data,
+        directory: Directory.Cache
+      });
+
+      // Compartir el archivo local
       await Share.share({
         title: this.title || shareTitle,
         text: shareText,
-        url: imageUrl,
+        url: savedFile.uri,
         dialogTitle: shareDialogTitle
       });
     } catch (error) {
       console.error('Error sharing:', error);
     }
   }
+
+  private convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = reject;
+    reader.onload = () => {
+        resolve(reader.result);
+    };
+    reader.readAsDataURL(blob);
+  });
 
   get shareIcon(): string {
     return this.platform.is('ios') ? 'share-outline' : 'share-social-outline';
