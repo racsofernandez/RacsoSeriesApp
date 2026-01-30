@@ -76,6 +76,9 @@
             <ion-col>
                 <ion-text color="medium">
                     {{ pelicula.first_air_date | date:'yyyy' }}
+                    <span *ngIf="pelicula.production_countries && pelicula.production_countries.length > 0">
+                        · {{ pelicula.production_countries[0].name | countryName:pelicula.production_countries[0].iso_3166_1 }}
+                    </span>
                 </ion-text>
             </ion-col>
         </ion-row>
