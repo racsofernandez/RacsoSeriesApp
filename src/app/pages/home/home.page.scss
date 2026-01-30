@@ -1,0 +1,28 @@
+.main-content {
+  --background: #141414; // Un fondo oscuro tipo Netflix/Disney+
+}
+
+.section-header {
+  padding: 20px 16px 10px;
+  display: flex;
+  align-items: center;
+}
+
+.section-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-left: 4px solid var(--ion-color-primary);
+  padding-left: 10px;
+}
+
+// Ajustes para los componentes hijos si es necesario (aunque idealmente se tocan en sus propios scss)
+app-slideshow-backdrop,
+app-slideshow-poster,
+app-slideshow-pares {
+  margin-bottom: 20px;
+  display: block;
+}

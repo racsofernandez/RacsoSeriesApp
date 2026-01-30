@@ -1,24 +1,30 @@
-<ion-header>
+<ion-header class="ion-no-border">
     <ion-toolbar>
-        <ion-title>{{ 'TABS.FAVORITES' | translate }}</ion-title>
+        <ion-title class="page-title">{{ 'TABS.FAVORITES' | translate }}</ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="main-content">
 
-    <div *ngFor="let genero of favoritoGenero">
-        <ion-grid *ngIf="genero.pelis.length > 0">
-            <ion-row>
-                <ion-col>
-                    <h4>{{genero.name}}</h4>
-                </ion-col>
-            </ion-row>
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="series.length === 0">
+        <ion-icon name="heart-dislike-outline"></ion-icon>
+        <h3>{{ 'FAVORITES.EMPTY_TITLE' | translate }}</h3>
+        <p>{{ 'FAVORITES.EMPTY_MSG' | translate }}</p>
+    </div>
+
+    <div *ngFor="let genero of favoritoGenero" class="genre-section">
+        <div *ngIf="genero.pelis.length > 0">
+            <div class="genre-header">
+                <h4 class="genre-title">{{genero.name}}</h4>
+                <span class="genre-count">{{genero.pelis.length}}</span>
+            </div>
+
             <app-slideshow-poster-fav
                     [peliculas]="genero.pelis"
                     (dismissEvent)="onModalDismiss($event)">
             </app-slideshow-poster-fav>
-
-        </ion-grid>
+        </div>
     </div>
 
 </ion-content>

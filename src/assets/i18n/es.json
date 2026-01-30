@@ -78,5 +78,9 @@
     "SHARE_TITLE": "Compartir imagen",
     "SHARE_TEXT": "Mira esta imagen",
     "SHARE_DIALOG_TITLE": "Compartir imagen"
+  },
+  "FAVORITES": {
+    "EMPTY_TITLE": "Sin favoritos",
+    "EMPTY_MSG": "Aún no has añadido ninguna serie a tus favoritos. ¡Explora y añade algunas!"
   }
 }
