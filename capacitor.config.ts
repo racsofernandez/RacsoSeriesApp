@@ -12,6 +12,13 @@ const config: CapacitorConfig = {
       skipNativeAuth: false,
       providers: ['google.com'],
     },
+    // Añadir configuración para el Status Bar y Navigation Bar
+    StatusBar: {
+      backgroundColor: '#141414', // Color de fondo oscuro
+    },
+    NavigationBar: {
+      backgroundColor: '#141414', // Color de fondo oscuro
+    },
   },
 };
 

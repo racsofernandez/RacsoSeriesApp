@@ -45,3 +45,18 @@ swiper-container,
 .swiper {
   touch-action: pan-y pinch-zoom;
 }
+
+/* Dark Mode Global Overrides */
+body {
+  --ion-background-color: #141414;
+  --ion-text-color: #ffffff;
+  --ion-color-step-50: #1f1f1f;
+  --ion-color-step-100: #2b2b2b;
+}
+
+/* Status Bar & Navigation Bar Background */
+/* Esto afecta a áreas fuera del ion-content en PWA/Web,
+   para nativo se requiere configuración en capacitor.config.ts o MainActivity */
+ion-app {
+  background-color: #141414;
+}

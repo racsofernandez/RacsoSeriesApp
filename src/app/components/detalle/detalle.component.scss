@@ -31,6 +31,8 @@
 .card-actor {
   text-align: center;
   border-radius: 12px;
+  background: #262626; // Fondo oscuro para tarjeta de actor
+  box-shadow: none;
 
   img {
     border-radius: 12px;
@@ -40,16 +42,37 @@
 
   ion-label {
     font-size: 0.9rem;
+    color: white; // Texto blanco
 
     p {
       font-size: 0.75rem;
-      color: var(--ion-color-medium);
+      color: #999; // Texto secundario gris
     }
   }
 }
 
 .info-card {
   border-radius: 16px;
+  background: #262626; // Fondo oscuro
+  box-shadow: none;
+
+  ion-item {
+    --background: transparent;
+    --color: white;
+
+    ion-icon {
+      color: var(--ion-color-primary);
+    }
+
+    h2 {
+      color: white;
+      font-weight: 600;
+    }
+
+    p {
+      color: #999;
+    }
+  }
 }
 
 
@@ -82,6 +105,8 @@
 
 .detalle-content {
   --padding-top: 0;
+  --background: #141414; // Fondo oscuro principal
+  --color: #e5e5e5;
 }
 
 ion-header {
@@ -107,6 +132,7 @@ ion-toolbar {
 .overview-container {
   p {
     margin: 0;
+    color: #ccc; // Texto de resumen más claro
   }
 }
 
