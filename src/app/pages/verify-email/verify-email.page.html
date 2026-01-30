@@ -1,23 +1,28 @@
-<ion-header>
+<ion-header class="ion-no-border">
     <ion-toolbar>
         <ion-title>{{ 'VERIFY_EMAIL.TITLE' | translate }}</ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="main-content">
 
-    <p>{{ 'VERIFY_EMAIL.INFO_TEXT' | translate }}</p>
+    <div class="container">
+        <ion-icon name="mail-unread-outline" class="main-icon"></ion-icon>
 
-    <ion-button expand="full" (click)="resend()">
-        {{ 'VERIFY_EMAIL.RESEND_BUTTON' | translate }}
-    </ion-button>
+        <p>{{ 'VERIFY_EMAIL.INFO_TEXT' | translate }}</p>
+
+        <ion-button expand="block" class="action-btn" (click)="resend()">
+            {{ 'VERIFY_EMAIL.RESEND_BUTTON' | translate }}
+        </ion-button>
+    </div>
 
 </ion-content>
-<ion-footer>
+
+<ion-footer class="ion-no-border">
     <ion-toolbar>
         <ion-buttons slot="start">
-            <ion-button (click)="regresar()">
-                <ion-icon slot="start" name="md-arrow-round-back"></ion-icon>
+            <ion-button (click)="regresar()" color="medium">
+                <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
                 <ion-label>{{ 'COMMON.BACK' | translate }}</ion-label>
             </ion-button>
         </ion-buttons>
