@@ -1,33 +1,53 @@
-<ion-header>
-    <ion-toolbar>
-        <ion-title>{{ 'AUTH.LOGIN' | translate }}</ion-title>
-    </ion-toolbar>
-</ion-header>
+<ion-content class="main-content">
 
-<ion-content class="ion-padding">
-    <ion-card>
-        <ion-card-content>
-            <ion-item>
-                <ion-input [placeholder]="'AUTH.EMAIL' | translate" [(ngModel)]="email"></ion-input>
-            </ion-item>
+    <div class="login-container">
 
-            <ion-item>
-                <ion-input [placeholder]="'AUTH.PASSWORD' | translate" [(ngModel)]="password" type="password"></ion-input>
-            </ion-item>
+        <div class="logo-section">
+            <ion-icon name="film-outline" class="app-logo"></ion-icon>
+            <h1>SeriesApp</h1>
+            <p>{{ 'AUTH.LOGIN' | translate }}</p>
+        </div>
 
-            <ion-button expand="block" (click)="login()">{{ 'AUTH.LOGIN' | translate }}</ion-button>
-            <ion-button expand="block" fill="outline" (click)="register()">{{ 'AUTH.REGISTER' | translate }}</ion-button>
-            <ion-button fill="clear" (click)="goForgot()">{{ 'AUTH.FORGOT_PASSWORD' | translate }}</ion-button>
-            <ion-button expand="block" color="danger" (click)="loginGoogle()">
+        <div class="form-section">
+            <div class="input-group">
+                <ion-item lines="none" class="custom-input">
+                    <ion-icon name="mail-outline" slot="start"></ion-icon>
+                    <ion-input [placeholder]="'AUTH.EMAIL' | translate" [(ngModel)]="email" type="email"></ion-input>
+                </ion-item>
+
+                <ion-item lines="none" class="custom-input">
+                    <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+                    <ion-input [placeholder]="'AUTH.PASSWORD' | translate" [(ngModel)]="password" type="password"></ion-input>
+                </ion-item>
+            </div>
+
+            <div class="forgot-pass">
+                <ion-button fill="clear" size="small" (click)="goForgot()">
+                    {{ 'AUTH.FORGOT_PASSWORD' | translate }}
+                </ion-button>
+            </div>
+
+            <ion-button expand="block" class="main-btn" (click)="login()">
+                {{ 'AUTH.LOGIN' | translate }}
+            </ion-button>
+
+            <div class="divider">
+                <span>O</span>
+            </div>
+
+            <ion-button expand="block" class="google-btn" (click)="loginGoogle()">
                 <ion-icon slot="start" name="logo-google"></ion-icon>
                 {{ 'AUTH.SIGN_IN_WITH_GOOGLE' | translate }}
             </ion-button>
-        </ion-card-content>
-    </ion-card>
-</ion-content>
+        </div>
 
-<ion-footer>
-    <ion-toolbar>
-        <ion-title size="small">Versión {{ appVersion }}</ion-title>
-    </ion-toolbar>
-</ion-footer>
+        <div class="footer-section">
+            <p>{{ 'AUTH.DONT_HAVE_ACCOUNT' | translate }}</p>
+            <ion-button fill="clear" (click)="register()">
+                {{ 'AUTH.REGISTER' | translate }}
+            </ion-button>
+        </div>
+
+    </div>
+
+</ion-content>

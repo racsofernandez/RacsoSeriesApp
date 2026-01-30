@@ -1,41 +1,70 @@
-.actor-header {
-  height: 260px; // antes 220px → +18%
+.main-content {
+  --background: #141414;
+  --color: #e5e5e5;
+}
 
+ion-toolbar {
+  --background: #141414;
+  --color: white;
+}
+
+.actor-header {
+  height: 260px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--ion-color-light);
+  background: linear-gradient(to bottom, #1f1f1f, #141414);
 
   img {
     height: 100%;
-    max-height: 240px; // antes 200px → +20%
+    max-height: 240px;
     width: auto;
     border-radius: 16px;
     object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
   }
 }
 
-.actor-modal-fullscreen {
-  --height: 100%;
-  --border-radius: 16px 16px 0 0;
+ion-list {
+  background: transparent;
+  padding-top: 0;
+}
+
+ion-item {
+  --background: transparent;
+  --color: #e5e5e5;
+  margin-bottom: 5px;
+
+  ion-icon {
+    color: var(--ion-color-primary);
+    margin-bottom: auto; // Para alinear icono arriba si el texto es largo
+    margin-top: 12px;
+  }
+
+  h2 {
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  p {
+    color: #aaa;
+    font-size: 0.9rem;
+  }
 }
 
 .biography-item {
   align-items: flex-start;
-
-  ion-icon {
-    margin-top: 6px;
-  }
 }
 
 .biography-text {
-  white-space: pre-line;        /* respeta saltos de línea */
+  white-space: pre-line;
   line-height: 1.5;
-  font-size: 0.95rem;
-  color: var(--ion-color-medium);
+  font-size: 0.9rem;
+  color: #ccc;
 
   display: -webkit-box;
-  -webkit-line-clamp: 4;        /* 🔥 3 o 4 líneas */
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -45,3 +74,7 @@
   -webkit-line-clamp: unset;
 }
 
+.bio-toggle {
+  margin-top: 5px;
+  --padding-start: 0;
+}

@@ -1,41 +1,52 @@
-<ion-header>
+<ion-header class="ion-no-border">
     <ion-toolbar>
-        <ion-title>{{ 'TABS.PROFILE' | translate }}</ion-title>
+        <ion-title class="page-title">{{ 'TABS.PROFILE' | translate }}</ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding" *ngIf="user$ | async as user">
-    <ion-card>
-        <ion-card-header>
-            <ion-avatar>
-                <img [src]="user.photoURL || 'assets/default-avatar.png'" />
-            </ion-avatar>
-            <ion-card-title>{{ user.displayName || user.email }}</ion-card-title>
-        </ion-card-header>
+<ion-content class="main-content" *ngIf="user$ | async as user">
 
-        <ion-card-content>
-            <ion-label>{{ 'AUTH.EMAIL' | translate }}: {{ user.email }}</ion-label>
+    <div class="profile-header">
+        <div class="avatar-container">
+            <img [src]="user.photoURL || 'assets/default-avatar.png'" />
+        </div>
+        <h2>{{ user.displayName || 'Usuario' }}</h2>
+        <p>{{ user.email }}</p>
+    </div>
 
+    <div class="profile-section">
+        <h3>{{ 'PROFILE.SETTINGS' | translate }}</h3>
+
+        <ion-card class="settings-card">
             <!-- Selector de Idioma -->
-            <ion-item lines="none" class="ion-margin-top">
-                <ion-label position="stacked">{{ 'PROFILE.LANGUAGE' | translate }}</ion-label>
-                <ion-select [value]="selectedLanguageId" (ionChange)="onLanguageChange($event)" [placeholder]="'PROFILE.LANGUAGE' | translate">
+            <ion-item lines="none">
+                <ion-icon name="language-outline" slot="start"></ion-icon>
+                <ion-label>{{ 'PROFILE.LANGUAGE' | translate }}</ion-label>
+                <ion-select [value]="selectedLanguageId" (ionChange)="onLanguageChange($event)" interface="popover">
                     <ion-select-option *ngFor="let lang of languages" [value]="lang.id">
-                        {{ lang.description }} ({{ lang.code }})
+                        {{ lang.description }}
                     </ion-select-option>
                 </ion-select>
             </ion-item>
+        </ion-card>
+    </div>
 
-            <ion-button expand="block" color="medium" (click)="logout()" class="ion-margin-top">{{ 'AUTH.LOGOUT' | translate }}</ion-button>
-        </ion-card-content>
-    </ion-card>
-    <ion-card>
-        <ion-button fill="clear" (click)="goVerification()">{{ 'PROFILE.RESEND_VERIFICATION' | translate }}</ion-button>
-    </ion-card>
+    <div class="actions-section">
+        <ion-button expand="block" fill="outline" color="light" (click)="goVerification()" class="action-btn">
+            <ion-icon name="mail-outline" slot="start"></ion-icon>
+            {{ 'PROFILE.RESEND_VERIFICATION' | translate }}
+        </ion-button>
+
+        <ion-button expand="block" color="danger" (click)="logout()" class="action-btn logout-btn">
+            <ion-icon name="log-out-outline" slot="start"></ion-icon>
+            {{ 'AUTH.LOGOUT' | translate }}
+        </ion-button>
+    </div>
+
 </ion-content>
 
-<ion-footer>
+<ion-footer class="ion-no-border">
     <ion-toolbar>
-        <ion-title size="small">Versión {{ appVersion }}</ion-title>
+        <ion-title size="small" class="version-text">v{{ appVersion }}</ion-title>
     </ion-toolbar>
 </ion-footer>

@@ -1,58 +1,56 @@
-<ion-header>
+<ion-header class="ion-no-border">
     <ion-toolbar>
-        <ion-title>
+        <ion-title class="page-title">
             {{ 'TABS.SEARCH' | translate }}
         </ion-title>
         <ion-buttons slot="end">
             <ion-button (click)="abrirGeneros()">
-                <ion-icon slot="start" name="list-outline"></ion-icon>
-                {{ 'SEARCH.GENRES' | translate }}
+                <ion-icon slot="start" name="filter-outline"></ion-icon>
             </ion-button>
         </ion-buttons>
     </ion-toolbar>
+    <ion-toolbar>
+        <ion-searchbar
+            [placeholder]="'TABS.SEARCH' | translate"
+            animated
+            debounce="700"
+            [value]="textoBuscar"
+            (ionInput)="buscar($event)"
+            class="custom-searchbar">
+        </ion-searchbar>
+    </ion-toolbar>
 </ion-header>
 
-<ion-toolbar>
-    <ion-searchbar [placeholder]="'TABS.SEARCH' | translate" animated debounce="700" [value]="textoBuscar" (ionInput)="buscar($event)">
-
-    </ion-searchbar>
-
-</ion-toolbar>
-
-<ion-content>
+<ion-content class="main-content">
     <ion-grid *ngIf="buscando">
         <ion-row>
             <ion-col class="ion-text-center">
-                <ion-spinner name="crescent"></ion-spinner>
+                <ion-spinner name="crescent" color="primary"></ion-spinner>
             </ion-col>
         </ion-row>
     </ion-grid>
 
-    <ion-list *ngIf="peliculas.length === 0 ">
+    <ion-list *ngIf="peliculas.length === 0 && ideas.length > 0" class="ideas-list">
         <ion-list-header>
-            <ion-label>Ideas</ion-label>
+            <ion-label>Sugerencias</ion-label>
         </ion-list-header>
-        <ion-item *ngFor="let idea of ideas">
-            <ion-label color="primary" (click)="seleccionarIdea(idea)">{{idea}}</ion-label>
+        <ion-item *ngFor="let idea of ideas" lines="none" detail="false" class="idea-item">
+            <ion-label (click)="seleccionarIdea(idea)">{{idea}}</ion-label>
+            <ion-icon name="search-outline" slot="end" color="medium"></ion-icon>
         </ion-item>
     </ion-list>
 
-    <ion-grid>
+    <ion-grid class="results-grid" *ngIf="peliculas.length > 0">
         <ion-row>
-            <ion-col size="4" *ngFor="let pelicula of peliculas">
-                <ion-card (click)="verDetalle( pelicula.id )">
-                    <img [src]="pelicula.poster_path | imagen" *ngIf="pelicula.poster_path">
-                    <img src="/src/assets/no-image-banner.jpg" *ngIf="!pelicula.poster_path">
-                    <ion-card-header>
-                        <ion-card-subtitle>{{pelicula.release_date}}</ion-card-subtitle>
-                    </ion-card-header>
-                    <ion-card-content>
-                        <h2>{{pelicula.title}}</h2>
-                    </ion-card-content>
-                </ion-card>
+            <ion-col size="4" size-md="3" *ngFor="let pelicula of peliculas">
+                <div class="movie-card" (click)="verDetalle( pelicula.id )">
+                    <img [src]="pelicula.poster_path | imagen" *ngIf="pelicula.poster_path" loading="lazy">
+                    <img src="assets/no-image-banner.jpg" *ngIf="!pelicula.poster_path">
+                    <!-- <div class="movie-info">
+                        <span class="year">{{pelicula.release_date | date:'yyyy'}}</span>
+                    </div> -->
+                </div>
             </ion-col>
         </ion-row>
     </ion-grid>
-
-
 </ion-content>
