@@ -121,13 +121,10 @@
         </ion-card>
     </ion-grid>
 
-    <ion-grid fixed>
-        <ion-row>
-            <ion-col>
-                <ion-label>{{ 'DETAILS.CAST' | translate }}</ion-label>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
+    <!-- Cast Header -->
+    <div class="section-header cast-header">
+        <h3>{{ 'DETAILS.CAST' | translate }}</h3>
+    </div>
 
     <swiper-container [slidesPerView]="3.1" [freeMode]="true">
         <swiper-slide *ngFor="let actor of actores">
@@ -143,43 +140,52 @@
         </swiper-slide>
     </swiper-container>
 
-    <ion-grid *ngIf="backdrops.length > 0">
-        <ion-card class="info-card" (click)="verImagen(backdrops, 0, 'backdrops')">
-            <ion-item lines="none">
-                <ion-icon name="image-outline" slot="start"></ion-icon>
-                <ion-label>
-                    <h2>{{ 'DETAILS.BACKDROPS' | translate }}</h2>
-                    <p>{{ backdrops.length }}</p>
-                </ion-label>
-                <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
-            </ion-item>
-        </ion-card>
-    </ion-grid>
+    <!-- Galería Multimedia -->
+    <div class="gallery-section" *ngIf="backdrops.length > 0 || posters.length > 0 || logos.length > 0">
+        <div class="section-header">
+            <h3>{{ 'DETAILS.GALLERY' | translate }}</h3>
+        </div>
 
-    <ion-grid *ngIf="posters.length > 0">
-        <ion-card class="info-card" (click)="verImagen(posters, 0, 'posters')">
-            <ion-item lines="none">
-                <ion-icon name="albums-outline" slot="start"></ion-icon>
-                <ion-label>
-                    <h2>{{ 'DETAILS.POSTERS' | translate }}</h2>
-                    <p>{{ posters.length }}</p>
-                </ion-label>
-                <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
-            </ion-item>
-        </ion-card>
-    </ion-grid>
+        <div class="gallery-grid">
+            <!-- Tarjeta Backdrops -->
+            <div class="gallery-card backdrop-preview"
+                 *ngIf="backdrops.length > 0"
+                 (click)="verImagen(backdrops, 0, 'backdrops')"
+                 [style.background-image]="'url(' + (backdrops[0].file_path | imagen) + ')'">
+                <div class="overlay">
+                    <ion-icon name="image-outline"></ion-icon>
+                    <span class="count">{{ backdrops.length }}</span>
+                    <span class="label">{{ 'DETAILS.BACKDROPS' | translate }}</span>
+                </div>
+            </div>
 
-    <ion-grid *ngIf="logos.length > 0">
-        <ion-card class="info-card" (click)="verImagen(logos, 0, 'logos')">
-            <ion-item lines="none">
-                <ion-icon name="shapes-outline" slot="start"></ion-icon>
-                <ion-label>
-                    <h2>{{ 'DETAILS.LOGOS' | translate }}</h2>
-                    <p>{{ logos.length }}</p>
-                </ion-label>
-                <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
-            </ion-item>
-        </ion-card>
-    </ion-grid>
+            <!-- Tarjeta Posters -->
+            <div class="gallery-card poster-preview"
+                 *ngIf="posters.length > 0"
+                 (click)="verImagen(posters, 0, 'posters')"
+                 [style.background-image]="'url(' + (posters[0].file_path | imagen) + ')'">
+                <div class="overlay">
+                    <ion-icon name="albums-outline"></ion-icon>
+                    <span class="count">{{ posters.length }}</span>
+                    <span class="label">{{ 'DETAILS.POSTERS' | translate }}</span>
+                </div>
+            </div>
+
+            <!-- Tarjeta Logos -->
+            <div class="gallery-card logo-preview"
+                 *ngIf="logos.length > 0"
+                 (click)="verImagen(logos, 0, 'logos')">
+                 <!-- Logos suelen ser PNG transparentes, mejor ponerlos en img tag dentro o fondo neutro -->
+                 <div class="logo-bg">
+                    <img [src]="logos[0].file_path | imagen" *ngIf="logos[0]">
+                 </div>
+                <div class="overlay">
+                    <ion-icon name="shapes-outline"></ion-icon>
+                    <span class="count">{{ logos.length }}</span>
+                    <span class="label">{{ 'DETAILS.LOGOS' | translate }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </ion-content>
