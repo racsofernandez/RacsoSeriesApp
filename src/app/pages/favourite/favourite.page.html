@@ -15,8 +15,8 @@
 
     <div *ngFor="let genero of favoritoGenero" class="genre-section">
         <div *ngIf="genero.pelis.length > 0">
-            <div class="genre-header">
-                <h4 class="genre-title">{{genero.name}}</h4>
+            <div class="section-header">
+                <h3>{{genero.name}}</h3>
                 <span class="genre-count">{{genero.pelis.length}}</span>
             </div>
 

@@ -16,18 +16,20 @@ ion-toolbar {
   margin-bottom: 25px;
 }
 
-.genre-header {
+.section-header {
   display: flex;
   align-items: center;
   padding: 0 16px 10px;
   justify-content: space-between;
-}
 
-.genre-title {
-  margin: 0;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #e5e5e5;
+  h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    border-left: 3px solid var(--ion-color-primary);
+    padding-left: 10px;
+  }
 }
 
 .genre-count {
