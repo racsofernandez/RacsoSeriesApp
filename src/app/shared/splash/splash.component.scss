@@ -1,7 +1,7 @@
 :host {
   position: fixed;
   inset: 0;
-  background: #ffffff;
+  background: #141414; /* Fondo oscuro unificado */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -17,7 +17,7 @@
 
 @media (prefers-color-scheme: dark) {
   :host {
-    background: #121212;
+    background: #141414; /* Asegurar consistencia en modo oscuro */
     color: white;
   }
 }

@@ -12,6 +12,8 @@ import {Location} from "@angular/common";
 import { TranslateService } from '@ngx-translate/core';
 import {SeriesDbService} from "./services/series-db.service";
 import {MoviesService} from "./services/movies.service";
+import { StatusBar, Style } from '@capacitor/status-bar';
+import { NavigationBar } from '@capgo/capacitor-navigation-bar';
 
 
 register();
@@ -42,7 +44,12 @@ export class AppComponent implements OnInit {
   }
 
     initializeApp() {
-        this.platform.ready().then(() => {
+        this.platform.ready().then(async () => {
+            if (Capacitor.isNativePlatform()) {
+                await StatusBar.setBackgroundColor({ color: '#141414' });
+                await StatusBar.setStyle({ style: Style.Dark });
+            }
+
             this.platform.backButton.subscribeWithPriority(9999, async (processNextHandler) => {
                 try {
                     const modal = await this.modalCtrl.getTop();
