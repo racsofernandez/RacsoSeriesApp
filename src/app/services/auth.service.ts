@@ -169,8 +169,12 @@ export class AuthService {
         return this.auth.currentUser;
     }
 
-    async getIdToken(): Promise<string | null> {
-        return this.auth.currentUser?.getIdToken() ?? null;
+    async getIdToken(forceRefresh = false): Promise<string | null> {
+        const user = this.auth.currentUser;
+        if (user) {
+            return user.getIdToken(forceRefresh);
+        }
+        return null;
     }
 
 }
