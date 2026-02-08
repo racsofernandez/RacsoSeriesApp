@@ -203,9 +203,12 @@ jobs:
           mkdir -p assets
           cp src/assets/seriesapp-logo.png assets/icon.png
           cp src/assets/seriesapp-logo.png assets/splash.png
-                 
+          
+          # Instalar @capacitor/assets si no está
+          npm install @capacitor/assets --save-dev
+          
           # Generar iconos forzando Android
-          npx capacitor-assets generate --android --iconBackgroundColor '#141414' --iconBackgroundColorDark '#141414'
+          npx capacitor-assets generate --android --iconBackgroundColor '#FFFFFF' --iconBackgroundColorDark '#FFFFFF'
 
       # --- Build APK RELEASE ---
       - name: Build APK
