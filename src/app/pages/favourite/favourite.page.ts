@@ -14,12 +14,17 @@ export class FavouritePage {
   series: PeliculaDetalle[] = [];
   generos: Genre[] = [];
   favoritoGenero: any[] = [];
-  loaded = false; // 👈 Nueva variable
+  loaded = false;
+  firstLoad = true; // 👈 Nueva variable para controlar la primera carga
 
   constructor(private dataLocal: SeriesDbService, private movieService: MoviesService, private auth: Auth) {}
 
   async ionViewWillEnter() {
-    this.loaded = false; // Resetear al entrar
+    // Solo mostramos el skeleton si es la primera vez o si no hay datos cargados
+    if (this.firstLoad) {
+        this.loaded = false;
+    }
+    
     const uid = this.auth.currentUser?.uid;
     if (uid!=null) {
       try {
@@ -30,12 +35,14 @@ export class FavouritePage {
       } catch (e) {
           console.error(e);
       } finally {
-          this.loaded = true; // 👈 Listo
+          this.loaded = true;
+          this.firstLoad = false; // Marcamos que ya se ha cargado al menos una vez
       }
     }
     else {
       console.error('No hay uid, error');
       this.loaded = true;
+      this.firstLoad = false;
     }
   }
 
