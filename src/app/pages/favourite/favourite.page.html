@@ -6,6 +6,10 @@
 
 <ion-content class="main-content">
 
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
     <!-- SKELETON LOADING -->
     <div *ngIf="!loaded">
         <div style="margin-bottom: 25px;">

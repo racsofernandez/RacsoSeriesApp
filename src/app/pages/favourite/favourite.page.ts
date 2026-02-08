@@ -15,13 +15,17 @@ export class FavouritePage {
   generos: Genre[] = [];
   favoritoGenero: any[] = [];
   loaded = false;
-  firstLoad = true; // 👈 Nueva variable para controlar la primera carga
+  firstLoad = true;
 
   constructor(private dataLocal: SeriesDbService, private movieService: MoviesService, private auth: Auth) {}
 
   async ionViewWillEnter() {
+    await this.cargarFavoritos();
+  }
+
+  async cargarFavoritos(event?: any) {
     // Solo mostramos el skeleton si es la primera vez o si no hay datos cargados
-    if (this.firstLoad) {
+    if (this.firstLoad && !event) {
         this.loaded = false;
     }
     
@@ -36,14 +40,20 @@ export class FavouritePage {
           console.error(e);
       } finally {
           this.loaded = true;
-          this.firstLoad = false; // Marcamos que ya se ha cargado al menos una vez
+          this.firstLoad = false;
+          if (event) event.target.complete();
       }
     }
     else {
       console.error('No hay uid, error');
       this.loaded = true;
       this.firstLoad = false;
+      if (event) event.target.complete();
     }
+  }
+
+  doRefresh(event: any) {
+      this.cargarFavoritos(event);
   }
 
   pelisPorGenero( generos: Genre[], series: PeliculaDetalle[] ) {

@@ -25,27 +25,34 @@ export class HomePage implements OnInit {
             }
         });
 
+        this.cargarDatos();
+    }
+
+    cargarDatos(event?: any) {
         combineLatest([
             this.moviesService.getFeature(),
             this.moviesService.getPopulares()
         ])
-            .pipe(take(1)) // 👈 importante
+            .pipe(take(1))
             .subscribe({
                 next: ([recientes, populares]) => {
                     this.recientes = recientes.results;
                     this.populares = populares.results;
-                    this.loaded = true;           // 👈 AQUÍ
-                    this.splash.hide(); // Ocultar splash cuando los datos estén listos
+                    this.loaded = true;
+                    this.splash.hide();
+                    if (event) event.target.complete();
                 },
                 error: err => {
                     console.error(err);
                     this.splash.hide();
-                    this.loaded = true;           // evita bloqueo
-                },
-                complete: () => {
-                    // this.splash.hide(); // Ya se oculta en next o error
+                    this.loaded = true;
+                    if (event) event.target.complete();
                 }
             });
+    }
+
+    doRefresh(event: any) {
+        this.cargarDatos(event);
     }
 
 
