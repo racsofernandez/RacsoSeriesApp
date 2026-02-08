@@ -196,6 +196,17 @@ jobs:
         run: |
           echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/seriesapp.keystore
 
+      # --- Generate App Icons ---
+      - name: Generate App Icons
+        run: |
+          # Asegurarse de que la carpeta assets existe y tiene el icono
+          mkdir -p assets
+          cp src/assets/seriesapp-logo.png assets/icon.png
+          cp src/assets/seriesapp-logo.png assets/splash.png
+                 
+          # Generar iconos forzando Android
+          npx capacitor-assets generate --android --iconBackgroundColor '#141414' --iconBackgroundColorDark '#141414'
+
       # --- Build APK RELEASE ---
       - name: Build APK
         run: |
