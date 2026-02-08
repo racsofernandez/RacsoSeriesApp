@@ -5,7 +5,7 @@ import { MoviesService } from 'src/app/services/movies.service';
 import {SeriesDbService} from "../../services/series-db.service";
 import {Auth} from "@angular/fire/auth";
 import {ActorModalComponent} from "../actor-modal/actor-modal.component";
-import {Subscription} from "rxjs";
+import {combineLatest, Subscription} from "rxjs";
 import { SeasonsModalComponent } from '../seasons-modal/seasons-modal.component';
 import { ImageViewerModalComponent } from '../image-viewer-modal/image-viewer-modal.component';
 import { TranslateService } from '@ngx-translate/core';
@@ -27,6 +27,7 @@ export class DetalleComponent  implements OnInit {
   overviewExpanded = false;
   star = "star-outline";
   updated = false;
+  loaded = false; // 👈 Nueva variable
   private backButtonSub?: Subscription;
 
   constructor(private moviesService: MoviesService,
@@ -40,39 +41,30 @@ export class DetalleComponent  implements OnInit {
   ngOnInit() {
     console.log("id", this.id);
 
-      // this.platform.backButton.subscribeWithPriority(10, async () => {
-      //     const topModal = await this.modalCtrl.getTop();
-      //     if (topModal) {
-      //         await topModal.dismiss();
-      //     }
-      // });
-
       const uid = this.auth.currentUser?.uid;
     if (uid!=null) {
         this.dataLocal.existeSerie(uid, this.id).then(existe => this.star = (existe) ? 'star': 'star-outline');
     }
 
-    this.moviesService.getPeliculaDetalle(this.id)
-      .subscribe( resp => {
-        this.pelicula = resp;
-        console.log("detalle", resp);
-        //  this.populares = resp.results;
-      })
-
-    this.moviesService.getActoresPelicula(this.id)
-    .subscribe( resp => {
-      this.actores = resp.cast;
-      console.log("actores", this.actores);
-      //  this.populares = resp.results;
-    })
-
-    this.moviesService.getSeriesImages(this.id)
-        .subscribe( resp => {
-            this.backdrops = resp.backdrops;
-            this.posters = resp.posters;
-            this.logos = resp.logos;
-            console.log("images", resp);
-        })
+    // Usar combineLatest para saber cuando todo ha cargado
+    combineLatest([
+        this.moviesService.getPeliculaDetalle(this.id),
+        this.moviesService.getActoresPelicula(this.id),
+        this.moviesService.getSeriesImages(this.id)
+    ]).subscribe({
+        next: ([detalle, actores, imagenes]) => {
+            this.pelicula = detalle;
+            this.actores = actores.cast;
+            this.backdrops = imagenes.backdrops;
+            this.posters = imagenes.posters;
+            this.logos = imagenes.logos;
+            this.loaded = true; // 👈 Todo listo
+        },
+        error: (err) => {
+            console.error(err);
+            this.loaded = true; // Evitar bloqueo infinito
+        }
+    });
   }
 
   regresar() {

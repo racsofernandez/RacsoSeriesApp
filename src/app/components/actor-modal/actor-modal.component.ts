@@ -14,14 +14,22 @@ export class ActorModalComponent implements OnInit {
     @Input() persona!: Persona;
     personDetail: PersonDetail;
     bioExpanded = false;
+    loaded = false; // 👈 Nueva variable
 
     constructor(private moviesService: MoviesService, private modalCtrl: ModalController) {}
 
     ngOnInit(): void {
         this.moviesService.getPersonDetail(this.persona.id)
-            .subscribe( resp => {
-                this.personDetail = resp;
-            })
+            .subscribe({
+                next: (resp) => {
+                    this.personDetail = resp;
+                    this.loaded = true; // 👈 Listo
+                },
+                error: (err) => {
+                    console.error(err);
+                    this.loaded = true;
+                }
+            });
     }
 
     cerrar() {

@@ -21,7 +21,33 @@
                 *ngIf="!persona.profile_path">
     </div>
 
-    <ion-list lines="none">
+    <!-- SKELETON LOADING -->
+    <ion-list lines="none" *ngIf="!loaded">
+        <ion-item>
+            <ion-skeleton-text animated style="width: 24px; height: 24px; margin-right: 16px;" slot="start"></ion-skeleton-text>
+            <ion-label>
+                <h2><ion-skeleton-text animated style="width: 40%"></ion-skeleton-text></h2>
+                <p><ion-skeleton-text animated style="width: 60%"></ion-skeleton-text></p>
+            </ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-skeleton-text animated style="width: 24px; height: 24px; margin-right: 16px;" slot="start"></ion-skeleton-text>
+            <ion-label>
+                <h2><ion-skeleton-text animated style="width: 40%"></ion-skeleton-text></h2>
+                <p><ion-skeleton-text animated style="width: 60%"></ion-skeleton-text></p>
+            </ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-skeleton-text animated style="width: 24px; height: 24px; margin-right: 16px;" slot="start"></ion-skeleton-text>
+            <ion-label>
+                <h2><ion-skeleton-text animated style="width: 40%"></ion-skeleton-text></h2>
+                <p><ion-skeleton-text animated style="width: 80%; height: 60px;"></ion-skeleton-text></p>
+            </ion-label>
+        </ion-item>
+    </ion-list>
+
+    <!-- REAL CONTENT -->
+    <ion-list lines="none" *ngIf="loaded">
 
         <ion-item *ngIf="persona.character">
             <ion-icon name="happy-outline" slot="start"></ion-icon>

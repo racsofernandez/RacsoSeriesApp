@@ -8,13 +8,16 @@
             </ion-button>
         </ion-buttons>
 
-        <ion-title>
+        <ion-title *ngIf="loaded">
             {{ pelicula.title }}
+        </ion-title>
+        <ion-title *ngIf="!loaded">
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
         </ion-title>
 
         <!-- Favoritos -->
         <ion-buttons slot="end">
-            <ion-button (click)="favorito()">
+            <ion-button (click)="favorito()" [disabled]="!loaded">
                 <ion-icon
                         [name]="star"
                         [color]="star === 'star' ? 'warning' : 'medium'">
@@ -27,165 +30,218 @@
 
 <ion-content  [fullscreen]="true" class="detalle-content">
 
-    <img
-            [src]="pelicula.backdrop_path | imagen"
-            class="backdrop"
-            *ngIf="pelicula.backdrop_path"
-            (click)="verImagenIndividual(pelicula.backdrop_path)">
+    <!-- SKELETON LOADING -->
+    <div *ngIf="!loaded">
+        <!-- Backdrop Skeleton -->
+        <ion-skeleton-text animated style="width: 100%; height: 220px;"></ion-skeleton-text>
 
-    <ion-grid>
-        <ion-row>
-            <ion-col size="4" class="poster-detalle-sobre">
-                <ion-card class="poster">
-                    <img
-                            [src]="pelicula.poster_path | imagen"
-                            class="poster"
-                            *ngIf="pelicula.poster_path"
-                            (click)="verImagenIndividual(pelicula.poster_path)">
-                </ion-card>
-            </ion-col>
+        <ion-grid>
+            <ion-row>
+                <ion-col size="4" class="poster-detalle-sobre">
+                    <!-- Poster Skeleton -->
+                    <ion-skeleton-text animated style="width: 100%; height: 160px; border-radius: 12px;"></ion-skeleton-text>
+                </ion-col>
 
-            <ion-col>
-                <ion-item>
-                    <ion-icon slot="start" name="thumbs-up-outline"></ion-icon>
-                    <ion-label>Rating</ion-label>
-                    <ion-note slot="end" color="primary">
-                        {{ pelicula.vote_average }}
-                    </ion-note>
-                </ion-item>
+                <ion-col>
+                    <!-- Stats Skeleton -->
+                    <ion-item lines="none">
+                        <ion-skeleton-text animated style="width: 20px; height: 20px; margin-right: 10px;" slot="start"></ion-skeleton-text>
+                        <ion-label><ion-skeleton-text animated style="width: 50%"></ion-skeleton-text></ion-label>
+                    </ion-item>
+                    <ion-item lines="none">
+                        <ion-skeleton-text animated style="width: 20px; height: 20px; margin-right: 10px;" slot="start"></ion-skeleton-text>
+                        <ion-label><ion-skeleton-text animated style="width: 50%"></ion-skeleton-text></ion-label>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
 
-                <ion-item>
-                    <ion-icon slot="start" name="people-outline"></ion-icon>
-                    <ion-label>Votos</ion-label>
-                    <ion-note slot="end" color="primary">
-                        {{ pelicula.vote_count }}
-                    </ion-note>
-                </ion-item>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
-
-    <ion-grid fixed>
-        <ion-row>
-            <ion-col>
-                <h2 class="detalle-titulo">{{ pelicula.name }}</h2>
-            </ion-col>
-        </ion-row>
-
-        <ion-row>
-            <ion-col>
-                <ion-text color="medium">
-                    {{ pelicula.first_air_date | date:'yyyy' }}
-                    <span *ngIf="pelicula.production_countries && pelicula.production_countries.length > 0">
-                        · {{ pelicula.production_countries[0].name | countryName:pelicula.production_countries[0].iso_3166_1 }}
-                    </span>
-                </ion-text>
-            </ion-col>
-        </ion-row>
-
-        <ion-row>
-            <ion-col size="12" class="overview-container">
-
-                <p class="overview-text" [class.expanded]="overviewExpanded">
-                    {{ pelicula.overview }}
-                </p>
-
-                <ion-button
-                        color="primary"
-                        fill="clear"
-                        class="overview-toggle"
-                        (click)="overviewExpanded = !overviewExpanded"
-                        *ngIf="pelicula.overview?.length ?? 0 > 300">
-                    {{ overviewExpanded ? ('COMMON.SHOW_LESS' | translate) : ('COMMON.SHOW_MORE' | translate) }}
-                </ion-button>
-
-            </ion-col>
-        </ion-row>
-
-        <ion-row>
-            <ion-col size="12">
-                <ion-chip *ngFor="let genero of pelicula.genres" color="primary">
-                    <ion-label>{{ genero.name }}</ion-label>
-                </ion-chip>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
-
-    <ion-grid>
-        <ion-card class="info-card" (click)="verTemporadas()">
-            <ion-item lines="none">
-                <ion-icon name="tv-outline" slot="start"></ion-icon>
-                <ion-label>
-                    <h2>{{ 'DETAILS.SEASONS' | translate }}</h2>
-                    <p>{{ pelicula.number_of_seasons }} {{ 'DETAILS.SEASONS' | translate }} · {{ pelicula.number_of_episodes }} {{ 'DETAILS.EPISODES' | translate }}</p>
-                </ion-label>
-                <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
-            </ion-item>
-        </ion-card>
-    </ion-grid>
-
-    <!-- Cast Header -->
-    <div class="section-header cast-header">
-        <h3>{{ 'DETAILS.CAST' | translate }}</h3>
+        <ion-grid fixed>
+            <ion-row>
+                <ion-col>
+                    <!-- Title Skeleton -->
+                    <ion-skeleton-text animated style="width: 60%; height: 24px; margin: 0 auto 10px auto;"></ion-skeleton-text>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <!-- Year Skeleton -->
+                    <ion-skeleton-text animated style="width: 30%; height: 16px;"></ion-skeleton-text>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="12">
+                    <!-- Overview Skeleton -->
+                    <ion-skeleton-text animated style="width: 100%; height: 14px; margin-bottom: 5px;"></ion-skeleton-text>
+                    <ion-skeleton-text animated style="width: 100%; height: 14px; margin-bottom: 5px;"></ion-skeleton-text>
+                    <ion-skeleton-text animated style="width: 80%; height: 14px;"></ion-skeleton-text>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
     </div>
 
-    <swiper-container [slidesPerView]="3.1" [freeMode]="true">
-        <swiper-slide *ngFor="let actor of actores">
-            <ion-card class="card-actor"
-                      (click)="abrirActor(actor)">
-                <img [src]="actor.profile_path | imagen" *ngIf="actor.profile_path">
-                <img src="/assets/no-avatar.jpg" *ngIf="!actor.profile_path">
-                <ion-label>
-                    <strong>{{ actor.name }}</strong>
-                    <p class="personaje">{{ actor.character }}</p>
-                </ion-label>
-            </ion-card>
-        </swiper-slide>
-    </swiper-container>
+    <!-- REAL CONTENT -->
+    <div *ngIf="loaded">
+        <img
+                [src]="pelicula.backdrop_path | imagen"
+                class="backdrop"
+                *ngIf="pelicula.backdrop_path"
+                (click)="verImagenIndividual(pelicula.backdrop_path)">
 
-    <!-- Galería Multimedia -->
-    <div class="gallery-section" *ngIf="backdrops.length > 0 || posters.length > 0 || logos.length > 0">
-        <div class="section-header">
-            <h3>{{ 'DETAILS.GALLERY' | translate }}</h3>
+        <ion-grid>
+            <ion-row>
+                <ion-col size="4" class="poster-detalle-sobre">
+                    <ion-card class="poster">
+                        <img
+                                [src]="pelicula.poster_path | imagen"
+                                class="poster"
+                                *ngIf="pelicula.poster_path"
+                                (click)="verImagenIndividual(pelicula.poster_path)">
+                    </ion-card>
+                </ion-col>
+
+                <ion-col>
+                    <ion-item>
+                        <ion-icon slot="start" name="thumbs-up-outline"></ion-icon>
+                        <ion-label>Rating</ion-label>
+                        <ion-note slot="end" color="primary">
+                            {{ pelicula.vote_average }}
+                        </ion-note>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-icon slot="start" name="people-outline"></ion-icon>
+                        <ion-label>Votos</ion-label>
+                        <ion-note slot="end" color="primary">
+                            {{ pelicula.vote_count }}
+                        </ion-note>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <ion-grid fixed>
+            <ion-row>
+                <ion-col>
+                    <h2 class="detalle-titulo">{{ pelicula.name }}</h2>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col>
+                    <ion-text color="medium">
+                        {{ pelicula.first_air_date | date:'yyyy' }}
+                        <span *ngIf="pelicula.production_countries && pelicula.production_countries.length > 0">
+                            · {{ pelicula.production_countries[0].name | countryName:pelicula.production_countries[0].iso_3166_1 }}
+                        </span>
+                    </ion-text>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col size="12" class="overview-container">
+
+                    <p class="overview-text" [class.expanded]="overviewExpanded">
+                        {{ pelicula.overview }}
+                    </p>
+
+                    <ion-button
+                            color="primary"
+                            fill="clear"
+                            class="overview-toggle"
+                            (click)="overviewExpanded = !overviewExpanded"
+                            *ngIf="pelicula.overview?.length ?? 0 > 300">
+                        {{ overviewExpanded ? ('COMMON.SHOW_LESS' | translate) : ('COMMON.SHOW_MORE' | translate) }}
+                    </ion-button>
+
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col size="12">
+                    <ion-chip *ngFor="let genero of pelicula.genres" color="primary">
+                        <ion-label>{{ genero.name }}</ion-label>
+                    </ion-chip>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <ion-grid>
+            <ion-card class="info-card" (click)="verTemporadas()">
+                <ion-item lines="none">
+                    <ion-icon name="tv-outline" slot="start"></ion-icon>
+                    <ion-label>
+                        <h2>{{ 'DETAILS.SEASONS' | translate }}</h2>
+                        <p>{{ pelicula.number_of_seasons }} {{ 'DETAILS.SEASONS' | translate }} · {{ pelicula.number_of_episodes }} {{ 'DETAILS.EPISODES' | translate }}</p>
+                    </ion-label>
+                    <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+                </ion-item>
+            </ion-card>
+        </ion-grid>
+
+        <!-- Cast Header -->
+        <div class="section-header cast-header">
+            <h3>{{ 'DETAILS.CAST' | translate }}</h3>
         </div>
 
-        <div class="gallery-grid">
-            <!-- Tarjeta Backdrops -->
-            <div class="gallery-card backdrop-preview"
-                 *ngIf="backdrops.length > 0"
-                 (click)="verImagen(backdrops, 0, 'backdrops')"
-                 [style.background-image]="'url(' + (backdrops[0].file_path | imagen) + ')'">
-                <div class="overlay">
-                    <ion-icon name="image-outline"></ion-icon>
-                    <span class="count">{{ backdrops.length }}</span>
-                    <span class="label">{{ 'DETAILS.BACKDROPS' | translate }}</span>
-                </div>
+        <swiper-container [slidesPerView]="3.1" [freeMode]="true">
+            <swiper-slide *ngFor="let actor of actores">
+                <ion-card class="card-actor"
+                          (click)="abrirActor(actor)">
+                    <img [src]="actor.profile_path | imagen" *ngIf="actor.profile_path">
+                    <img src="/assets/no-avatar.jpg" *ngIf="!actor.profile_path">
+                    <ion-label>
+                        <strong>{{ actor.name }}</strong>
+                        <p class="personaje">{{ actor.character }}</p>
+                    </ion-label>
+                </ion-card>
+            </swiper-slide>
+        </swiper-container>
+
+        <!-- Galería Multimedia -->
+        <div class="gallery-section" *ngIf="backdrops.length > 0 || posters.length > 0 || logos.length > 0">
+            <div class="section-header">
+                <h3>{{ 'DETAILS.GALLERY' | translate }}</h3>
             </div>
 
-            <!-- Tarjeta Posters -->
-            <div class="gallery-card poster-preview"
-                 *ngIf="posters.length > 0"
-                 (click)="verImagen(posters, 0, 'posters')"
-                 [style.background-image]="'url(' + (posters[0].file_path | imagen) + ')'">
-                <div class="overlay">
-                    <ion-icon name="albums-outline"></ion-icon>
-                    <span class="count">{{ posters.length }}</span>
-                    <span class="label">{{ 'DETAILS.POSTERS' | translate }}</span>
+            <div class="gallery-grid">
+                <!-- Tarjeta Backdrops -->
+                <div class="gallery-card backdrop-preview"
+                     *ngIf="backdrops.length > 0"
+                     (click)="verImagen(backdrops, 0, 'backdrops')"
+                     [style.background-image]="'url(' + (backdrops[0].file_path | imagen) + ')'">
+                    <div class="overlay">
+                        <ion-icon name="image-outline"></ion-icon>
+                        <span class="count">{{ backdrops.length }}</span>
+                        <span class="label">{{ 'DETAILS.BACKDROPS' | translate }}</span>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Tarjeta Logos -->
-            <div class="gallery-card logo-preview"
-                 *ngIf="logos.length > 0"
-                 (click)="verImagen(logos, 0, 'logos')">
-                 <!-- Logos suelen ser PNG transparentes, mejor ponerlos en img tag dentro o fondo neutro -->
-                 <div class="logo-bg">
-                    <img [src]="logos[0].file_path | imagen" *ngIf="logos[0]">
-                 </div>
-                <div class="overlay">
-                    <ion-icon name="shapes-outline"></ion-icon>
-                    <span class="count">{{ logos.length }}</span>
-                    <span class="label">{{ 'DETAILS.LOGOS' | translate }}</span>
+                <!-- Tarjeta Posters -->
+                <div class="gallery-card poster-preview"
+                     *ngIf="posters.length > 0"
+                     (click)="verImagen(posters, 0, 'posters')"
+                     [style.background-image]="'url(' + (posters[0].file_path | imagen) + ')'">
+                    <div class="overlay">
+                        <ion-icon name="albums-outline"></ion-icon>
+                        <span class="count">{{ posters.length }}</span>
+                        <span class="label">{{ 'DETAILS.POSTERS' | translate }}</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta Logos -->
+                <div class="gallery-card logo-preview"
+                     *ngIf="logos.length > 0"
+                     (click)="verImagen(logos, 0, 'logos')">
+                     <!-- Logos suelen ser PNG transparentes, mejor ponerlos en img tag dentro o fondo neutro -->
+                     <div class="logo-bg">
+                        <img [src]="logos[0].file_path | imagen" *ngIf="logos[0]">
+                     </div>
+                    <div class="overlay">
+                        <ion-icon name="shapes-outline"></ion-icon>
+                        <span class="count">{{ logos.length }}</span>
+                        <span class="label">{{ 'DETAILS.LOGOS' | translate }}</span>
+                    </div>
                 </div>
             </div>
         </div>

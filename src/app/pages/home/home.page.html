@@ -1,21 +1,49 @@
-<ion-content [fullscreen]="true" *ngIf="loaded" class="main-content">
+<ion-content [fullscreen]="true" class="main-content">
 
-    <div class="section-header">
-        <h2 class="section-title">{{ 'HOME.UPCOMING' | translate }}</h2>
+    <!-- SKELETON LOADING -->
+    <div *ngIf="!loaded">
+        <!-- Header Skeleton -->
+        <div class="section-header">
+            <ion-skeleton-text animated style="width: 40%; height: 20px; border-radius: 4px;"></ion-skeleton-text>
+        </div>
+
+        <!-- Backdrop Skeleton -->
+        <div style="padding: 0 16px;">
+            <ion-skeleton-text animated style="width: 100%; height: 200px; border-radius: 12px; margin-bottom: 20px;"></ion-skeleton-text>
+        </div>
+
+        <!-- Poster Header Skeleton -->
+        <div class="section-header">
+            <ion-skeleton-text animated style="width: 30%; height: 20px; border-radius: 4px;"></ion-skeleton-text>
+        </div>
+
+        <!-- Posters Skeleton Row -->
+        <div style="display: flex; overflow-x: hidden; padding-left: 16px; gap: 10px;">
+            <ion-skeleton-text animated style="min-width: 110px; height: 160px; border-radius: 12px;"></ion-skeleton-text>
+            <ion-skeleton-text animated style="min-width: 110px; height: 160px; border-radius: 12px;"></ion-skeleton-text>
+            <ion-skeleton-text animated style="min-width: 110px; height: 160px; border-radius: 12px;"></ion-skeleton-text>
+        </div>
     </div>
 
-    <app-slideshow-backdrop [peliculas]="recientes"></app-slideshow-backdrop>
+    <!-- REAL CONTENT -->
+    <div *ngIf="loaded">
+        <div class="section-header">
+            <h2 class="section-title">{{ 'HOME.UPCOMING' | translate }}</h2>
+        </div>
 
-    <div class="section-header">
-        <h2 class="section-title">{{ 'HOME.NOW_PLAYING' | translate }}</h2>
+        <app-slideshow-backdrop [peliculas]="recientes"></app-slideshow-backdrop>
+
+        <div class="section-header">
+            <h2 class="section-title">{{ 'HOME.NOW_PLAYING' | translate }}</h2>
+        </div>
+
+        <app-slideshow-poster [peliculas]="recientes"></app-slideshow-poster>
+
+        <div class="section-header">
+            <h2 class="section-title">{{ 'HOME.POPULAR' | translate }}</h2>
+        </div>
+
+        <app-slideshow-pares [peliculas]="populares" (cargarMas)="cargarMas()"></app-slideshow-pares>
     </div>
-
-    <app-slideshow-poster [peliculas]="recientes"></app-slideshow-poster>
-
-    <div class="section-header">
-        <h2 class="section-title">{{ 'HOME.POPULAR' | translate }}</h2>
-    </div>
-
-    <app-slideshow-pares [peliculas]="populares" (cargarMas)="cargarMas()"></app-slideshow-pares>
 
 </ion-content>

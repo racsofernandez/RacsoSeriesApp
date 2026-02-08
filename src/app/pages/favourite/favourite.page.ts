@@ -14,20 +14,28 @@ export class FavouritePage {
   series: PeliculaDetalle[] = [];
   generos: Genre[] = [];
   favoritoGenero: any[] = [];
-
+  loaded = false; // 👈 Nueva variable
 
   constructor(private dataLocal: SeriesDbService, private movieService: MoviesService, private auth: Auth) {}
 
   async ionViewWillEnter() {
+    this.loaded = false; // Resetear al entrar
     const uid = this.auth.currentUser?.uid;
     if (uid!=null) {
-      this.series = await this.dataLocal.cargarSeriesFavoritas(uid);
-      console.log('Series favoritas', this.series);
-      this.generos = await this.movieService.cargarGeneros();
-      this.pelisPorGenero(this.generos, this.series);
+      try {
+          this.series = await this.dataLocal.cargarSeriesFavoritas(uid);
+          console.log('Series favoritas', this.series);
+          this.generos = await this.movieService.cargarGeneros();
+          this.pelisPorGenero(this.generos, this.series);
+      } catch (e) {
+          console.error(e);
+      } finally {
+          this.loaded = true; // 👈 Listo
+      }
     }
     else {
       console.error('No hay uid, error');
+      this.loaded = true;
     }
   }
 

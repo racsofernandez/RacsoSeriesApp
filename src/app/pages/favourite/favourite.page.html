@@ -6,24 +6,52 @@
 
 <ion-content class="main-content">
 
-    <!-- Empty State -->
-    <div class="empty-state" *ngIf="series.length === 0">
-        <ion-icon name="heart-dislike-outline"></ion-icon>
-        <h3>{{ 'FAVORITES.EMPTY_TITLE' | translate }}</h3>
-        <p>{{ 'FAVORITES.EMPTY_MSG' | translate }}</p>
+    <!-- SKELETON LOADING -->
+    <div *ngIf="!loaded">
+        <div style="margin-bottom: 25px;">
+            <div class="section-header">
+                <ion-skeleton-text animated style="width: 30%; height: 20px; border-radius: 4px;"></ion-skeleton-text>
+                <ion-skeleton-text animated style="width: 30px; height: 20px; border-radius: 10px;"></ion-skeleton-text>
+            </div>
+            <div style="display: flex; overflow-x: hidden; padding-left: 16px; gap: 10px;">
+                <ion-skeleton-text animated style="min-width: 110px; height: 160px; border-radius: 12px;"></ion-skeleton-text>
+                <ion-skeleton-text animated style="min-width: 110px; height: 160px; border-radius: 12px;"></ion-skeleton-text>
+                <ion-skeleton-text animated style="min-width: 110px; height: 160px; border-radius: 12px;"></ion-skeleton-text>
+            </div>
+        </div>
+        <div style="margin-bottom: 25px;">
+            <div class="section-header">
+                <ion-skeleton-text animated style="width: 40%; height: 20px; border-radius: 4px;"></ion-skeleton-text>
+                <ion-skeleton-text animated style="width: 30px; height: 20px; border-radius: 10px;"></ion-skeleton-text>
+            </div>
+            <div style="display: flex; overflow-x: hidden; padding-left: 16px; gap: 10px;">
+                <ion-skeleton-text animated style="min-width: 110px; height: 160px; border-radius: 12px;"></ion-skeleton-text>
+                <ion-skeleton-text animated style="min-width: 110px; height: 160px; border-radius: 12px;"></ion-skeleton-text>
+            </div>
+        </div>
     </div>
 
-    <div *ngFor="let genero of favoritoGenero" class="genre-section">
-        <div *ngIf="genero.pelis.length > 0">
-            <div class="section-header">
-                <h3>{{genero.name}}</h3>
-                <span class="genre-count">{{genero.pelis.length}}</span>
-            </div>
+    <!-- REAL CONTENT -->
+    <div *ngIf="loaded">
+        <!-- Empty State -->
+        <div class="empty-state" *ngIf="series.length === 0">
+            <ion-icon name="heart-dislike-outline"></ion-icon>
+            <h3>{{ 'FAVORITES.EMPTY_TITLE' | translate }}</h3>
+            <p>{{ 'FAVORITES.EMPTY_MSG' | translate }}</p>
+        </div>
 
-            <app-slideshow-poster-fav
-                    [peliculas]="genero.pelis"
-                    (dismissEvent)="onModalDismiss($event)">
-            </app-slideshow-poster-fav>
+        <div *ngFor="let genero of favoritoGenero" class="genre-section">
+            <div *ngIf="genero.pelis.length > 0">
+                <div class="section-header">
+                    <h3>{{genero.name}}</h3>
+                    <span class="genre-count">{{genero.pelis.length}}</span>
+                </div>
+
+                <app-slideshow-poster-fav
+                        [peliculas]="genero.pelis"
+                        (dismissEvent)="onModalDismiss($event)">
+                </app-slideshow-poster-fav>
+            </div>
         </div>
     </div>
 
