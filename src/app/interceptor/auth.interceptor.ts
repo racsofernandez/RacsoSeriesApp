@@ -15,6 +15,12 @@ export class AuthInterceptor implements HttpInterceptor {
     constructor(private authService: AuthService) {}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        // Si la petición es para una imagen, no adjuntamos token y pasamos directamente
+        // Ajusta la condición según la estructura de tus URLs de imágenes
+        if (req.url.match(/\.(jpg|jpeg|png|gif|svg|webp)$/i) || req.url.includes('/images/')) {
+            return next.handle(req);
+        }
+
         return from(this.authService.getIdToken()).pipe(
             switchMap(token => {
                 const authReq = this.addToken(req, token);
