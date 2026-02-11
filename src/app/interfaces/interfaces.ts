@@ -243,3 +243,39 @@ export interface Image {
   vote_count: number;
   width: number;
 }
+
+// --- User Lists Interfaces ---
+
+export interface UserList {
+    id: number;
+    name: string;
+    description: string;
+    series?: UserListSeries[];
+}
+
+export interface UserListSeries {
+    id: number;
+    seriesId: number;
+    name: string;
+}
+
+export interface CreateUserListRequest {
+    name: string;
+    description?: string;
+    user_id: string;
+}
+
+export interface UpdateUserListRequest {
+    name?: string;
+    description?: string;
+    user_id: string;
+}
+
+export interface AddSeriesToListRequest {
+    name: string;
+    user_id: string;
+    series_id: number;
+}
+
+// Reutilizamos PeliculaDetalle como SerieDetalle ya que tienen la misma estructura
+export type SerieDetalle = PeliculaDetalle;

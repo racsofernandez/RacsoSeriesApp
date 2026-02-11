@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
+import { FormsModule } from '@angular/forms'; // Importante para ngModel
 import { SlideshowBackdropComponent } from './slideshow-backdrop/slideshow-backdrop.component';
 import { PipesModule } from '../pipes/pipes.module';
 import { SlideshowPosterComponent } from './slideshow-poster/slideshow-poster.component';
@@ -12,6 +13,8 @@ import {ActorFilmografiaComponent} from "./actor-filmografia/actor-filmografia.c
 import { SeasonsModalComponent } from './seasons-modal/seasons-modal.component';
 import {TranslateModule} from "@ngx-translate/core";
 import { ImageViewerModalComponent } from './image-viewer-modal/image-viewer-modal.component';
+import { UserListModalComponent } from './user-list-modal/user-list-modal.component';
+import { ListsPopoverComponent } from './lists-popover/lists-popover.component';
 
 
 
@@ -26,7 +29,9 @@ import { ImageViewerModalComponent } from './image-viewer-modal/image-viewer-mod
     ActorModalComponent,
     ActorFilmografiaComponent,
     SeasonsModalComponent,
-    ImageViewerModalComponent
+    ImageViewerModalComponent,
+    UserListModalComponent,
+    ListsPopoverComponent
   ],
   exports: [
     SlideshowBackdropComponent,
@@ -35,13 +40,16 @@ import { ImageViewerModalComponent } from './image-viewer-modal/image-viewer-mod
     SlideshowPosterFavComponent,
     ActorModalComponent,
     SeasonsModalComponent,
-    ImageViewerModalComponent
+    ImageViewerModalComponent,
+    UserListModalComponent,
+    ListsPopoverComponent
   ],
   imports: [
     CommonModule,
     IonicModule,
     PipesModule,
-    TranslateModule
+    TranslateModule,
+    FormsModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {ModalController, Platform} from '@ionic/angular';
-import {Cast, Image, PeliculaDetalle, Persona} from 'src/app/interfaces/interfaces';
+import {ModalController, Platform, PopoverController, ToastController} from '@ionic/angular';
+import {Cast, Image, PeliculaDetalle, Persona, UserList} from 'src/app/interfaces/interfaces';
 import { MoviesService } from 'src/app/services/movies.service';
 import {SeriesDbService} from "../../services/series-db.service";
 import {Auth} from "@angular/fire/auth";
@@ -9,6 +9,9 @@ import {combineLatest, Subscription} from "rxjs";
 import { SeasonsModalComponent } from '../seasons-modal/seasons-modal.component';
 import { ImageViewerModalComponent } from '../image-viewer-modal/image-viewer-modal.component';
 import { TranslateService } from '@ngx-translate/core';
+import { UserListService } from '../../services/user-list.service';
+import { UserListModalComponent } from '../user-list-modal/user-list-modal.component';
+import { ListsPopoverComponent } from '../lists-popover/lists-popover.component';
 
 @Component({
   selector: 'app-detalle',
@@ -27,7 +30,8 @@ export class DetalleComponent  implements OnInit {
   overviewExpanded = false;
   star = "star-outline";
   updated = false;
-  loaded = false; // 👈 Nueva variable
+  loaded = false;
+  userLists: UserList[] = [];
   private backButtonSub?: Subscription;
 
   constructor(private moviesService: MoviesService,
@@ -35,7 +39,10 @@ export class DetalleComponent  implements OnInit {
               private dataLocal: SeriesDbService,
               private auth: Auth,
               private platform: Platform,
-              private translate: TranslateService
+              private translate: TranslateService,
+              private userListService: UserListService,
+              private popoverCtrl: PopoverController,
+              private toastCtrl: ToastController
   ) { }
 
   ngOnInit() {
@@ -44,6 +51,7 @@ export class DetalleComponent  implements OnInit {
       const uid = this.auth.currentUser?.uid;
     if (uid!=null) {
         this.dataLocal.existeSerie(uid, this.id).then(existe => this.star = (existe) ? 'star': 'star-outline');
+        this.loadUserLists(uid);
     }
 
     // Usar combineLatest para saber cuando todo ha cargado
@@ -65,6 +73,14 @@ export class DetalleComponent  implements OnInit {
             this.loaded = true; // Evitar bloqueo infinito
         }
     });
+  }
+
+  async loadUserLists(userId: string) {
+      try {
+          this.userLists = await this.userListService.getUserLists(userId);
+      } catch (e) {
+          console.error('Error loading user lists', e);
+      }
   }
 
   regresar() {
@@ -165,6 +181,72 @@ export class DetalleComponent  implements OnInit {
         };
         
         this.verImagen([image], 0, 'single');
+    }
+
+    async openListsMenu(ev: any) {
+        const popover = await this.popoverCtrl.create({
+            component: ListsPopoverComponent,
+            event: ev,
+            translucent: true,
+            componentProps: {
+                lists: this.userLists
+            },
+            htmlAttributes: {
+                'style': '--width: 250px'
+            }
+        });
+
+        await popover.present();
+
+        const { data } = await popover.onWillDismiss();
+        
+        if (data) {
+            if (data.action === 'create') {
+                this.createNewList();
+            } else if (data.action === 'add' && data.list) {
+                this.addToList(data.list);
+            }
+        }
+    }
+
+    async createNewList() {
+        const modal = await this.modalCtrl.create({
+            component: UserListModalComponent,
+            componentProps: { list: null }
+        });
+        await modal.present();
+        const { data } = await modal.onWillDismiss();
+        if (data?.updated && this.auth.currentUser) {
+            await this.loadUserLists(this.auth.currentUser.uid);
+            // Opcional: Añadir automáticamente a la nueva lista si pudiéramos obtener su ID
+        }
+    }
+
+    async addToList(list: UserList) {
+        if (!this.auth.currentUser) return;
+        try {
+            await this.userListService.addSeriesToList(list.id, {
+                name: this.pelicula.name || this.pelicula.title || '',
+                user_id: this.auth.currentUser.uid,
+                series_id: this.pelicula.id
+            });
+            this.presentToast('LISTS.ADDED_SUCCESS');
+        } catch (error: any) {
+            if (error.status === 409) {
+                this.presentToast('LISTS.ALREADY_IN_LIST');
+            } else {
+                this.presentToast('COMMON.ERROR');
+            }
+        }
+    }
+
+    async presentToast(key: string) {
+        const message = await this.translate.get(key).toPromise();
+        const toast = await this.toastCtrl.create({
+            message,
+            duration: 2000
+        });
+        await toast.present();
     }
 
     ngOnDestroy() {

@@ -22,6 +22,10 @@ const routes: Routes = [
                     .then(m => m.SeriesGenrePageModule)
         },
       {
+        path: 'lists',
+        loadChildren: () => import('../lists/lists.module').then(m => m.ListsPageModule)
+      },
+      {
         path: 'favourite',
         loadChildren: () => import('../favourite/favourite.module').then(m => m.FavouritePageModule)
       },

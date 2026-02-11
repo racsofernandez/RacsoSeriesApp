@@ -29,7 +29,8 @@
     "HOME": "Início",
     "SEARCH": "Buscar",
     "FAVORITES": "Favoritos",
-    "PROFILE": "Perfil"
+    "PROFILE": "Perfil",
+    "LISTS": "Listas"
   },
   "SEARCH": {
     "GENRES": "Gêneros"
@@ -83,5 +84,27 @@
   "FAVORITES": {
     "EMPTY_TITLE": "Sem favoritos",
     "EMPTY_MSG": "Você ainda não adicionou nenhuma série aos seus favoritos. Explore e adicione algumas!"
+  },
+  "LISTS": {
+    "NEW_LIST": "Nova Lista",
+    "EDIT_LIST": "Editar Lista",
+    "NAME_LABEL": "Nome da lista",
+    "DESC_LABEL": "Descrição",
+    "CREATE_NEW": "Criar nova lista",
+    "CREATED_SUCCESS": "Lista criada com sucesso",
+    "UPDATED_SUCCESS": "Lista atualizada com sucesso",
+    "DELETED_SUCCESS": "Lista excluída com sucesso",
+    "ADDED_SUCCESS": "Série adicionada à lista",
+    "ALREADY_IN_LIST": "A série já está na lista",
+    "DELETE_CONFIRM_TITLE": "Excluir lista",
+    "DELETE_CONFIRM_MSG": "Tem certeza de que deseja excluir esta lista e todas as suas séries?",
+    "REMOVE_SERIES_CONFIRM_TITLE": "Remover série",
+    "REMOVE_SERIES_CONFIRM_MSG": "Tem certeza de que deseja remover esta série da lista?",
+    "EMPTY_TITLE": "Sem listas",
+    "EMPTY_MSG": "Crie listas personalizadas para organizar suas séries.",
+    "CREATE_FIRST": "Criar minha primeira lista",
+    "NO_DESC": "Sem descrição",
+    "SERIES_IN_LIST": "Séries nesta lista",
+    "EMPTY_SERIES": "Esta lista está vazia. Adicione séries na tela de detalhes."
   }
 }

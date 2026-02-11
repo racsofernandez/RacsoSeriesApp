@@ -15,8 +15,14 @@
             <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
         </ion-title>
 
-        <!-- Favoritos -->
+        <!-- Botones de acción -->
         <ion-buttons slot="end">
+            <!-- Botón Listas -->
+            <ion-button (click)="openListsMenu($event)" [disabled]="!loaded">
+                <ion-icon name="list-circle-outline"></ion-icon>
+            </ion-button>
+
+            <!-- Botón Favoritos -->
             <ion-button (click)="favorito()" [disabled]="!loaded">
                 <ion-icon
                         [name]="star"
