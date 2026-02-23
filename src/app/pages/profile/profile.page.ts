@@ -8,6 +8,8 @@ import { SeriesDbService } from "../../services/series-db.service";
 import { AppUser, Language } from "../../interfaces/interfaces";
 import { MoviesService } from "../../services/movies.service";
 import { TranslateService } from '@ngx-translate/core';
+import { ModalController } from '@ionic/angular';
+import { RecommendationsModalComponent } from '../../components/recommendations-modal/recommendations-modal.component';
 
 @Component({
     selector: 'app-profile',
@@ -28,7 +30,8 @@ export class ProfilePage implements OnInit {
         private seriesDbService: SeriesDbService,
         private cdr: ChangeDetectorRef,
         private moviesService: MoviesService,
-        private translate: TranslateService
+        private translate: TranslateService,
+        private modalCtrl: ModalController
     ) {
         this.user$ = this.authService.user$;
         this.appVersion = config.config.version;
@@ -90,6 +93,13 @@ export class ProfilePage implements OnInit {
                 this.cdr.detectChanges();
             }
         }
+    }
+
+    async openRecommendations() {
+        const modal = await this.modalCtrl.create({
+            component: RecommendationsModalComponent
+        });
+        await modal.present();
     }
 
     logout() {

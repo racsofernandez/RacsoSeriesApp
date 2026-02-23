@@ -20,6 +20,7 @@ export interface Pelicula {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  name?: string; // Añadido para compatibilidad con series
 }
 
 export interface PeliculaDetalle {
@@ -279,3 +280,15 @@ export interface AddSeriesToListRequest {
 
 // Reutilizamos PeliculaDetalle como SerieDetalle ya que tienen la misma estructura
 export type SerieDetalle = PeliculaDetalle;
+
+// --- Recommendations Interfaces ---
+
+export interface RecommendationResponse {
+    analysis: string;
+    recommendedSeries: RecommendedSerieItem[];
+}
+
+export interface RecommendedSerieItem {
+    name: string;
+    serie: Pelicula;
+}

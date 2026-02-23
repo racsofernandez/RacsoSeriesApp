@@ -15,6 +15,7 @@ import {TranslateModule} from "@ngx-translate/core";
 import { ImageViewerModalComponent } from './image-viewer-modal/image-viewer-modal.component';
 import { UserListModalComponent } from './user-list-modal/user-list-modal.component';
 import { ListsPopoverComponent } from './lists-popover/lists-popover.component';
+import { RecommendationsModalComponent } from './recommendations-modal/recommendations-modal.component';
 
 
 
@@ -31,7 +32,8 @@ import { ListsPopoverComponent } from './lists-popover/lists-popover.component';
     SeasonsModalComponent,
     ImageViewerModalComponent,
     UserListModalComponent,
-    ListsPopoverComponent
+    ListsPopoverComponent,
+    RecommendationsModalComponent
   ],
   exports: [
     SlideshowBackdropComponent,
@@ -42,7 +44,8 @@ import { ListsPopoverComponent } from './lists-popover/lists-popover.component';
     SeasonsModalComponent,
     ImageViewerModalComponent,
     UserListModalComponent,
-    ListsPopoverComponent
+    ListsPopoverComponent,
+    RecommendationsModalComponent
   ],
   imports: [
     CommonModule,

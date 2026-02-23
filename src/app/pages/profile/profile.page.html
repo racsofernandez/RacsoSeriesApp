@@ -32,6 +32,12 @@
     </div>
 
     <div class="actions-section">
+        <!-- Botón Recomendaciones IA -->
+        <ion-button expand="block" class="action-btn ai-btn" (click)="openRecommendations()">
+            <ion-icon name="sparkles" slot="start"></ion-icon>
+            {{ 'PROFILE.RECOMMENDATIONS_BTN' | translate }}
+        </ion-button>
+
         <ion-button expand="block" fill="outline" color="primary" (click)="goVerification()" class="action-btn">
             <ion-icon name="mail-outline" slot="start"></ion-icon>
             {{ 'PROFILE.RESEND_VERIFICATION' | translate }}

@@ -12,7 +12,8 @@
     "CLOSE": "Fechar",
     "SHOW_MORE": "Ver mais",
     "SHOW_LESS": "Ver menos",
-    "PREMIERE": "Estreia"
+    "PREMIERE": "Estreia",
+    "RETRY": "Tentar novamente"
   },
   "AUTH": {
     "LOGIN": "Entrar",
@@ -62,7 +63,11 @@
     "ABOUT": "Sobre",
     "RESEND_VERIFICATION": "Reenviar e-mail de verificação",
     "LANGUAGE_UPDATED": "Idioma atualizado",
-    "LANGUAGE_UPDATE_ERROR": "Erro ao atualizar idioma"
+    "LANGUAGE_UPDATE_ERROR": "Erro ao atualizar idioma",
+    "RECOMMENDATIONS_BTN": "Recomendações IA",
+    "RECOMMENDATIONS_TITLE": "Recomendações",
+    "IA_ANALYSIS": "Análise da IA",
+    "RECOMMENDED_SERIES": "Séries recomendadas para você"
   },
   "ACTOR": {
     "CHARACTER": "Personagem",

@@ -1,0 +1,57 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ 'PROFILE.RECOMMENDATIONS_TITLE' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="main-content">
+
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>{{ 'COMMON.LOADING' | translate }}</p>
+  </div>
+
+  <div *ngIf="error" class="error-container">
+    <ion-icon name="alert-circle-outline"></ion-icon>
+    <p>{{ 'COMMON.ERROR' | translate }}</p>
+    <ion-button fill="outline" (click)="loadRecommendations()">{{ 'COMMON.RETRY' | translate }}</ion-button>
+  </div>
+
+  <div *ngIf="recommendations && !loading" class="content-container">
+
+    <!-- Analysis Section -->
+    <div class="analysis-card">
+      <div class="ai-header">
+        <ion-icon name="sparkles-outline"></ion-icon>
+        <h3>{{ 'PROFILE.IA_ANALYSIS' | translate }}</h3>
+      </div>
+      <div class="analysis-text">
+        {{ recommendations.analysis }}
+      </div>
+    </div>
+
+    <!-- Recommended Series List -->
+    <div class="series-section">
+      <h3>{{ 'PROFILE.RECOMMENDED_SERIES' | translate }}</h3>
+
+      <ion-list lines="none">
+        <ion-item *ngFor="let item of recommendations.recommendedSeries" class="serie-item" button (click)="verDetalle(item.serie.id)">
+          <div class="poster-thumb" slot="start">
+            <img [src]="(item.serie.poster_path || '') | imagen">
+          </div>
+          <ion-label>
+            <h2>{{ item.serie.name || item.serie.title }}</h2>
+            <p class="overview">{{ item.serie.overview }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+
+  </div>
+
+</ion-content>

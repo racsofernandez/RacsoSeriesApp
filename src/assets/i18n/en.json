@@ -12,7 +12,8 @@
     "CLOSE": "Close",
     "SHOW_MORE": "Show more",
     "SHOW_LESS": "Show less",
-    "PREMIERE": "Premiere"
+    "PREMIERE": "Premiere",
+    "RETRY": "Retry"
   },
   "AUTH": {
     "LOGIN": "Login",
@@ -62,7 +63,11 @@
     "ABOUT": "About",
     "RESEND_VERIFICATION": "Resend verification email",
     "LANGUAGE_UPDATED": "Language updated",
-    "LANGUAGE_UPDATE_ERROR": "Error updating language"
+    "LANGUAGE_UPDATE_ERROR": "Error updating language",
+    "RECOMMENDATIONS_BTN": "AI Recommendations",
+    "RECOMMENDATIONS_TITLE": "Recommendations",
+    "IA_ANALYSIS": "AI Analysis",
+    "RECOMMENDED_SERIES": "Recommended Series for you"
   },
   "ACTOR": {
     "CHARACTER": "Character",

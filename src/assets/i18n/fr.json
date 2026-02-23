@@ -12,7 +12,8 @@
     "CLOSE": "Fermer",
     "SHOW_MORE": "Voir plus",
     "SHOW_LESS": "Voir moins",
-    "PREMIERE": "Première"
+    "PREMIERE": "Première",
+    "RETRY": "Réessayer"
   },
   "AUTH": {
     "LOGIN": "Connexion",
@@ -62,7 +63,11 @@
     "ABOUT": "À propos",
     "RESEND_VERIFICATION": "Renvoyer l'e-mail de vérification",
     "LANGUAGE_UPDATED": "Langue mise à jour",
-    "LANGUAGE_UPDATE_ERROR": "Erreur lors de la mise à jour de la langue"
+    "LANGUAGE_UPDATE_ERROR": "Erreur lors de la mise à jour de la langue",
+    "RECOMMENDATIONS_BTN": "Recommandations IA",
+    "RECOMMENDATIONS_TITLE": "Recommandations",
+    "IA_ANALYSIS": "Analyse de l'IA",
+    "RECOMMENDED_SERIES": "Séries recommandées pour vous"
   },
   "ACTOR": {
     "CHARACTER": "Personnage",
