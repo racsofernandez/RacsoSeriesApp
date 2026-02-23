@@ -49,8 +49,8 @@
 
     <!-- Series List -->
     <ion-list lines="none" *ngIf="series.length > 0">
-      <ion-item *ngFor="let serie of series" class="serie-item">
-        <div class="poster-thumb" slot="start" (click)="verDetalle(serie.id)">
+      <ion-item *ngFor="let serie of series" class="serie-item" button (click)="verDetalle(serie.id)">
+        <div class="poster-thumb" slot="start">
           <img [src]="(serie.poster_path || '') | imagen">
         </div>
         <ion-label>
@@ -59,7 +59,7 @@
         </ion-label>
 
         <!-- Botón de eliminar visible -->
-        <ion-button fill="clear" color="medium" slot="end" (click)="removeSeries(serie.id)">
+        <ion-button fill="clear" color="medium" slot="end" (click)="removeSeries(serie.id); $event.stopPropagation()">
           <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
         </ion-button>
       </ion-item>
