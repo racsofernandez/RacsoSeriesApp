@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Genre, PeliculaDetalle } from '../../interfaces/interfaces';
+import { Genre, SeriesDetail } from '../../interfaces/interfaces';
 import { MoviesService } from '../../services/movies.service';
 import {SeriesDbService} from "../../services/series-db.service";
 import {Auth} from "@angular/fire/auth";
@@ -11,7 +11,7 @@ import {Auth} from "@angular/fire/auth";
 })
 export class FavouritePage {
 
-  series: PeliculaDetalle[] = [];
+  series: SeriesDetail[] = [];
   generos: Genre[] = [];
   favoritoGenero: any[] = [];
   loaded = false;
@@ -56,7 +56,7 @@ export class FavouritePage {
       this.cargarFavoritos(event);
   }
 
-  pelisPorGenero( generos: Genre[], series: PeliculaDetalle[] ) {
+  pelisPorGenero( generos: Genre[], series: SeriesDetail[] ) {
 
     this.favoritoGenero = [];
 

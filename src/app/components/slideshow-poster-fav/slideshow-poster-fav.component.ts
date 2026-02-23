@@ -1,6 +1,6 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { Pelicula, PeliculaDetalle } from 'src/app/interfaces/interfaces';
+import { Pelicula, SeriesDetail } from 'src/app/interfaces/interfaces';
 import { DetalleComponent } from '../detalle/detalle.component';
 
 @Component({
@@ -10,7 +10,7 @@ import { DetalleComponent } from '../detalle/detalle.component';
 })
 export class SlideshowPosterFavComponent  implements OnInit {
 
-  @Input() peliculas: PeliculaDetalle[] = [];
+  @Input() peliculas: SeriesDetail[] = [];
   @Output() dismissEvent = new EventEmitter<any>();
 
   constructor(private modalCtrl : ModalController) { }

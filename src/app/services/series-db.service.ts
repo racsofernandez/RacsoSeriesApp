@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AppUser, Language, PeliculaDetalle } from "../interfaces/interfaces";
+import { AppUser, Language, SeriesDetail } from "../interfaces/interfaces";
 import { ToastController } from "@ionic/angular";
 import { MoviesService } from "./movies.service";
 import { firstValueFrom } from 'rxjs';
@@ -13,7 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class SeriesDbService {
 
     urlBackend = '';
-    peliculas: PeliculaDetalle[] = [];
+    peliculas: SeriesDetail[] = [];
     appUser: AppUser | null = null;
 
     constructor(
@@ -112,7 +112,7 @@ export class SeriesDbService {
      * Llama al backend para alternar favorito.
      * Devuelve true si se añadió, false si se eliminó.
      */
-    async guardarSerie(userId: string, serie: PeliculaDetalle): Promise<boolean> {
+    async guardarSerie(userId: string, serie: SeriesDetail): Promise<boolean> {
         const url = `${this.urlBackend}/${encodeURIComponent(userId)}/series/${serie.id}/toggle`;
 
         try {
@@ -136,19 +136,19 @@ export class SeriesDbService {
     /**
      * Carga los favoritos desde el backend y consigue los detalles usando MoviesService
      */
-    async cargarSeriesFavoritas(uid: string): Promise<PeliculaDetalle[]> {
+    async cargarSeriesFavoritas(uid: string): Promise<SeriesDetail[]> {
         const url = `${this.urlBackend}/${encodeURIComponent(uid)}/series`;
         try {
             const favs = await firstValueFrom(
                 this.http.get<Array<{ id: number, name?: string }>>(url)
             );
-            const favoritas: PeliculaDetalle[] = [];
+            const favoritas: SeriesDetail[] = [];
 
             for (const f of favs) {
                 try {
                     // moviesService.getPeliculaDetalle devuelve un Observable
                     // Usamos firstValueFrom para convertirlo a Promise
-                    const detalle: PeliculaDetalle = await firstValueFrom(this.moviesService.getPeliculaDetalle(f.id));
+                    const detalle: SeriesDetail = await firstValueFrom(this.moviesService.getPeliculaDetalle(f.id));
                     if (detalle) {
                         favoritas.push(detalle);
                     }
@@ -159,8 +159,8 @@ export class SeriesDbService {
                         favoritas.push({
                             id: f.id,
                             name: f.name,
-                            // Rellena otros campos vacíos según tu interfaz PeliculaDetalle
-                        } as PeliculaDetalle);
+                            // Rellena otros campos vacíos según tu interfaz SeriesDetail
+                        } as SeriesDetail);
                     }
                 }
             }

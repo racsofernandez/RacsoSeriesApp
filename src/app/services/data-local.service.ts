@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PeliculaDetalle } from '../interfaces/interfaces';
+import { SeriesDetail } from '../interfaces/interfaces';
 import { Storage } from '@ionic/storage-angular';
 import { ToastController } from '@ionic/angular';
 
@@ -8,7 +8,7 @@ import { ToastController } from '@ionic/angular';
 })
 export class DataLocalService {
   
-  peliculas: PeliculaDetalle[] = [];
+  peliculas: SeriesDetail[] = [];
 
   constructor( private storage: Storage,
                private toastCtrl: ToastController) {
@@ -24,7 +24,7 @@ export class DataLocalService {
     toast.present();
   }
 
-  guardarPelicula( pelicula: PeliculaDetalle) {
+  guardarPelicula( pelicula: SeriesDetail) {
 
     let existe = false;
     let mensaje = '';

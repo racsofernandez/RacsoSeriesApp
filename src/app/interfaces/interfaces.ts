@@ -1,11 +1,11 @@
 export interface RespuestaMDB {
   page: number;
-  results: Pelicula[];
+  results: Series[];
   total_pages: number;
   total_results: number;
 }
 
-export interface Pelicula {
+export interface Series {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
@@ -23,7 +23,7 @@ export interface Pelicula {
   name?: string; // Añadido para compatibilidad con series
 }
 
-export interface PeliculaDetalle {
+export interface SeriesDetail {
   adult?: boolean;
   backdrop_path?: string;
   belongs_to_collection?: any;
@@ -278,8 +278,10 @@ export interface AddSeriesToListRequest {
     series_id: number;
 }
 
-// Reutilizamos PeliculaDetalle como SerieDetalle ya que tienen la misma estructura
-export type SerieDetalle = PeliculaDetalle;
+// Alias para compatibilidad hacia atrás si es necesario, aunque se recomienda usar SeriesDetail
+export type PeliculaDetalle = SeriesDetail;
+export type SerieDetalle = SeriesDetail;
+export type Pelicula = Series;
 
 // --- Recommendations Interfaces ---
 
@@ -290,5 +292,5 @@ export interface RecommendationResponse {
 
 export interface RecommendedSerieItem {
     name: string;
-    serie: Pelicula;
+    serie: Series;
 }

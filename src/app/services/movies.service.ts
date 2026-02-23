@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import {
     Genre,
     Genres,
-    PeliculaDetalle, PersonDetail,
+    SeriesDetail, PersonDetail,
     RespuestaCombinedCredits,
     RespuestaCredits,
     RespuestaImages,
@@ -76,7 +76,7 @@ export class MoviesService {
     }
 
   getPeliculaDetalle(id: number){
-    return this.ejecutarBackend<PeliculaDetalle>(`/${ id }?a=1`);
+    return this.ejecutarBackend<SeriesDetail>(`/${ id }?a=1`);
   }
 
   getActoresPelicula(id: number) {
