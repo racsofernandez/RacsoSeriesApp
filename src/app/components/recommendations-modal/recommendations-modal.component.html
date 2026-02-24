@@ -30,8 +30,29 @@
         <ion-icon name="sparkles-outline"></ion-icon>
         <h3>{{ 'PROFILE.IA_ANALYSIS' | translate }}</h3>
       </div>
-      <div class="analysis-text">
+
+      <div class="analysis-text" [class.expanded]="analysisExpanded">
         {{ recommendations.analysis }}
+      </div>
+
+      <ion-button
+        fill="clear"
+        size="small"
+        class="read-more-btn"
+        (click)="analysisExpanded = !analysisExpanded"
+        *ngIf="recommendations.analysis.length > 150">
+        {{ analysisExpanded ? ('COMMON.SHOW_LESS' | translate) : ('COMMON.SHOW_MORE' | translate) }}
+      </ion-button>
+
+      <!-- Taste Tags -->
+      <div class="tags-container" *ngIf="recommendations.userTasteTags && recommendations.userTasteTags.length > 0">
+        <ion-chip
+            *ngFor="let tag of recommendations.userTasteTags"
+            [color]="selectedTag === tag ? 'primary' : 'secondary'"
+            [outline]="selectedTag !== tag"
+            (click)="toggleTag(tag)">
+          <ion-label>{{ tag }}</ion-label>
+        </ion-chip>
       </div>
     </div>
 
@@ -40,12 +61,23 @@
       <h3>{{ 'PROFILE.RECOMMENDED_SERIES' | translate }}</h3>
 
       <ion-list lines="none">
-        <ion-item *ngFor="let item of recommendations.recommendedSeries" class="serie-item" button (click)="verDetalle(item.serie.id)">
+        <ion-item
+            *ngFor="let item of recommendations.recommendedSeries"
+            class="serie-item"
+            [class.dimmed]="isDimmed(item.tag)"
+            button
+            (click)="verDetalle(item.serie.id)">
           <div class="poster-thumb" slot="start">
             <img [src]="(item.serie.poster_path || '') | imagen">
+            <div class="match-badge" *ngIf="item.matchScore">
+              {{ item.matchScore }}%
+            </div>
           </div>
           <ion-label>
             <h2>{{ item.serie.name || item.serie.title }}</h2>
+            <p class="reason" *ngIf="item.reason">
+              <ion-icon name="bulb-outline"></ion-icon> {{ item.reason }}
+            </p>
             <p class="overview">{{ item.serie.overview }}</p>
           </ion-label>
         </ion-item>

@@ -287,10 +287,14 @@ export type Pelicula = Series;
 
 export interface RecommendationResponse {
     analysis: string;
+    userTasteTags: string[]; // Etiquetas de personalidad (ej: "Sci-Fi", "Dark")
     recommendedSeries: RecommendedSerieItem[];
 }
 
 export interface RecommendedSerieItem {
     name: string;
+    reason: string;      // "Porque te gustó X..."
+    matchScore: number; // 0-100
     serie: Series;
+    tag: string; // Tag asociado a esta recomendación
 }

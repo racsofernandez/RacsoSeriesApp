@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { RecommendationsService } from '../../services/recommendations.service';
 import { Auth } from '@angular/fire/auth';
 import { RecommendationResponse } from '../../interfaces/interfaces';
 import { DetalleComponent } from '../detalle/detalle.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-recommendations-modal',
@@ -15,11 +16,14 @@ export class RecommendationsModalComponent implements OnInit {
   recommendations: RecommendationResponse | null = null;
   loading = true;
   error = false;
+  analysisExpanded = false;
+  selectedTag: string | null = null;
 
   constructor(
     private modalCtrl: ModalController,
     private recommendationsService: RecommendationsService,
-    private auth: Auth
+    private auth: Auth,
+    private router: Router
   ) { }
 
   async ngOnInit() {
@@ -56,5 +60,18 @@ export class RecommendationsModalComponent implements OnInit {
       componentProps: { id }
     });
     await modal.present();
+  }
+
+  toggleTag(tag: string) {
+      if (this.selectedTag === tag) {
+          this.selectedTag = null; // Deseleccionar
+      } else {
+          this.selectedTag = tag; // Seleccionar
+      }
+  }
+
+  isDimmed(itemTag: string): boolean {
+      if (!this.selectedTag) return false; // Si no hay tag seleccionado, nadie está atenuado
+      return itemTag !== this.selectedTag; // Si el tag no coincide, atenuar
   }
 }
