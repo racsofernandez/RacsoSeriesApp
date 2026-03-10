@@ -298,3 +298,25 @@ export interface RecommendedSerieItem {
     serie: Series;
     tag: string; // Tag asociado a esta recomendación
 }
+
+// --- Reviews Interfaces ---
+
+export interface SeriesReview {
+    id: number;
+    comment: string;
+    rating: number;
+    user: AppUser;
+    seriesId: number;
+}
+
+export interface CreateSeriesReviewRequest {
+    userId: string;
+    seriesId: number;
+    comment: string;
+    rating: number;
+}
+
+export interface UpdateSeriesReviewRequest {
+    comment: string;
+    rating: number;
+}

@@ -1,0 +1,47 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>{{ isEditMode ? ('REVIEWS.EDIT_TITLE' | translate) : ('REVIEWS.CREATE_TITLE' | translate) }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="serie-header">
+    <img [src]="(serie.poster_path || '') | imagen" class="serie-poster">
+    <h2>{{ serie.name }}</h2>
+  </div>
+
+  <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
+    <div class="rating-container">
+      <ion-icon
+        *ngFor="let star of stars"
+        [name]="(hoverRating || rating) >= star ? 'star' : 'star-outline'"
+        (click)="setRating(star)"
+        (mouseover)="setHoverRating(star)"
+        (mouseleave)="setHoverRating(0)"
+        class="star-icon"
+        [class.selected]="rating >= star"
+      ></ion-icon>
+    </div>
+
+    <ion-item>
+      <ion-label position="floating">{{ 'REVIEWS.COMMENT_PLACEHOLDER' | translate }}</ion-label>
+      <ion-textarea formControlName="comment" rows="8" auto-grow="true"></ion-textarea>
+    </ion-item>
+    <div *ngIf="comment && comment.invalid && comment.touched" class="error-message">
+      {{ 'REVIEWS.COMMENT_ERROR' | translate }}
+    </div>
+
+    <ion-button expand="block" type="submit" [disabled]="reviewForm.invalid || rating === 0" class="submit-btn">
+      {{ isEditMode ? ('COMMON.UPDATE' | translate) : ('COMMON.PUBLISH' | translate) }}
+    </ion-button>
+  </form>
+
+  <ion-button *ngIf="isEditMode" expand="block" color="danger" fill="outline" (click)="deleteReview()" class="delete-btn">
+    {{ 'COMMON.DELETE' | translate }}
+  </ion-button>
+</ion-content>

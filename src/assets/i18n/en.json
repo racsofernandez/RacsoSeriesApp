@@ -13,7 +13,10 @@
     "SHOW_MORE": "Show more",
     "SHOW_LESS": "Show less",
     "PREMIERE": "Premiere",
-    "RETRY": "Retry"
+    "RETRY": "Retry",
+    "UPDATE": "Update",
+    "PUBLISH": "Publish",
+    "LOGIN_REQUIRED": "You need to be logged in to do that."
   },
   "AUTH": {
     "LOGIN": "Login",
@@ -111,5 +114,16 @@
     "NO_DESC": "No description",
     "SERIES_IN_LIST": "Series in this list",
     "EMPTY_SERIES": "This list is empty. Add series from the details screen."
+  },
+  "REVIEWS": {
+    "TITLE": "Reviews",
+    "EMPTY_MSG": "There are no reviews for this series yet. Be the first!",
+    "CREATE_TITLE": "Write a Review",
+    "EDIT_TITLE": "Edit Review",
+    "COMMENT_PLACEHOLDER": "Write your comment here...",
+    "COMMENT_ERROR": "The comment must be at least 10 characters long.",
+    "CREATE_SUCCESS": "Review published successfully.",
+    "UPDATE_SUCCESS": "Review updated successfully.",
+    "DELETE_SUCCESS": "Review deleted successfully."
   }
 }

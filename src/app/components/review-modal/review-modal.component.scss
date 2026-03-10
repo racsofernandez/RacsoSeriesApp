@@ -1,0 +1,60 @@
+ion-toolbar {
+  --background: var(--ion-color-light);
+}
+
+.serie-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+
+  .serie-poster {
+    width: 60px;
+    height: 90px;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-right: 16px;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+}
+
+.rating-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+
+  .star-icon {
+    font-size: 2.5rem;
+    color: var(--ion-color-medium);
+    cursor: pointer;
+    transition: color 0.2s;
+
+    &.selected, &:hover {
+      color: var(--ion-color-warning);
+    }
+  }
+}
+
+ion-item {
+  --background: var(--ion-color-light-shade);
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.error-message {
+  color: var(--ion-color-danger);
+  font-size: 0.8rem;
+  margin-left: 16px;
+  margin-bottom: 10px;
+}
+
+.submit-btn {
+  margin-top: 20px;
+}
+
+.delete-btn {
+  margin-top: 10px;
+}

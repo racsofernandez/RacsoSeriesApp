@@ -89,7 +89,7 @@
     <!-- REAL CONTENT -->
     <div *ngIf="loaded">
         <img
-                [src]="pelicula.backdrop_path | imagen"
+                [src]="(pelicula.backdrop_path || '') | imagen"
                 class="backdrop"
                 *ngIf="pelicula.backdrop_path"
                 (click)="verImagenIndividual(pelicula.backdrop_path)">
@@ -99,7 +99,7 @@
                 <ion-col size="4" class="poster-detalle-sobre">
                     <ion-card class="poster">
                         <img
-                                [src]="pelicula.poster_path | imagen"
+                                [src]="(pelicula.poster_path || '') | imagen"
                                 class="poster"
                                 *ngIf="pelicula.poster_path"
                                 (click)="verImagenIndividual(pelicula.poster_path)">
@@ -194,7 +194,7 @@
             <swiper-slide *ngFor="let actor of actores">
                 <ion-card class="card-actor"
                           (click)="abrirActor(actor)">
-                    <img [src]="actor.profile_path | imagen" *ngIf="actor.profile_path">
+                    <img [src]="(actor.profile_path || '') | imagen" *ngIf="actor.profile_path">
                     <img src="/assets/no-avatar.jpg" *ngIf="!actor.profile_path">
                     <ion-label>
                         <strong>{{ actor.name }}</strong>
@@ -203,6 +203,34 @@
                 </ion-card>
             </swiper-slide>
         </swiper-container>
+
+        <!-- Reviews Section -->
+        <div class="reviews-section">
+          <div class="section-header">
+            <h3>{{ 'REVIEWS.TITLE' | translate }}</h3>
+            <ion-button fill="clear" (click)="openReviewModal()">
+              <ion-icon slot="icon-only" [name]="userReview ? 'create-outline' : 'add-circle-outline'"></ion-icon>
+            </ion-button>
+          </div>
+
+          <div *ngIf="reviews.length === 0" class="empty-reviews">
+            <p>{{ 'REVIEWS.EMPTY_MSG' | translate }}</p>
+          </div>
+
+          <ion-list lines="none" *ngIf="reviews.length > 0" class="reviews-list">
+            <div *ngFor="let review of reviews">
+              <div class="review-item" (click)="userId === review.user.id && openReviewModal()">
+                <div class="review-author">
+                  <strong>{{ review.user.id | slice:0:8 }}...</strong>
+                  <div class="review-rating">
+                    <ion-icon name="star" color="warning"></ion-icon> {{ review.rating }}
+                  </div>
+                </div>
+                <p class="review-comment">{{ review.comment }}</p>
+              </div>
+            </div>
+          </ion-list>
+        </div>
 
         <!-- Galería Multimedia -->
         <div class="gallery-section" *ngIf="backdrops.length > 0 || posters.length > 0 || logos.length > 0">
@@ -241,7 +269,7 @@
                      (click)="verImagen(logos, 0, 'logos')">
                      <!-- Logos suelen ser PNG transparentes, mejor ponerlos en img tag dentro o fondo neutro -->
                      <div class="logo-bg">
-                        <img [src]="logos[0].file_path | imagen" *ngIf="logos[0]">
+                        <img [src]="(logos[0].file_path || '') | imagen" *ngIf="logos[0]">
                      </div>
                     <div class="overlay">
                         <ion-icon name="shapes-outline"></ion-icon>

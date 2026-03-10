@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { FormsModule } from '@angular/forms'; // Importante para ngModel
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // Importante para ngModel
 import { SlideshowBackdropComponent } from './slideshow-backdrop/slideshow-backdrop.component';
 import { PipesModule } from '../pipes/pipes.module';
 import { SlideshowPosterComponent } from './slideshow-poster/slideshow-poster.component';
@@ -16,6 +16,7 @@ import { ImageViewerModalComponent } from './image-viewer-modal/image-viewer-mod
 import { UserListModalComponent } from './user-list-modal/user-list-modal.component';
 import { ListsPopoverComponent } from './lists-popover/lists-popover.component';
 import { RecommendationsModalComponent } from './recommendations-modal/recommendations-modal.component';
+import { ReviewModalComponent } from './review-modal/review-modal.component';
 
 
 
@@ -33,7 +34,8 @@ import { RecommendationsModalComponent } from './recommendations-modal/recommend
     ImageViewerModalComponent,
     UserListModalComponent,
     ListsPopoverComponent,
-    RecommendationsModalComponent
+    RecommendationsModalComponent,
+    ReviewModalComponent
   ],
   exports: [
     SlideshowBackdropComponent,
@@ -52,7 +54,8 @@ import { RecommendationsModalComponent } from './recommendations-modal/recommend
     IonicModule,
     PipesModule,
     TranslateModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

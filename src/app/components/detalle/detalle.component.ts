@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {ModalController, Platform, PopoverController, ToastController} from '@ionic/angular';
-import {Cast, Image, PeliculaDetalle, Persona, UserList} from 'src/app/interfaces/interfaces';
+import {Cast, Image, PeliculaDetalle, Persona, SeriesReview, UserList} from 'src/app/interfaces/interfaces';
 import { MoviesService } from 'src/app/services/movies.service';
 import {SeriesDbService} from "../../services/series-db.service";
 import {Auth} from "@angular/fire/auth";
@@ -12,6 +12,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { UserListService } from '../../services/user-list.service';
 import { UserListModalComponent } from '../user-list-modal/user-list-modal.component';
 import { ListsPopoverComponent } from '../lists-popover/lists-popover.component';
+import { ReviewsService } from '../../services/reviews.service';
+import { ReviewModalComponent } from '../review-modal/review-modal.component';
 
 @Component({
   selector: 'app-detalle',
@@ -27,12 +29,15 @@ export class DetalleComponent  implements OnInit {
   backdrops: Image[] = [];
   posters: Image[] = [];
   logos: Image[] = [];
+  reviews: SeriesReview[] = [];
+  userReview: SeriesReview | null = null;
   overviewExpanded = false;
   star = "star-outline";
   updated = false;
   loaded = false;
   userLists: UserList[] = [];
   private backButtonSub?: Subscription;
+  userId: string | undefined;
 
   constructor(private moviesService: MoviesService,
               private modalCtrl: ModalController,
@@ -42,19 +47,19 @@ export class DetalleComponent  implements OnInit {
               private translate: TranslateService,
               private userListService: UserListService,
               private popoverCtrl: PopoverController,
-              private toastCtrl: ToastController
+              private toastCtrl: ToastController,
+              private reviewsService: ReviewsService
   ) { }
 
   ngOnInit() {
-    console.log("id", this.id);
-
-      const uid = this.auth.currentUser?.uid;
-    if (uid!=null) {
-        this.dataLocal.existeSerie(uid, this.id).then(existe => this.star = (existe) ? 'star': 'star-outline');
-        this.loadUserLists(uid);
+    this.userId = this.auth.currentUser?.uid;
+    if (this.userId) {
+        this.dataLocal.existeSerie(this.userId, this.id).then(existe => this.star = (existe) ? 'star': 'star-outline');
+        this.loadUserLists(this.userId);
     }
 
-    // Usar combineLatest para saber cuando todo ha cargado
+    this.loadReviews();
+
     combineLatest([
         this.moviesService.getPeliculaDetalle(this.id),
         this.moviesService.getActoresPelicula(this.id),
@@ -66,11 +71,11 @@ export class DetalleComponent  implements OnInit {
             this.backdrops = imagenes.backdrops;
             this.posters = imagenes.posters;
             this.logos = imagenes.logos;
-            this.loaded = true; // 👈 Todo listo
+            this.loaded = true;
         },
         error: (err) => {
             console.error(err);
-            this.loaded = true; // Evitar bloqueo infinito
+            this.loaded = true;
         }
     });
   }
@@ -83,42 +88,45 @@ export class DetalleComponent  implements OnInit {
       }
   }
 
+  async loadReviews() {
+    try {
+      const reviews = await this.reviewsService.getReviewsForSeries(this.id).toPromise();
+      this.reviews = reviews || [];
+      if (this.userId) {
+        this.userReview = this.reviews.find(r => r.user.id === this.userId) || null;
+      }
+    } catch (error) {
+      console.error('Error loading reviews', error);
+      this.reviews = [];
+    }
+  }
+
   regresar() {
       this.modalCtrl.dismiss({
-          updated: this.updated   // devolvemos un flag
+          updated: this.updated
       }).then(r => false);
   }
 
   async favorito() {
-    const user = this.auth.currentUser;
-    if (!user) {
+    if (!this.userId) {
       console.error("No hay usuario autenticado");
       return;
     }
-    const uid = user.uid;   // <-- ESTE ES EL ID DEL USUARIO
-
-    const existeSerie = await this.dataLocal.guardarSerie(uid, this.pelicula);
+    const existeSerie = await this.dataLocal.guardarSerie(this.userId, this.pelicula);
     this.star = (existeSerie) ? 'star': 'star-outline';
     this.updated = true;
   }
 
     async abrirActor(persona: Persona) {
-        console.log(persona);
         const modal = await this.modalCtrl.create({
             component: ActorModalComponent,
-            componentProps: {
-                persona
-            }
+            componentProps: { persona }
         });
-
         await modal.present();
     }
 
     async verTemporadas() {
-        if (!this.pelicula.seasons) {
-            return;
-        }
-
+        if (!this.pelicula.seasons) return;
         const modal = await this.modalCtrl.create({
             component: SeasonsModalComponent,
             componentProps: {
@@ -126,60 +134,28 @@ export class DetalleComponent  implements OnInit {
                 seriesTitle: this.pelicula.name || this.pelicula.title
             }
         });
-
         await modal.present();
     }
 
     async verImagen(images: Image[], index: number, type: string) {
         let titleKey = '';
         switch (type) {
-            case 'backdrops':
-                titleKey = 'DETAILS.BACKDROPS';
-                break;
-            case 'posters':
-                titleKey = 'DETAILS.POSTERS';
-                break;
-            case 'logos':
-                titleKey = 'DETAILS.LOGOS';
-                break;
-            case 'single':
-                titleKey = ''; // No title for single image view from header/poster
-                break;
+            case 'backdrops': titleKey = 'DETAILS.BACKDROPS'; break;
+            case 'posters': titleKey = 'DETAILS.POSTERS'; break;
+            case 'logos': titleKey = 'DETAILS.LOGOS'; break;
+            case 'single': titleKey = ''; break;
         }
-
-        let title = '';
-        if (titleKey) {
-            title = await this.translate.get(titleKey).toPromise();
-        } else if (type === 'single') {
-             // Optional: Use movie title or something else if needed
-             title = this.pelicula.title || this.pelicula.name || '';
-        }
-
-
+        let title = titleKey ? await this.translate.get(titleKey).toPromise() : (this.pelicula.title || this.pelicula.name || '');
         const modal = await this.modalCtrl.create({
             component: ImageViewerModalComponent,
-            componentProps: {
-                images: images,
-                startIndex: index,
-                title: title
-            }
+            componentProps: { images, startIndex: index, title }
         });
         await modal.present();
     }
 
     verImagenIndividual(path: string | undefined) {
         if (!path) return;
-        
-        const image: Image = {
-            file_path: path,
-            aspect_ratio: 0,
-            height: 0,
-            iso_639_1: null,
-            vote_average: 0,
-            vote_count: 0,
-            width: 0
-        };
-        
+        const image: Image = { file_path: path, aspect_ratio: 0, height: 0, iso_639_1: null, vote_average: 0, vote_count: 0, width: 0 };
         this.verImagen([image], 0, 'single');
     }
 
@@ -188,24 +164,14 @@ export class DetalleComponent  implements OnInit {
             component: ListsPopoverComponent,
             event: ev,
             translucent: true,
-            componentProps: {
-                lists: this.userLists
-            },
-            htmlAttributes: {
-                'style': '--width: 250px'
-            }
+            componentProps: { lists: this.userLists },
+            htmlAttributes: { 'style': '--width: 250px' }
         });
-
         await popover.present();
-
         const { data } = await popover.onWillDismiss();
-        
         if (data) {
-            if (data.action === 'create') {
-                this.createNewList();
-            } else if (data.action === 'add' && data.list) {
-                this.addToList(data.list);
-            }
+            if (data.action === 'create') this.createNewList();
+            else if (data.action === 'add' && data.list) this.addToList(data.list);
         }
     }
 
@@ -216,41 +182,82 @@ export class DetalleComponent  implements OnInit {
         });
         await modal.present();
         const { data } = await modal.onWillDismiss();
-        if (data?.updated && this.auth.currentUser) {
-            await this.loadUserLists(this.auth.currentUser.uid);
-            // Opcional: Añadir automáticamente a la nueva lista si pudiéramos obtener su ID
+        if (data?.updated && this.userId) {
+            await this.loadUserLists(this.userId);
         }
     }
 
     async addToList(list: UserList) {
-        if (!this.auth.currentUser) return;
+        if (!this.userId) return;
         try {
             await this.userListService.addSeriesToList(list.id, {
                 name: this.pelicula.name || this.pelicula.title || '',
-                user_id: this.auth.currentUser.uid,
+                user_id: this.userId,
                 series_id: this.pelicula.id
             });
             this.presentToast('LISTS.ADDED_SUCCESS');
         } catch (error: any) {
-            if (error.status === 409) {
-                this.presentToast('LISTS.ALREADY_IN_LIST');
-            } else {
-                this.presentToast('COMMON.ERROR');
-            }
+            if (error.status === 409) this.presentToast('LISTS.ALREADY_IN_LIST');
+            else this.presentToast('COMMON.ERROR');
         }
+    }
+
+    async openReviewModal() {
+      if (!this.userId) {
+        this.presentToast('COMMON.LOGIN_REQUIRED');
+        return;
+      }
+      const modal = await this.modalCtrl.create({
+        component: ReviewModalComponent,
+        componentProps: {
+          serie: this.pelicula,
+          existingReview: this.userReview
+        }
+      });
+      await modal.present();
+
+      const { data } = await modal.onWillDismiss();
+      if (data && data.action) {
+        this.handleReviewModalDismiss(data);
+      }
+    }
+
+    handleReviewModalDismiss(data: { action: string, review?: SeriesReview, reviewId?: number }) {
+      if (!data.review && (data.action === 'create' || data.action === 'update')) {
+        return;
+      }
+
+      switch (data.action) {
+        case 'create':
+          if (data.review) {
+            this.reviews.unshift(data.review);
+            this.userReview = data.review;
+            this.presentToast('REVIEWS.CREATE_SUCCESS');
+          }
+          break;
+        case 'update':
+          if (data.review) {
+            const index = this.reviews.findIndex(r => r.id === data.review!.id);
+            if (index > -1) this.reviews[index] = data.review;
+            this.userReview = data.review;
+            this.presentToast('REVIEWS.UPDATE_SUCCESS');
+          }
+          break;
+        case 'delete':
+          this.reviews = this.reviews.filter(r => r.id !== data.reviewId);
+          this.userReview = null;
+          this.presentToast('REVIEWS.DELETE_SUCCESS');
+          break;
+      }
     }
 
     async presentToast(key: string) {
         const message = await this.translate.get(key).toPromise();
-        const toast = await this.toastCtrl.create({
-            message,
-            duration: 2000
-        });
+        const toast = await this.toastCtrl.create({ message, duration: 2000 });
         await toast.present();
     }
 
     ngOnDestroy() {
         this.backButtonSub?.unsubscribe();
     }
-
 }

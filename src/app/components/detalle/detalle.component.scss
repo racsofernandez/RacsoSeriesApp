@@ -256,3 +256,47 @@ ion-toolbar {
         }
     }
 }
+
+/* Reviews Section */
+.reviews-section {
+  padding: 0 16px;
+  margin-top: 20px;
+}
+
+.reviews-list {
+  background: transparent;
+}
+
+.empty-reviews {
+  text-align: center;
+  color: #777;
+  padding: 20px 0;
+}
+
+.review-item {
+  background: #262626;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
+
+  .review-author {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-bottom: 8px;
+  }
+
+  .review-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .review-comment {
+    font-size: 1rem;
+    white-space: pre-wrap;
+    color: #e5e5e5;
+  }
+}

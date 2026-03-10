@@ -13,7 +13,10 @@
     "SHOW_MORE": "Ver más",
     "SHOW_LESS": "Ver menos",
     "PREMIERE": "Estreno",
-    "RETRY": "Reintentar"
+    "RETRY": "Reintentar",
+    "UPDATE": "Actualizar",
+    "PUBLISH": "Publicar",
+    "LOGIN_REQUIRED": "Necesitas iniciar sesión para hacer esto."
   },
   "AUTH": {
     "LOGIN": "Iniciar Sesión",
@@ -111,5 +114,16 @@
     "NO_DESC": "Sin descripción",
     "SERIES_IN_LIST": "Series en esta lista",
     "EMPTY_SERIES": "Esta lista está vacía. Añade series desde la pantalla de detalle."
+  },
+  "REVIEWS": {
+    "TITLE": "Reseñas",
+    "EMPTY_MSG": "Aún no hay reseñas para esta serie. ¡Sé el primero!",
+    "CREATE_TITLE": "Escribir reseña",
+    "EDIT_TITLE": "Editar reseña",
+    "COMMENT_PLACEHOLDER": "Escribe tu comentario aquí...",
+    "COMMENT_ERROR": "El comentario debe tener al menos 10 caracteres.",
+    "CREATE_SUCCESS": "Reseña publicada con éxito.",
+    "UPDATE_SUCCESS": "Reseña actualizada con éxito.",
+    "DELETE_SUCCESS": "Reseña eliminada con éxito."
   }
 }
