@@ -125,5 +125,19 @@
     "CREATE_SUCCESS": "Reseña publicada con éxito.",
     "UPDATE_SUCCESS": "Reseña actualizada con éxito.",
     "DELETE_SUCCESS": "Reseña eliminada con éxito."
+  },
+  "REGISTER": {
+    "TITLE": "Crear una cuenta",
+    "ALIAS": "Alias",
+    "REPEAT_PASSWORD": "Repetir contraseña",
+    "SUCCESS_MSG": "¡Registro completado! Revisa tu correo para verificar la cuenta.",
+    "ERROR_FIELD_REQUIRED": "Este campo es obligatorio.",
+    "ERROR_INVALID_EMAIL": "El formato del correo no es válido.",
+    "ERROR_EMAIL_IN_USE": "Este correo electrónico ya está en uso.",
+    "ERROR_ALIAS_IN_USE": "Este alias ya está en uso.",
+    "ERROR_ALIAS_MINLENGTH": "El alias debe tener al menos 3 caracteres.",
+    "ERROR_WEAK_PASSWORD": "La contraseña debe tener al menos 6 caracteres.",
+    "ERROR_PASSWORDS_DONT_MATCH": "Las contraseñas no coinciden.",
+    "DEFAULT_ERROR": "Ha ocurrido un error durante el registro."
   }
 }

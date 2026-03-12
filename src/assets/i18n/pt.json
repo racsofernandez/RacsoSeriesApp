@@ -125,5 +125,19 @@
     "CREATE_SUCCESS": "Avaliação publicada com sucesso.",
     "UPDATE_SUCCESS": "Avaliação atualizada com sucesso.",
     "DELETE_SUCCESS": "Avaliação excluída com sucesso."
+  },
+  "REGISTER": {
+    "TITLE": "Criar uma conta",
+    "ALIAS": "Apelido",
+    "REPEAT_PASSWORD": "Repetir senha",
+    "SUCCESS_MSG": "Registo concluído! Verifique seu e-mail para ativar sua conta.",
+    "ERROR_FIELD_REQUIRED": "Este campo é obrigatório.",
+    "ERROR_INVALID_EMAIL": "O formato do e-mail não é válido.",
+    "ERROR_EMAIL_IN_USE": "Este e-mail já está em uso.",
+    "ERROR_ALIAS_IN_USE": "Este apelido já está em uso.",
+    "ERROR_ALIAS_MINLENGTH": "O apelido deve ter pelo menos 3 caracteres.",
+    "ERROR_WEAK_PASSWORD": "A senha deve ter pelo menos 6 caracteres.",
+    "ERROR_PASSWORDS_DONT_MATCH": "As senhas não coincidem.",
+    "DEFAULT_ERROR": "Ocorreu um erro durante o registo."
   }
 }

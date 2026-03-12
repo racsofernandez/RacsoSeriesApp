@@ -1,0 +1,56 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>{{ 'REGISTER.TITLE' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="registerForm" (ngSubmit)="register()" class="form-section">
+    <ion-item lines="none" class="custom-input">
+      <ion-label position="stacked">{{ 'AUTH.EMAIL' | translate }}</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
+    <div *ngIf="email && email.invalid && email.touched" class="error-message">
+      <span *ngIf="email.errors?.['required']">{{ 'REGISTER.ERROR_FIELD_REQUIRED' | translate }}</span>
+      <span *ngIf="email.errors?.['email']">{{ 'REGISTER.ERROR_INVALID_EMAIL' | translate }}</span>
+    </div>
+
+    <ion-item lines="none" class="custom-input">
+      <ion-label position="stacked">{{ 'REGISTER.ALIAS' | translate }}</ion-label>
+      <ion-input type="text" formControlName="alias"></ion-input>
+    </ion-item>
+    <div *ngIf="alias && alias.invalid && alias.touched" class="error-message">
+      <span *ngIf="alias.errors?.['required']">{{ 'REGISTER.ERROR_FIELD_REQUIRED' | translate }}</span>
+      <span *ngIf="alias.errors?.['minlength']">{{ 'REGISTER.ERROR_ALIAS_MINLENGTH' | translate }}</span>
+    </div>
+
+    <ion-item lines="none" class="custom-input">
+      <ion-label position="stacked">{{ 'AUTH.PASSWORD' | translate }}</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+    <div *ngIf="password && password.invalid && password.touched" class="error-message">
+      <span *ngIf="password.errors?.['required']">{{ 'REGISTER.ERROR_FIELD_REQUIRED' | translate }}</span>
+      <span *ngIf="password.errors?.['minlength']">{{ 'REGISTER.ERROR_WEAK_PASSWORD' | translate }}</span>
+    </div>
+
+    <ion-item lines="none" class="custom-input">
+      <ion-label position="stacked">{{ 'REGISTER.REPEAT_PASSWORD' | translate }}</ion-label>
+      <ion-input type="password" formControlName="repeatPassword"></ion-input>
+    </ion-item>
+    <div *ngIf="repeatPassword && repeatPassword.invalid && repeatPassword.touched" class="error-message">
+      <span *ngIf="repeatPassword.errors?.['required']">{{ 'REGISTER.ERROR_FIELD_REQUIRED' | translate }}</span>
+    </div>
+    <div *ngIf="registerForm.errors?.['passwordsDontMatch'] && (repeatPassword && repeatPassword.touched)" class="error-message">
+      <span>{{ 'REGISTER.ERROR_PASSWORDS_DONT_MATCH' | translate }}</span>
+    </div>
+
+    <ion-button expand="block" type="submit" [disabled]="registerForm.invalid" class="submit-btn">
+      {{ 'AUTH.REGISTER' | translate }}
+    </ion-button>
+  </form>
+</ion-content>

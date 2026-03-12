@@ -225,6 +225,7 @@ export interface Language {
 
 export interface AppUser {
   id: string;
+  alias: string;
   language: Language;
 }
 

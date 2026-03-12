@@ -17,6 +17,7 @@ import { UserListModalComponent } from './user-list-modal/user-list-modal.compon
 import { ListsPopoverComponent } from './lists-popover/lists-popover.component';
 import { RecommendationsModalComponent } from './recommendations-modal/recommendations-modal.component';
 import { ReviewModalComponent } from './review-modal/review-modal.component';
+import { RegisterUserComponent } from './register-user/register-user.component';
 
 
 
@@ -35,7 +36,8 @@ import { ReviewModalComponent } from './review-modal/review-modal.component';
     UserListModalComponent,
     ListsPopoverComponent,
     RecommendationsModalComponent,
-    ReviewModalComponent
+    ReviewModalComponent,
+    RegisterUserComponent
   ],
   exports: [
     SlideshowBackdropComponent,

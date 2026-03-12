@@ -125,5 +125,19 @@
     "CREATE_SUCCESS": "Critique publiée avec succès.",
     "UPDATE_SUCCESS": "Critique mise à jour avec succès.",
     "DELETE_SUCCESS": "Critique supprimée avec succès."
+  },
+  "REGISTER": {
+    "TITLE": "Créer un compte",
+    "ALIAS": "Alias",
+    "REPEAT_PASSWORD": "Répéter le mot de passe",
+    "SUCCESS_MSG": "Inscription terminée ! Vérifiez votre e-mail pour activer votre compte.",
+    "ERROR_FIELD_REQUIRED": "Ce champ est requis.",
+    "ERROR_INVALID_EMAIL": "Le format de l'e-mail n'est pas valide.",
+    "ERROR_EMAIL_IN_USE": "Cet e-mail est déjà utilisé.",
+    "ERROR_ALIAS_IN_USE": "Cet alias est déjà utilisé.",
+    "ERROR_ALIAS_MINLENGTH": "L'alias doit contenir au moins 3 caractères.",
+    "ERROR_WEAK_PASSWORD": "Le mot de passe doit contenir au moins 6 caractères.",
+    "ERROR_PASSWORDS_DONT_MATCH": "Les mots de passe ne correspondent pas.",
+    "DEFAULT_ERROR": "Une erreur est survenue lors de l'inscription."
   }
 }

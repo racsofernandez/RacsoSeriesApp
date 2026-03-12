@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import {ConfigService} from "../../services/config.service";
-import {ToastController} from "@ionic/angular";
+import {ModalController, ToastController} from "@ionic/angular";
 import {SplashService} from "../../shared/splash.service";
 import {Capacitor} from "@capacitor/core";
+import { RegisterUserComponent } from '../../components/register-user/register-user.component';
 
 @Component({
     selector: 'app-login',
@@ -20,7 +21,8 @@ class LoginPage {
     constructor(private authService: AuthService, private router: Router,
                 config: ConfigService,
                 private toastCtrl: ToastController,
-                private splash: SplashService) {
+                private splash: SplashService,
+                private modalCtrl: ModalController) {
         console.log(config.config);
         this.appVersion = config.config.version;
 
@@ -38,27 +40,18 @@ class LoginPage {
         this.splash.show();
         try {
             const { user } = await this.authService.loginEmail(this.email, this.password);
-
-            // if (!user.emailVerified) {
-            //     this.presentToast("Debes verificar tu correo antes de continuar.");
-            //     return;
-            // }
-
             this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
-
         } catch (err: any) {
             this.splash.hide();
             this.presentToast("Error al iniciar sesión");
         }
     }
 
-    async register() {
-        try {
-            await this.authService.registerEmail(this.email, this.password);
-            await this.router.navigate(['/tabs/home']);
-        } catch (error) {
-            this.presentToast(`Error de registro. ${this.getErrorMessage(error)}`);
-        }
+    async openRegisterModal() {
+        const modal = await this.modalCtrl.create({
+            component: RegisterUserComponent
+        });
+        await modal.present();
     }
 
     async loginGoogle() {

@@ -38,12 +38,8 @@ export class SeriesDbService {
         await toast.present();
     }
 
-    /**
-     * Crea un nuevo usuario en el backend.
-     * Devuelve el AppUser y lo guarda en la variable global.
-     */
-    async crearUsuario(userId: string): Promise<AppUser> {
-        const url = `${this.urlBackend}/${userId}?languageId=1`;
+    async crearUsuario(userId: string, alias: string): Promise<AppUser> {
+        const url = `${this.urlBackend}/${userId}?languageId=1&alias=${encodeURIComponent(alias)}`;
         try {
             const user = await firstValueFrom(this.http.post<AppUser>(url, {}));
             this.appUser = user;
@@ -55,9 +51,6 @@ export class SeriesDbService {
         }
     }
 
-    /**
-     * Obtiene el usuario del backend.
-     */
     async getUsuario(userId: string): Promise<AppUser> {
         const url = `${this.urlBackend}/${userId}`;
         try {
@@ -66,15 +59,10 @@ export class SeriesDbService {
             return user;
         } catch (err) {
             console.error('Error obteniendo usuario', err);
-            // Si no existe, lo creamos (opcional, depende de la lógica de negocio)
-            // return this.crearUsuario(userId);
             throw err;
         }
     }
 
-    /**
-     * Actualiza el idioma del usuario.
-     */
     async updateLanguage(userId: string, languageId: number): Promise<AppUser> {
         const url = `${this.urlBackend}/${userId}/language?languageId=${languageId}`;
         try {
@@ -91,13 +79,7 @@ export class SeriesDbService {
         }
     }
 
-    /**
-     * Obtiene la lista de idiomas disponibles.
-     * (Asumiendo que existe un endpoint para esto, si no, se puede hardcodear o crear otro servicio)
-     */
     async getLanguages(): Promise<Language[]> {
-        // Asumiendo que el endpoint de idiomas está en la raíz o en otro path
-        // Ajusta la URL según tu API. Por ahora usaré una URL relativa a la base.
         const url = `${this.config.config.apiBackendUrl}/utils/languages`;
         try {
             return await firstValueFrom(this.http.get<Language[]>(url));
@@ -107,16 +89,10 @@ export class SeriesDbService {
         }
     }
 
-
-    /**
-     * Llama al backend para alternar favorito.
-     * Devuelve true si se añadió, false si se eliminó.
-     */
     async guardarSerie(userId: string, serie: SeriesDetail): Promise<boolean> {
         const url = `${this.urlBackend}/${encodeURIComponent(userId)}/series/${serie.id}/toggle`;
 
         try {
-            // Enviar "name" como query param, no en el body
             const params = { name: serie.name ?? '' };
             const resp = await firstValueFrom(
                 this.http.post<{ favorite: boolean }>(url, null, { params })
@@ -133,9 +109,6 @@ export class SeriesDbService {
         }
     }
 
-    /**
-     * Carga los favoritos desde el backend y consigue los detalles usando MoviesService
-     */
     async cargarSeriesFavoritas(uid: string): Promise<SeriesDetail[]> {
         const url = `${this.urlBackend}/${encodeURIComponent(uid)}/series`;
         try {
@@ -146,20 +119,16 @@ export class SeriesDbService {
 
             for (const f of favs) {
                 try {
-                    // moviesService.getPeliculaDetalle devuelve un Observable
-                    // Usamos firstValueFrom para convertirlo a Promise
                     const detalle: SeriesDetail = await firstValueFrom(this.moviesService.getPeliculaDetalle(f.id));
                     if (detalle) {
                         favoritas.push(detalle);
                     }
                 } catch (err) {
                     console.warn(`No se pudo obtener detalle para id=${f.id}`, err);
-                    // si quieres, podemos construir un objeto mínimo con id y name:
                     if (f.name) {
                         favoritas.push({
                             id: f.id,
                             name: f.name,
-                            // Rellena otros campos vacíos según tu interfaz SeriesDetail
                         } as SeriesDetail);
                     }
                 }
@@ -174,9 +143,6 @@ export class SeriesDbService {
         }
     }
 
-    /**
-     * Comprueba existencia en backend
-     */
     async existeSerie(userId: string, id: number): Promise<boolean> {
         const url = `${this.urlBackend}/${encodeURIComponent(userId)}/series/${id}/exists`;
         try {

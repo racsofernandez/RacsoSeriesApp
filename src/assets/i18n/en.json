@@ -125,5 +125,19 @@
     "CREATE_SUCCESS": "Review published successfully.",
     "UPDATE_SUCCESS": "Review updated successfully.",
     "DELETE_SUCCESS": "Review deleted successfully."
+  },
+  "REGISTER": {
+    "TITLE": "Create an Account",
+    "ALIAS": "Alias",
+    "REPEAT_PASSWORD": "Repeat password",
+    "SUCCESS_MSG": "Registration complete! Check your email to verify your account.",
+    "ERROR_FIELD_REQUIRED": "This field is required.",
+    "ERROR_INVALID_EMAIL": "The email format is not valid.",
+    "ERROR_EMAIL_IN_USE": "This email is already in use.",
+    "ERROR_ALIAS_IN_USE": "This alias is already in use.",
+    "ERROR_ALIAS_MINLENGTH": "The alias must be at least 3 characters long.",
+    "ERROR_WEAK_PASSWORD": "The password must be at least 6 characters long.",
+    "ERROR_PASSWORDS_DONT_MATCH": "Passwords do not match.",
+    "DEFAULT_ERROR": "An error occurred during registration."
   }
 }
