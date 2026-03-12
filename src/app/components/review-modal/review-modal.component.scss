@@ -1,11 +1,17 @@
 ion-toolbar {
-  --background: var(--ion-color-light);
+  --background: #141414;
+  --color: white;
+}
+
+ion-content {
+  --background: #141414;
 }
 
 .serie-header {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+  padding: 0 16px;
 
   .serie-poster {
     width: 60px;
@@ -18,13 +24,14 @@ ion-toolbar {
   h2 {
     font-size: 1.2rem;
     font-weight: bold;
+    color: white;
   }
 }
 
 .rating-container {
   display: flex;
   justify-content: center;
-  margin: 20px 0;
+  margin: 10px 0 20px;
 
   .star-icon {
     font-size: 2.5rem;
@@ -38,23 +45,47 @@ ion-toolbar {
   }
 }
 
-ion-item {
-  --background: var(--ion-color-light-shade);
-  border-radius: 8px;
-  margin-bottom: 10px;
+.form-section {
+  padding: 0 16px;
+}
+
+.custom-input {
+  --background: #262626;
+  --color: white;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  --padding-start: 16px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+
+  ion-label[position="stacked"] {
+    color: #999;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+  }
 }
 
 .error-message {
   color: var(--ion-color-danger);
   font-size: 0.8rem;
   margin-left: 16px;
-  margin-bottom: 10px;
+  margin-top: -12px;
+  margin-bottom: 16px;
+  display: block;
 }
 
 .submit-btn {
-  margin-top: 20px;
+  margin-top: 10px;
+  --background: var(--ion-color-primary);
+  --color: var(--ion-color-primary-contrast);
+  font-weight: bold;
+  text-transform: uppercase;
+  height: 48px;
+  border-radius: 12px;
 }
 
 .delete-btn {
-  margin-top: 10px;
+  margin: 10px 16px 0;
+  height: 48px;
+  border-radius: 12px;
 }

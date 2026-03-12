@@ -15,25 +15,26 @@
     <h2>{{ serie.name }}</h2>
   </div>
 
-  <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
-    <div class="rating-container">
-      <ion-icon
-        *ngFor="let star of stars"
-        [name]="(hoverRating || rating) >= star ? 'star' : 'star-outline'"
-        (click)="setRating(star)"
-        (mouseover)="setHoverRating(star)"
-        (mouseleave)="setHoverRating(0)"
-        class="star-icon"
-        [class.selected]="rating >= star"
-      ></ion-icon>
-    </div>
+  <div class="rating-container">
+    <ion-icon
+      *ngFor="let star of stars"
+      [name]="(hoverRating || rating) >= star ? 'star' : 'star-outline'"
+      (click)="setRating(star)"
+      (mouseover)="setHoverRating(star)"
+      (mouseleave)="setHoverRating(0)"
+      class="star-icon"
+      [class.selected]="rating >= star"
+    ></ion-icon>
+  </div>
 
-    <ion-item>
-      <ion-label position="floating">{{ 'REVIEWS.COMMENT_PLACEHOLDER' | translate }}</ion-label>
-      <ion-textarea formControlName="comment" rows="8" auto-grow="true"></ion-textarea>
+  <form [formGroup]="reviewForm" (ngSubmit)="submitReview()" class="form-section">
+    <ion-item lines="none" class="custom-input">
+      <ion-label position="stacked">{{ 'REVIEWS.COMMENT_PLACEHOLDER' | translate }}</ion-label>
+      <ion-textarea formControlName="comment" rows="5" auto-grow="true"></ion-textarea>
     </ion-item>
     <div *ngIf="comment && comment.invalid && comment.touched" class="error-message">
-      {{ 'REVIEWS.COMMENT_ERROR' | translate }}
+      <span *ngIf="comment.errors?.['required']">{{ 'REGISTER.ERROR_FIELD_REQUIRED' | translate }}</span>
+      <span *ngIf="comment.errors?.['minlength']">{{ 'REVIEWS.COMMENT_ERROR' | translate }}</span>
     </div>
 
     <ion-button expand="block" type="submit" [disabled]="reviewForm.invalid || rating === 0" class="submit-btn">

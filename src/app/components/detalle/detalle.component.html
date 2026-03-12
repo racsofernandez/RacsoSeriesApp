@@ -221,7 +221,7 @@
             <div *ngFor="let review of reviews">
               <div class="review-item" (click)="userId === review.user.id && openReviewModal()">
                 <div class="review-author">
-                  <strong>{{ review.user.id | slice:0:8 }}...</strong>
+                  <strong>{{ review.user.alias }}</strong>
                   <div class="review-rating">
                     <ion-icon name="star" color="warning"></ion-icon> {{ review.rating }}
                   </div>
