@@ -34,7 +34,12 @@ const routes: Routes = [
         loadChildren: () =>
             import('./pages/series-genre/series-genre.module')
                 .then(m => m.SeriesGenrePageModule)
-    }
+    },
+  {
+    path: 'edit-profile',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/edit-profile/edit-profile.module').then( m => m.EditProfilePageModule)
+  }
 
 
 

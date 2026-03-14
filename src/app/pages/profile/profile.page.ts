@@ -110,4 +110,7 @@ export class ProfilePage implements OnInit {
         this.router.navigate(['/verify-email']);
     }
 
+    goToEditProfile() {
+        this.router.navigate(['/edit-profile']);
+    }
 }

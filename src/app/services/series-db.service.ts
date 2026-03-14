@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { AppUser, Language, SeriesDetail } from "../interfaces/interfaces";
 import { ToastController } from "@ionic/angular";
 import { MoviesService } from "./movies.service";
@@ -30,10 +30,11 @@ export class SeriesDbService {
         return this.injector.get(TranslateService);
     }
 
-    async presentToast(message: string) {
+    async presentToast(message: string, color: string = 'primary') {
         const toast = await this.toastCtrl.create({
             message,
-            duration: 1500
+            duration: 2000,
+            color
         });
         await toast.present();
     }
@@ -46,7 +47,6 @@ export class SeriesDbService {
             return user;
         } catch (err) {
             console.error('Error creando usuario', err);
-            await this.presentToast('Error al crear usuario');
             throw err;
         }
     }
@@ -63,18 +63,35 @@ export class SeriesDbService {
         }
     }
 
-    async updateLanguage(userId: string, languageId: number): Promise<AppUser> {
-        const url = `${this.urlBackend}/${userId}/language?languageId=${languageId}`;
+    async updateUser(userId: string, data: { alias?: string; languageId?: number }): Promise<AppUser> {
+        const url = `${this.urlBackend}/${userId}`;
+        let params = new HttpParams();
+        if (data.alias) {
+            params = params.set('alias', data.alias);
+        }
+        if (data.languageId) {
+            params = params.set('languageId', data.languageId.toString());
+        }
+
         try {
-            const user = await firstValueFrom(this.http.put<AppUser>(url, {}));
+            const user = await firstValueFrom(this.http.put<AppUser>(url, {}, { params }));
             this.appUser = user;
-            const msg = await this.translate.get('PROFILE.LANGUAGE_UPDATED').toPromise();
-            await this.presentToast(msg);
             return user;
         } catch (err) {
-            console.error('Error actualizando idioma', err);
+            console.error('Error actualizando usuario', err);
+            throw err;
+        }
+    }
+
+    async updateLanguage(userId: string, languageId: number): Promise<AppUser> {
+        try {
+            const user = await this.updateUser(userId, { languageId });
+            const msg = await this.translate.get('PROFILE.LANGUAGE_UPDATED').toPromise();
+            await this.presentToast(msg, 'success');
+            return user;
+        } catch (err) {
             const msg = await this.translate.get('PROFILE.LANGUAGE_UPDATE_ERROR').toPromise();
-            await this.presentToast(msg);
+            await this.presentToast(msg, 'danger');
             throw err;
         }
     }
@@ -104,7 +121,7 @@ export class SeriesDbService {
             return added;
         } catch (err) {
             console.error('Error toggling favorite', err);
-            await this.presentToast('Error al guardar favorito');
+            await this.presentToast('Error al guardar favorito', 'danger');
             throw err;
         }
     }
@@ -138,7 +155,7 @@ export class SeriesDbService {
             return favoritas;
         } catch (err) {
             console.error('Error cargando favoritos', err);
-            await this.presentToast('Error al cargar favoritos');
+            await this.presentToast('Error al cargar favoritos', 'danger');
             return [];
         }
     }

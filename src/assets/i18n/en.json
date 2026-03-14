@@ -139,5 +139,10 @@
     "ERROR_WEAK_PASSWORD": "The password must be at least 6 characters long.",
     "ERROR_PASSWORDS_DONT_MATCH": "Passwords do not match.",
     "DEFAULT_ERROR": "An error occurred during registration."
+  },
+  "EDIT_PROFILE": {
+    "TITLE": "Edit Profile",
+    "SUCCESS_MSG": "Profile updated successfully.",
+    "DEFAULT_ERROR": "Error updating profile."
   }
 }

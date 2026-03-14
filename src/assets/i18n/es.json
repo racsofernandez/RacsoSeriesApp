@@ -139,5 +139,10 @@
     "ERROR_WEAK_PASSWORD": "La contraseña debe tener al menos 6 caracteres.",
     "ERROR_PASSWORDS_DONT_MATCH": "Las contraseñas no coinciden.",
     "DEFAULT_ERROR": "Ha ocurrido un error durante el registro."
+  },
+  "EDIT_PROFILE": {
+    "TITLE": "Editar Perfil",
+    "SUCCESS_MSG": "Perfil actualizado con éxito.",
+    "DEFAULT_ERROR": "Error al actualizar el perfil."
   }
 }

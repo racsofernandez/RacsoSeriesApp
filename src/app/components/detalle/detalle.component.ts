@@ -32,7 +32,7 @@ export class DetalleComponent  implements OnInit {
   reviews: SeriesReview[] = [];
   userReview: SeriesReview | null = null;
   overviewExpanded = false;
-  star = "star-outline";
+  heart = "heart-outline";
   updated = false;
   loaded = false;
   userLists: UserList[] = [];
@@ -54,7 +54,7 @@ export class DetalleComponent  implements OnInit {
   ngOnInit() {
     this.userId = this.auth.currentUser?.uid;
     if (this.userId) {
-        this.dataLocal.existeSerie(this.userId, this.id).then(existe => this.star = (existe) ? 'star': 'star-outline');
+        this.dataLocal.existeSerie(this.userId, this.id).then(existe => this.heart = (existe) ? 'heart': 'heart-outline');
         this.loadUserLists(this.userId);
     }
 
@@ -113,7 +113,7 @@ export class DetalleComponent  implements OnInit {
       return;
     }
     const existeSerie = await this.dataLocal.guardarSerie(this.userId, this.pelicula);
-    this.star = (existeSerie) ? 'star': 'star-outline';
+    this.heart = (existeSerie) ? 'heart': 'heart-outline';
     this.updated = true;
   }
 

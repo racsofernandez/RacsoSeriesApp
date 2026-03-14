@@ -1,0 +1,32 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ 'EDIT_PROFILE.TITLE' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="saveProfile()" [disabled]="profileForm.invalid || isLoading">
+        <ion-icon slot="icon-only" name="checkmark-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+  <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="form-section" *ngIf="!isLoading">
+    <ion-item lines="none" class="custom-input">
+      <ion-label position="stacked">{{ 'REGISTER.ALIAS' | translate }}</ion-label>
+      <ion-input type="text" formControlName="alias"></ion-input>
+    </ion-item>
+    <div *ngIf="profileForm.get('alias')?.invalid && profileForm.get('alias')?.touched" class="error-message">
+      <span *ngIf="profileForm.get('alias')?.errors?.['required']">{{ 'REGISTER.ERROR_FIELD_REQUIRED' | translate }}</span>
+      <span *ngIf="profileForm.get('alias')?.errors?.['minlength']">{{ 'REGISTER.ERROR_ALIAS_MINLENGTH' | translate }}</span>
+    </div>
+  </form>
+</ion-content>

@@ -12,6 +12,9 @@
         </div>
         <h2>{{ user.displayName || 'Usuario' }}</h2>
         <p>{{ user.email }}</p>
+        <ion-button fill="clear" size="small" (click)="goToEditProfile()">
+            <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
     </div>
 
     <div class="profile-section">
