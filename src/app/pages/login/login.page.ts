@@ -6,6 +6,8 @@ import {ModalController, ToastController} from "@ionic/angular";
 import {SplashService} from "../../shared/splash.service";
 import {Capacitor} from "@capacitor/core";
 import { RegisterUserComponent } from '../../components/register-user/register-user.component';
+import { EditProfileComponent } from '../../components/edit-profile/edit-profile.component';
+import { SeriesDbService } from '../../services/series-db.service';
 
 @Component({
     selector: 'app-login',
@@ -22,7 +24,8 @@ class LoginPage {
                 config: ConfigService,
                 private toastCtrl: ToastController,
                 private splash: SplashService,
-                private modalCtrl: ModalController) {
+                private modalCtrl: ModalController,
+                private seriesDbService: SeriesDbService) {
         console.log(config.config);
         this.appVersion = config.config.version;
 
@@ -57,10 +60,25 @@ class LoginPage {
     async loginGoogle() {
         this.splash.show();
         try {
-            await this.authService.loginGoogle();
-            if (!Capacitor.isNativePlatform()) {
-                await this.router.navigate(['/tabs/home']);
+            const { userCredential, isNewUser } = await this.authService.loginGoogle();
+            
+            if (isNewUser) {
+                // Obtener usuario del backend para pasarlo al modal
+                const appUser = await this.seriesDbService.getUsuario(userCredential.user.uid);
+                
+                const modal = await this.modalCtrl.create({
+                    component: EditProfileComponent,
+                    componentProps: { user: appUser }
+                });
+                await modal.present();
+                await modal.onDidDismiss();
+                
+                // Redirigir después de cerrar el modal (haya guardado o no)
+                this.router.navigate(['/tabs/home']);
+            } else {
+                this.router.navigate(['/tabs/home']);
             }
+
         } catch (error) {
             this.splash.hide();
             this.presentToast(`Error de login. ${this.getErrorMessage(error)}`);

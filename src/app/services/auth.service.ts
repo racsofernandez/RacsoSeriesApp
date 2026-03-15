@@ -44,17 +44,14 @@ export class AuthService {
                     } catch (e) {
                         console.error("Error cargando idioma del usuario", e);
                     }
-
-                    if (this.router.url.includes('login')) {
-                         this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
-                    }
-
                 } else {
-                    this.router.navigateByUrl('/login', { replaceUrl: true });
+                    // Solo redirigir a login si no estamos ya en una ruta pública
+                    if (!this.router.url.includes('login') && !this.router.url.includes('forgot')) {
+                         this.router.navigateByUrl('/login', { replaceUrl: true });
+                    }
                 }
             });
         });
-
     }
 
     async loginEmail(email: string, password: string) {
@@ -63,48 +60,36 @@ export class AuthService {
 
     async registerEmail(email: string, password: string, alias: string) {
         const cred = await createUserWithEmailAndPassword(this.auth, email, password);
-
         await sendEmailVerification(cred.user);
-
-        // Crear usuario en backend con el alias
         await this.seriesDbService.crearUsuario(cred.user.uid, alias);
-
         return cred;
     }
 
     async loginGoogle() {
         await this.platform.ready();
-
         let userCredential;
+        let isNewUser = false;
 
         if (Capacitor.isNativePlatform()) {
-            const result = await FirebaseAuthentication.signInWithGoogle({
-                scopes: ['email', 'profile'],
-            });
-
-            if (!result.credential?.idToken) {
-                throw new Error('No Google ID token received');
-            }
-
+            const result = await FirebaseAuthentication.signInWithGoogle({ scopes: ['email', 'profile'] });
+            if (!result.credential?.idToken) throw new Error('No Google ID token received');
             const credential = GoogleAuthProvider.credential(result.credential.idToken);
             userCredential = await signInWithCredential(this.auth, credential);
-        }
-        else {
+        } else {
             const provider = new GoogleAuthProvider();
             userCredential = await signInWithPopup(this.auth, provider);
         }
 
-        const uid = userCredential.user.uid;
-        try {
-            await this.seriesDbService.getUsuario(uid);
-        } catch (error) {
-            console.log('Usuario no encontrado en la base de datos, creando...');
-            // Para usuarios de Google, el alias podría ser una parte del email o un valor por defecto
-            const alias = userCredential.user.email?.split('@')[0] || uid;
-            await this.seriesDbService.crearUsuario(uid, alias);
+        const additionalInfo = getAdditionalUserInfo(userCredential);
+        isNewUser = !!additionalInfo?.isNewUser;
+
+        if (isNewUser) {
+            console.log('Usuario nuevo de Google, creando en backend...');
+            const alias = userCredential.user.email?.split('@')[0] || userCredential.user.uid;
+            await this.seriesDbService.crearUsuario(userCredential.user.uid, alias);
         }
 
-        return userCredential;
+        return { userCredential, isNewUser };
     }
 
     async logout() {
@@ -121,9 +106,7 @@ export class AuthService {
 
     async resendVerification() {
         const user = this.auth.currentUser;
-        if (user) {
-            return sendEmailVerification(user);
-        }
+        if (user) return sendEmailVerification(user);
         throw new Error("No hay usuario autenticado");
     }
 
@@ -137,10 +120,7 @@ export class AuthService {
 
     async getIdToken(forceRefresh = false): Promise<string | null> {
         const user = this.auth.currentUser;
-        if (user) {
-            return user.getIdToken(forceRefresh);
-        }
+        if (user) return user.getIdToken(forceRefresh);
         return null;
     }
-
 }
