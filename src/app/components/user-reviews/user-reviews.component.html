@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ 'PROFILE.MY_REVIEWS' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="loading" class="ion-text-center ion-padding">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <div *ngIf="!loading && reviews.length === 0" class="ion-text-center ion-padding">
+    <p>{{ 'REVIEWS.EMPTY_MSG' | translate }}</p>
+  </div>
+
+  <ion-list *ngIf="!loading && reviews.length > 0">
+    <ion-item *ngFor="let review of reviews">
+      <ion-thumbnail slot="start">
+        <img [src]="(review.serie?.poster_path || '') | imagen" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ review.serie?.name || 'Serie' }}</h2>
+        <div class="rating">
+           <ion-icon name="star" color="warning"></ion-icon> {{ review.rating }}
+        </div>
+        <p>{{ review.comment }}</p>
+      </ion-label>
+      <ion-button fill="clear" (click)="onEdit(review)" slot="end">
+        <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

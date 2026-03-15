@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import {
   SeriesReview,
   CreateSeriesReviewRequest,
-  UpdateSeriesReviewRequest
+  UpdateSeriesReviewRequest,
+  Review
 } from '../interfaces/interfaces';
 import { Observable, of } from 'rxjs';
 import { ConfigService } from './config.service';
@@ -24,6 +25,12 @@ export class ReviewsService {
   getReviewsForSeries(seriesId: number): Observable<SeriesReview[]> {
     return this.http.get<SeriesReview[]>(`${this.baseUrl}/series/${seriesId}`).pipe(
       catchError(() => of([])) // En caso de error (ej. 404), devolver un array vacío
+    );
+  }
+
+  getUserReviews(userId: string): Observable<Review[]> {
+    return this.http.get<Review[]>(`${this.baseUrl}/user/${userId}`).pipe(
+      catchError(() => of([]))
     );
   }
 

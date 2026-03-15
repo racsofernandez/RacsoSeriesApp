@@ -70,7 +70,10 @@
     "RECOMMENDATIONS_BTN": "AI Recommendations",
     "RECOMMENDATIONS_TITLE": "Recommendations",
     "IA_ANALYSIS": "AI Analysis",
-    "RECOMMENDED_SERIES": "Recommended Series for you"
+    "RECOMMENDED_SERIES": "Recommended Series for you",
+    "MY_REVIEWS": "My Reviews",
+    "NO_REVIEWS": "You haven't written any reviews yet.",
+    "UNKNOWN_SERIE": "Unknown Series"
   },
   "ACTOR": {
     "CHARACTER": "Character",
@@ -124,7 +127,8 @@
     "COMMENT_ERROR": "The comment must be at least 10 characters long.",
     "CREATE_SUCCESS": "Review published successfully.",
     "UPDATE_SUCCESS": "Review updated successfully.",
-    "DELETE_SUCCESS": "Review deleted successfully."
+    "DELETE_SUCCESS": "Review deleted successfully.",
+    "SHOW_ALL": "Show all reviews"
   },
   "REGISTER": {
     "TITLE": "Create an Account",

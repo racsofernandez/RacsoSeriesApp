@@ -1,0 +1,35 @@
+ion-toolbar {
+  --background: #141414;
+  --color: white;
+}
+
+ion-content {
+  --background: #141414;
+}
+
+.form-section {
+  padding: 20px 16px;
+}
+
+.custom-input {
+  --background: #262626;
+  --color: white;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  --padding-start: 16px;
+
+  ion-label[position="stacked"] {
+    color: #999;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+  }
+}
+
+.error-message {
+  color: var(--ion-color-danger);
+  font-size: 0.8rem;
+  margin-left: 16px;
+  margin-top: -12px;
+  margin-bottom: 16px;
+  display: block;
+}

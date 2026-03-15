@@ -1,0 +1,26 @@
+ion-thumbnail {
+  --size: 60px;
+  --border-radius: 8px;
+}
+
+ion-label h2 {
+  font-weight: bold;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--ion-color-warning);
+  font-size: 0.9em;
+}
+
+ion-label p {
+  white-space: pre-wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  margin-top: 4px;
+}

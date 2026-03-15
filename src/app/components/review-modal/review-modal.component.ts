@@ -3,7 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReviewsService } from '../../services/reviews.service';
 import { Auth } from '@angular/fire/auth';
-import { SeriesDetail, SeriesReview } from '../../interfaces/interfaces';
+import { Series, SeriesDetail, SeriesReview } from '../../interfaces/interfaces';
 
 @Component({
   selector: 'app-review-modal',
@@ -12,7 +12,7 @@ import { SeriesDetail, SeriesReview } from '../../interfaces/interfaces';
 })
 export class ReviewModalComponent implements OnInit {
 
-  @Input() serie: SeriesDetail;
+  @Input() serie: SeriesDetail | Series;
   @Input() existingReview: SeriesReview | null = null;
 
   reviewForm: FormGroup;
@@ -33,7 +33,7 @@ export class ReviewModalComponent implements OnInit {
     this.rating = this.existingReview?.rating || 0;
 
     this.reviewForm = this.fb.group({
-      comment: [this.existingReview?.comment || '', [Validators.required, Validators.minLength(10)]]
+        comment: [this.existingReview?.comment || '', [Validators.required, Validators.minLength(10)]]
     });
   }
 

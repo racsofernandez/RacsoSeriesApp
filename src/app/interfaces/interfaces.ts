@@ -302,6 +302,15 @@ export interface RecommendedSerieItem {
 
 // --- Reviews Interfaces ---
 
+export interface Review {
+    id: number;
+    comment: string;
+    rating: number;
+    user: AppUser;
+    serie?: Series;
+    seriesId: number;
+}
+
 export interface SeriesReview {
     id: number;
     comment: string;

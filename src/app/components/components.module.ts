@@ -18,9 +18,9 @@ import { ListsPopoverComponent } from './lists-popover/lists-popover.component';
 import { RecommendationsModalComponent } from './recommendations-modal/recommendations-modal.component';
 import { ReviewModalComponent } from './review-modal/review-modal.component';
 import { RegisterUserComponent } from './register-user/register-user.component';
-
-
-
+import { UserReviewsComponent } from './user-reviews/user-reviews.component';
+import { SeriesReviewsComponent } from './series-reviews/series-reviews.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +37,10 @@ import { RegisterUserComponent } from './register-user/register-user.component';
     ListsPopoverComponent,
     RecommendationsModalComponent,
     ReviewModalComponent,
-    RegisterUserComponent
+    RegisterUserComponent,
+    UserReviewsComponent,
+    SeriesReviewsComponent,
+    EditProfileComponent
   ],
   exports: [
     SlideshowBackdropComponent,
@@ -49,7 +52,10 @@ import { RegisterUserComponent } from './register-user/register-user.component';
     ImageViewerModalComponent,
     UserListModalComponent,
     ListsPopoverComponent,
-    RecommendationsModalComponent
+    RecommendationsModalComponent,
+    UserReviewsComponent,
+    SeriesReviewsComponent,
+    EditProfileComponent
   ],
   imports: [
     CommonModule,

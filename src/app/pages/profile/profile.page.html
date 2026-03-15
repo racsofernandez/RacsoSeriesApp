@@ -35,6 +35,12 @@
     </div>
 
     <div class="actions-section">
+        <!-- Botón Mis Reseñas -->
+        <ion-button expand="block" class="action-btn" (click)="openUserReviews()">
+            <ion-icon name="chatbubbles-outline" slot="start"></ion-icon>
+            {{ 'PROFILE.MY_REVIEWS' | translate }}
+        </ion-button>
+
         <!-- Botón Recomendaciones IA -->
         <ion-button expand="block" class="action-btn ai-btn" (click)="openRecommendations()">
             <ion-icon name="sparkles" slot="start"></ion-icon>

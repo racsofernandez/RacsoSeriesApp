@@ -70,7 +70,8 @@
     "RECOMMENDATIONS_BTN": "Recomendações IA",
     "RECOMMENDATIONS_TITLE": "Recomendações",
     "IA_ANALYSIS": "Análise da IA",
-    "RECOMMENDED_SERIES": "Séries recomendadas para você"
+    "RECOMMENDED_SERIES": "Séries recomendadas para você",
+    "MY_REVIEWS": "Minhas Avaliações"
   },
   "ACTOR": {
     "CHARACTER": "Personagem",
@@ -124,7 +125,8 @@
     "COMMENT_ERROR": "O comentário deve ter pelo menos 10 caracteres.",
     "CREATE_SUCCESS": "Avaliação publicada com sucesso.",
     "UPDATE_SUCCESS": "Avaliação atualizada com sucesso.",
-    "DELETE_SUCCESS": "Avaliação excluída com sucesso."
+    "DELETE_SUCCESS": "Avaliação excluída com sucesso.",
+    "SHOW_ALL": "Ver todas as avaliações"
   },
   "REGISTER": {
     "TITLE": "Criar uma conta",

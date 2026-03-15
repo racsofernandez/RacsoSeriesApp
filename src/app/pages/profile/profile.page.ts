@@ -10,6 +10,8 @@ import { MoviesService } from "../../services/movies.service";
 import { TranslateService } from '@ngx-translate/core';
 import { ModalController } from '@ionic/angular';
 import { RecommendationsModalComponent } from '../../components/recommendations-modal/recommendations-modal.component';
+import { UserReviewsComponent } from '../../components/user-reviews/user-reviews.component';
+import { EditProfileComponent } from 'src/app/components/edit-profile/edit-profile.component';
 
 @Component({
     selector: 'app-profile',
@@ -48,26 +50,31 @@ export class ProfilePage implements OnInit {
         // Suscribirse al usuario de Firebase para obtener el ID y cargar el AppUser
         this.user$.subscribe(async (user) => {
             if (user) {
-                try {
-                    // Intentar obtener el usuario del backend
-                    // Si ya lo tenemos en el servicio (cacheado) y coincide el ID, lo usamos
-                    if (this.seriesDbService.appUser && this.seriesDbService.appUser.id === user.uid) {
-                        this.appUser = this.seriesDbService.appUser;
-                    } else {
-                        this.appUser = await this.seriesDbService.getUsuario(user.uid);
-                    }
-                    
-                    if (this.appUser && this.appUser.language) {
-                        this.selectedLanguageId = this.appUser.language.id;
-                        this.translate.use(this.appUser.language.code);
-                        // Forzar detección de cambios para asegurar que la UI se actualice
-                        this.cdr.detectChanges();
-                    }
-                } catch (error) {
-                    console.error('Error cargando datos del usuario', error);
-                }
+                this.loadAppUser(user.uid);
             }
         });
+    }
+
+    async loadAppUser(userId: string) {
+        try {
+            // Intentar obtener el usuario del backend
+            // Si ya lo tenemos en el servicio (cacheado) y coincide el ID, lo usamos
+            if (this.seriesDbService.appUser && this.seriesDbService.appUser.id === userId) {
+                this.appUser = this.seriesDbService.appUser;
+            } else {
+                this.appUser = await this.seriesDbService.getUsuario(userId);
+            }
+            
+            if (this.appUser && this.appUser.language) {
+                this.selectedLanguageId = this.appUser.language.id;
+                this.translate.use(this.appUser.language.code);
+            }
+
+            // Forzar detección de cambios para asegurar que la UI se actualice
+            this.cdr.detectChanges();
+        } catch (error) {
+            console.error('Error cargando datos del usuario', error);
+        }
     }
 
     async onLanguageChange(event: any) {
@@ -102,15 +109,34 @@ export class ProfilePage implements OnInit {
         await modal.present();
     }
 
+    async openUserReviews() {
+        if (!this.appUser) return;
+        const modal = await this.modalCtrl.create({
+            component: UserReviewsComponent,
+            componentProps: { userId: this.appUser.id }
+        });
+        await modal.present();
+    }
+
+    async goToEditProfile() {
+        if (!this.appUser) return;
+        const modal = await this.modalCtrl.create({
+            component: EditProfileComponent,
+            componentProps: { user: this.appUser }
+        });
+        await modal.present();
+
+        const { data } = await modal.onDidDismiss();
+        if (data?.updated && this.appUser) {
+            this.loadAppUser(this.appUser.id);
+        }
+    }
+
     logout() {
         this.authService.logout();
     }
 
     goVerification() {
         this.router.navigate(['/verify-email']);
-    }
-
-    goToEditProfile() {
-        this.router.navigate(['/edit-profile']);
     }
 }

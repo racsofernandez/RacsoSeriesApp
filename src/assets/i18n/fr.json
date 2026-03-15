@@ -68,9 +68,10 @@
     "LANGUAGE_UPDATED": "Langue mise à jour",
     "LANGUAGE_UPDATE_ERROR": "Erreur lors de la mise à jour de la langue",
     "RECOMMENDATIONS_BTN": "Recommandations IA",
-    "RECOMMENDATIONS_TITLE": "Recommandations",
+    "RECOMMENDations_TITLE": "Recommandations",
     "IA_ANALYSIS": "Analyse de l'IA",
-    "RECOMMENDED_SERIES": "Séries recommandées pour vous"
+    "RECOMMENDED_SERIES": "Séries recommandées pour vous",
+    "MY_REVIEWS": "Mes critiques"
   },
   "ACTOR": {
     "CHARACTER": "Personnage",
@@ -124,7 +125,8 @@
     "COMMENT_ERROR": "Le commentaire doit contenir au moins 10 caractères.",
     "CREATE_SUCCESS": "Critique publiée avec succès.",
     "UPDATE_SUCCESS": "Critique mise à jour avec succès.",
-    "DELETE_SUCCESS": "Critique supprimée avec succès."
+    "DELETE_SUCCESS": "Critique supprimée avec succès.",
+    "SHOW_ALL": "Voir toutes les critiques"
   },
   "REGISTER": {
     "TITLE": "Créer un compte",

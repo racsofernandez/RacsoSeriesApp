@@ -1,0 +1,33 @@
+.review-item {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--ion-color-step-150);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.review-author {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+
+  strong {
+    font-size: 1.1em;
+  }
+}
+
+.review-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--ion-color-warning);
+  font-size: 0.9em;
+}
+
+.review-comment {
+  margin: 0;
+  color: var(--ion-color-medium);
+  white-space: pre-wrap;
+}

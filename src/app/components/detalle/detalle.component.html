@@ -4,7 +4,7 @@
         <!-- Aspa para volver -->
         <ion-buttons slot="start">
             <ion-button (click)="regresar()">
-                <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+                <ion-icon slot="icon-only" name="close-outline"></ion-icon>
             </ion-button>
         </ion-buttons>
 
@@ -218,7 +218,7 @@
           </div>
 
           <ion-list lines="none" *ngIf="reviews.length > 0" class="reviews-list">
-            <div *ngFor="let review of reviews">
+            <div *ngFor="let review of reviews.slice(0, 2)">
               <div class="review-item" (click)="userId === review.user.id && openReviewModal()">
                 <div class="review-author">
                   <strong>{{ review.user.alias }}</strong>
@@ -230,6 +230,14 @@
               </div>
             </div>
           </ion-list>
+
+          <ion-button *ngIf="reviews.length > 2"
+                      color="primary"
+                      fill="clear"
+                      class="overview-toggle"
+                      (click)="openAllReviews()">
+            {{ 'REVIEWS.SHOW_ALL' | translate }} ({{ reviews.length }})
+          </ion-button>
         </div>
 
         <!-- Galería Multimedia -->

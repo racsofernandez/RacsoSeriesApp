@@ -14,6 +14,7 @@ import { UserListModalComponent } from '../user-list-modal/user-list-modal.compo
 import { ListsPopoverComponent } from '../lists-popover/lists-popover.component';
 import { ReviewsService } from '../../services/reviews.service';
 import { ReviewModalComponent } from '../review-modal/review-modal.component';
+import { SeriesReviewsComponent } from '../series-reviews/series-reviews.component';
 
 @Component({
   selector: 'app-detalle',
@@ -220,6 +221,17 @@ export class DetalleComponent  implements OnInit {
       if (data && data.action) {
         this.handleReviewModalDismiss(data);
       }
+    }
+
+    async openAllReviews() {
+        const modal = await this.modalCtrl.create({
+            component: SeriesReviewsComponent,
+            componentProps: {
+                seriesId: this.id,
+                seriesTitle: this.pelicula.name || this.pelicula.title
+            }
+        });
+        await modal.present();
     }
 
     handleReviewModalDismiss(data: { action: string, review?: SeriesReview, reviewId?: number }) {
