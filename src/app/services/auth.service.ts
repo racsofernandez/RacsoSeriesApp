@@ -68,8 +68,7 @@ export class AuthService {
     async loginGoogle() {
         await this.platform.ready();
         let userCredential;
-        let isNewUser = false;
-
+        
         if (Capacitor.isNativePlatform()) {
             const result = await FirebaseAuthentication.signInWithGoogle({ scopes: ['email', 'profile'] });
             if (!result.credential?.idToken) throw new Error('No Google ID token received');
@@ -80,11 +79,14 @@ export class AuthService {
             userCredential = await signInWithPopup(this.auth, provider);
         }
 
-        const additionalInfo = getAdditionalUserInfo(userCredential);
-        isNewUser = !!additionalInfo?.isNewUser;
-
-        if (isNewUser) {
-            console.log('Usuario nuevo de Google, creando en backend...');
+        let isNewUser = false;
+        try {
+            // Intentamos obtener el usuario de nuestro backend.
+            await this.seriesDbService.getUsuario(userCredential.user.uid);
+        } catch (error) {
+            // Si getUsuario falla (ej. con un 404), asumimos que es un usuario nuevo.
+            console.log('Usuario no encontrado en la base de datos, creando...');
+            isNewUser = true;
             const alias = userCredential.user.email?.split('@')[0] || userCredential.user.uid;
             await this.seriesDbService.crearUsuario(userCredential.user.uid, alias);
         }
