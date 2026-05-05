@@ -103,4 +103,14 @@ export class UserListService {
             throw err;
         }
     }
+
+    async getListsContainingSeries(seriesId: number, userId: string): Promise<UserList[]> {
+        const url = `${this.urlBackend}/series/${seriesId}/lists?user_id=${userId}`;
+        try {
+            return await firstValueFrom(this.http.get<UserList[]>(url));
+        } catch (err) {
+            console.error('Error getting lists containing series', err);
+            throw err;
+        }
+    }
 }

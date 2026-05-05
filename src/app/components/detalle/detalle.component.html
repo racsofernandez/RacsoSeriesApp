@@ -170,6 +170,24 @@
                     </ion-chip>
                 </ion-col>
             </ion-row>
+
+            <!-- Containing Lists Section -->
+            <ion-row *ngIf="containingLists.length > 0">
+                <ion-col size="12">
+                    <ion-text color="medium">
+                        <p class="containing-lists-title">{{ 'DETAILS.IN_LISTS' | translate }}:</p>
+                    </ion-text>
+                    <div class="containing-lists">
+                        <ion-chip *ngFor="let list of containingLists"
+                                  co    lor="secondary"
+                                  outline="true"
+                                  (click)="openListDetail(list)">
+                            <ion-icon name="list-outline"></ion-icon>
+                            <ion-label>{{ list.name }}</ion-label>
+                        </ion-chip>
+                    </div>
+                </ion-col>
+            </ion-row>
         </ion-grid>
 
         <ion-grid>

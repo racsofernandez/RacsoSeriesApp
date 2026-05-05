@@ -34,7 +34,7 @@
     "SEARCH": "Recherche",
     "FAVORITES": "Favoris",
     "PROFILE": "Profil",
-    "LISTS": "Listes"
+    "LISTS": "Listas"
   },
   "SEARCH": {
     "GENRES": "Genres"
@@ -57,7 +57,8 @@
     "BACKDROPS": "Arrière-plans",
     "POSTERS": "Affiches",
     "LOGOS": "Logos",
-    "GALLERY": "Galerie"
+    "GALLERY": "Galerie",
+    "IN_LISTS": "Inclus dans les listes"
   },
   "PROFILE": {
     "SETTINGS": "Paramètres",
@@ -68,7 +69,7 @@
     "LANGUAGE_UPDATED": "Langue mise à jour",
     "LANGUAGE_UPDATE_ERROR": "Erreur lors de la mise à jour de la langue",
     "RECOMMENDATIONS_BTN": "Recommandations IA",
-    "RECOMMENDations_TITLE": "Recommandations",
+    "RECOMMENDATIONS_TITLE": "Recommandations",
     "IA_ANALYSIS": "Analyse de l'IA",
     "RECOMMENDED_SERIES": "Séries recommandées pour vous",
     "MY_REVIEWS": "Mes critiques"

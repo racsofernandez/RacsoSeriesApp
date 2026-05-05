@@ -300,3 +300,21 @@ ion-toolbar {
     color: #e5e5e5;
   }
 }
+
+/* Containing Lists Section */
+.containing-lists-title {
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.containing-lists {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+
+    ion-chip {
+        margin: 0;
+        font-size: 0.85rem;
+    }
+}

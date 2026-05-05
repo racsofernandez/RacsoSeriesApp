@@ -15,6 +15,7 @@ import { ListsPopoverComponent } from '../lists-popover/lists-popover.component'
 import { ReviewsService } from '../../services/reviews.service';
 import { ReviewModalComponent } from '../review-modal/review-modal.component';
 import { SeriesReviewsComponent } from '../series-reviews/series-reviews.component';
+import { UserListDetailComponent } from '../user-list-detail/user-list-detail.component';
 
 @Component({
   selector: 'app-detalle',
@@ -37,6 +38,7 @@ export class DetalleComponent  implements OnInit {
   updated = false;
   loaded = false;
   userLists: UserList[] = [];
+  containingLists: UserList[] = [];
   private backButtonSub?: Subscription;
   userId: string | undefined;
 
@@ -57,6 +59,7 @@ export class DetalleComponent  implements OnInit {
     if (this.userId) {
         this.dataLocal.existeSerie(this.userId, this.id).then(existe => this.heart = (existe) ? 'heart': 'heart-outline');
         this.loadUserLists(this.userId);
+        this.loadContainingLists(this.userId);
     }
 
     this.loadReviews();
@@ -86,6 +89,14 @@ export class DetalleComponent  implements OnInit {
           this.userLists = await this.userListService.getUserLists(userId);
       } catch (e) {
           console.error('Error loading user lists', e);
+      }
+  }
+  
+  async loadContainingLists(userId: string) {
+      try {
+          this.containingLists = await this.userListService.getListsContainingSeries(this.id, userId);
+      } catch (e) {
+          console.error('Error loading containing lists', e);
       }
   }
 
@@ -197,9 +208,25 @@ export class DetalleComponent  implements OnInit {
                 series_id: this.pelicula.id
             });
             this.presentToast('LISTS.ADDED_SUCCESS');
+            this.loadContainingLists(this.userId);
         } catch (error: any) {
             if (error.status === 409) this.presentToast('LISTS.ALREADY_IN_LIST');
             else this.presentToast('COMMON.ERROR');
+        }
+    }
+
+    async openListDetail(list: UserList) {
+        const modal = await this.modalCtrl.create({
+            component: UserListDetailComponent,
+            componentProps: { 
+              list: list,
+              detailComponent: DetalleComponent
+            }
+        });
+        await modal.present();
+        const { data } = await modal.onWillDismiss();
+        if (data?.updated && this.userId) {
+            this.loadContainingLists(this.userId);
         }
     }
 

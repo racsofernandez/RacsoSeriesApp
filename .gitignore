@@ -63,9 +63,15 @@ yarn-error.log
 testem.log
 /typings
 
-# System files
-.DS_Store
-Thumbs.db
+
+# Sensitive files and local configurations
+*.keystore
+*.keystore.b64
+*.apk
+google-services.json
+src/environments/environment.local.ts
+src/assets/config.local.json
+
 
 .env
 .env-prod

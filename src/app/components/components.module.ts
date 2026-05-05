@@ -21,6 +21,7 @@ import { RegisterUserComponent } from './register-user/register-user.component';
 import { UserReviewsComponent } from './user-reviews/user-reviews.component';
 import { SeriesReviewsComponent } from './series-reviews/series-reviews.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { UserListDetailComponent } from './user-list-detail/user-list-detail.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
     RegisterUserComponent,
     UserReviewsComponent,
     SeriesReviewsComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    UserListDetailComponent
   ],
   exports: [
     SlideshowBackdropComponent,
@@ -55,7 +57,8 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
     RecommendationsModalComponent,
     UserReviewsComponent,
     SeriesReviewsComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    UserListDetailComponent
   ],
   imports: [
     CommonModule,

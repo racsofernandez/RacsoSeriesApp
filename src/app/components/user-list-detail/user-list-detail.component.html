@@ -1,0 +1,29 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>{{ list?.name }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="series.length > 0">
+    <ion-item *ngFor="let serie of series" button (click)="openSerieDetail(serie)">
+      <ion-thumbnail slot="start">
+        <img [src]="serie.poster_path | imagen">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ serie.name || serie.title }}</h2>
+        <p>{{ serie.first_air_date | date: 'yyyy' }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <div *ngIf="series.length === 0" class="empty-list">
+    <ion-icon name="list-outline"></ion-icon>
+    <p>No hay series en esta lista.</p>
+  </div>
+</ion-content>

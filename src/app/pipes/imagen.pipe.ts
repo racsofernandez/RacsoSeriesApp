@@ -13,7 +13,7 @@ export class ImagenPipe implements PipeTransform {
         URL = config.config.imgPath;
     }
 
-    transform(img: string): string {
+    transform(img: string | undefined | null): string {
     if ( !img ) {
       return './assets/no-image-banner.jpg';
     }

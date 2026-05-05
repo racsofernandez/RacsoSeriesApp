@@ -253,6 +253,7 @@ export interface UserList {
     name: string;
     description: string;
     series?: UserListSeries[];
+    userId?: string;
 }
 
 export interface UserListSeries {
